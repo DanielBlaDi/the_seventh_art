@@ -1,0 +1,17 @@
+### 1) Listar usuarios (debe devolver [])
+GET http://localhost:8080/api/usuarios
+Accept: application/json
+
+### 2) Crear usuario
+POST http://localhost:8080/api/usuarios
+Content-Type: application/json
+
+{
+  "nombre": "Ana Perez",
+  "email": "ana@example.com",
+  "password": "secreto123"
+}
+
+### 3) Listar de nuevo (ya debería devolver 1 usuario)
+GET http://localhost:8080/api/usuarios
+Accept: application/json
