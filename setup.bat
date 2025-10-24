@@ -1,44 +1,23 @@
 @echo off
-REM =====================================
-REM BLOQUE 1: Configuración inicial
-REM =====================================
-set REPO_URL=https://github.com/DanielBlaDi/the_seventh_art.git
-set APP_DIR=rocky
-set BRANCH=feature/entities-creation
+chcp 65001 >nul
+echo ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+echo 🚀 Iniciando setup automático de la aplicación Spring Boot + MySQL
+echo ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+timeout /t 1 >nul
 
-REM =====================================
-REM BLOQUE 2: Clonado o actualización
-REM =====================================
-IF NOT EXIST "%APP_DIR%" (
-    git clone %REPO_URL% %APP_DIR%
-    cd %APP_DIR%
-    git checkout -b %BRANCH%
-    git pull origin %BRANCH%
-    cd ..
-)
-IF EXIST "%APP_DIR%" (
-    cd %APP_DIR%
-    git checkout %BRANCH%
-    git pull
-    cd ..
-)
+REM ╔══════════════════════════════════════════════════════╗
+REM ║ 2️⃣  Levantar stack con Docker Compose               ║
+REM ╚══════════════════════════════════════════════════════╝
+where docker >nul 2>nul || (echo ❌ Docker no está disponible. Instálalo o agrégalo al PATH. & exit /b 1)
+echo 🐳 Levantando contenedores con Docker Compose...
+docker compose up -d --build --wait 2>nul || docker-compose up -d --build
+echo ✅ Contenedores en ejecución.
+timeout /t 1 >nul
 
-REM =====================================
-REM BLOQUE 3: Construcción del proyecto
-REM =====================================
-cd %APP_DIR%
-cd Project
-call mvnw.cmd clean package -DskipTests
-cd ..
-
-REM =====================================
-REM BLOQUE 4: Despliegue con Docker
-REM =====================================
-docker compose down
-docker compose up -d --build
-
-REM =====================================
-REM BLOQUE 5: Información final
-REM =====================================
-echo Aplicación levantada en http://localhost:8080
+REM ╔══════════════════════════════════════════════════════╗
+REM ║ 4️⃣  Información final                               ║
+REM ╚══════════════════════════════════════════════════════╝
+echo 🎯 Todo listo. La aplicación está corriendo en:
+echo 👉 http://localhost:%APP_PORT%
+echo ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 pause
