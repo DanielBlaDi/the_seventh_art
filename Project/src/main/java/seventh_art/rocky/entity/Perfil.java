@@ -26,23 +26,27 @@ public class Perfil {
     @Column(length = 50)
     private String apellido;
 
-    @Positive
+    @Positive @NotBlank
     @Column(nullable = false)
     private int edad;
     
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) @NotBlank
     @Column(nullable = false, length = 10)
     private Sexo sexo;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) @NotBlank
     @Column(nullable = false, length = 30)
     private Objetivo objetivo;
 
-    @Positive
+    @NotBlank @Positive
     @Column(nullable = false)
-    private int racha;
+    private int rachaDeseada;       // En dias (semanalmente)
 
-    @Positive
+    @Positive @NotBlank
+    @Column(nullable = false)
+    private int rachaActual;
+
+    @Positive @NotBlank
     @Column(nullable = false)
     private float estatura;         // En metros
 

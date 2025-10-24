@@ -1,6 +1,7 @@
 package seventh_art.rocky.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
@@ -11,7 +12,6 @@ import java.time.LocalDateTime;
 @Table(
         name = "peso"
 )
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,11 +23,11 @@ public class Peso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Positive
+    @Positive @NotBlank
     @Column(nullable = false)
     private float valor;         // En kilogramos
 
-    @PastOrPresent
+    @PastOrPresent @NotBlank
     @Column(nullable = false)
     private LocalDateTime fecha;
 

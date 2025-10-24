@@ -21,10 +21,10 @@ public class Ejercicio {
     @Column(nullable = false, unique = true, length = 100)
     private String nombre;
 
-    @Column(length = 200)
+    @NotBlank
+    @Column(nullable = false, length = 200)
     private String descripcion;
 
-    @NotBlank
     @Column(unique = true, length = 500)
     private String imagenUrl;
 
