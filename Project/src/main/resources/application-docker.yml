@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:mysql://mysql:3306/rocky?useSSL=false&serverTimezone=America/Bogota&allowPublicKeyRetrieval=true
+    username: user_rocky
+    password: gympass
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  thymeleaf:
+    cache: true  # en contenedor suele ser mejor cachear; opcional
+
+server:
+  port: 8080
+  error:
+    include-message: always
+
