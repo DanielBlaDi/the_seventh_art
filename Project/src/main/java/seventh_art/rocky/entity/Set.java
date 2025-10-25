@@ -5,38 +5,35 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
 
-import java.time.LocalDate;
-
 @Entity
 @Table(
-        name = "historia"
+        name = "rutina"
 )
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
-public class Historia {
+public class Set {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Positive @NotBlank
-    @Column(nullable = false)
-    private String tiempo;              //En segundos
+    @NotBlank
+    @Column(nullable = false, length = 100)
+    private float peso;      // En kilogramos
 
     @NotBlank
     @Column(nullable = false)
-    private LocalDate fecha;
+    private int repeticiones;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
-            name = "idRutina",
+            name = "idEjericio",
             nullable = false,
-            foreignKey = @ForeignKey(name = "fk_historia_rutina")
+            foreignKey = @ForeignKey(name = "fk_set_ejercicio")
     )
-    private Rutina idRutina;
+    private Perfil idEjercicio;
+
 }

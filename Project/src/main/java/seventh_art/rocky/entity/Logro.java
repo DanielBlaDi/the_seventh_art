@@ -10,37 +10,33 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(
-        name = "peso"
+        name = "logro"
 )
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Peso {
+public class Logro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Positive @NotBlank
-    @Column(nullable = false)
-    private float valor;         // En kilogramos
+    @NotBlank
+    @Column(nullable = false, length = 50)
+    private String nombre;
 
-    @PastOrPresent @NotBlank
-    @Column(nullable = false)
-    private LocalDateTime fecha;
+    @Column(length = 100)
+    private String descripcion;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
             name = "idPerfil",
             nullable = false,
             foreignKey = @ForeignKey(name = "fk_peso_perfil")
     )
     private Perfil idPerfil;
-
-    public void weightDate() {
-        this.fecha = LocalDateTime.now();
-    }
 
 }

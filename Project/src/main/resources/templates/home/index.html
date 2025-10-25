@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rocky</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+<div class="container">
+    <h1 th:text="${mensaje}">Hola Mundo</h1>
+    <p class="subtitle">Usuarios registrados en la base de datos</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Creado</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u : ${usuarios}">
+            <td th:text="${u.id}">1</td>
+            <td th:text="${u.nombre}">Nombre</td>
+            <td th:text="${u.email}">correo</td>
+            <td th:text="${#temporals.format(u.creadoEn,'yyyy-MM-dd HH:mm')}">fecha</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="footer">
+        <p>Rocky App — Prueba de conexión con base de datos</p>
+    </div>
+</div>
+</body>
+</html>
+

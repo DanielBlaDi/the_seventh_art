@@ -6,13 +6,13 @@ import lombok.*;
 
 @Entity
 @Table(
-        name = "comentario"
+        name = "mensaje_motivacional"
 )
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Comentario {
+public class MensajeMotivacional {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class Comentario {
     @JoinColumn(
             name = "idPerfil",
             nullable = false,
-            foreignKey = @ForeignKey(name = "fk_comentario_perfil")
+            foreignKey = @ForeignKey(name = "fk_mensaje_motivacional_perfil")
     )
     private Perfil idPerfil;
 }
