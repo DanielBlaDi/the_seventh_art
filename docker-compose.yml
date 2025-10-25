@@ -1,4 +1,4 @@
-version: '3.8'
+#version: '3.8'
 
 services:
   mysql:
@@ -6,13 +6,13 @@ services:
     container_name: rocky_mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 12345678
-      MYSQL_DATABASE: rocky
-      MYSQL_USER: user_rocky
-      MYSQL_PASSWORD: gympass
-      TZ: America/Bogota
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      TZ: ${TZ}
     ports:
-      - "3307:3306"
+      - "${LOCAL_DB_PORT}:${DB_PORT}"
     command: [
       "--default-authentication-plugin=mysql_native_password",
       "--character-set-server=utf8mb4",
@@ -21,7 +21,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-u", "user_rocky", "-pgympass"]
+      test: ["CMD", "mysqladmin", "ping", "-u", "${DB_USER}", "-p${DB_PASSWORD}"]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -33,7 +33,15 @@ services:
       mysql:
         condition: service_healthy
     ports:
-      - "8080:8080"
+      - "${HOST_PORT}:${SERVER_PORT}"
+    environment:
+      - SERVER_PORT=${SERVER_PORT}
+      - DB_HOST=mysql
+      - DB_HOST_PORT=3306
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - TZ=${TZ}
 
 
 volumes:
