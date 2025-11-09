@@ -3,35 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Rocky</title>
+    <!-- Se enlazan ambos estilos: app.css (global) y home.css (específico) -->
+    <link rel="stylesheet" th:href="@{/css/app.css}">
     <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
-<div class="container">
-    <h1 th:text="${mensaje}">Hola Mundo</h1>
-    <p class="subtitle">Usuarios registrados en la base de datos</p>
+<div class="home-container">
+    <section class="welcome">
+        <h1>Bienvenido a Rocky</h1>
+        <p class="lead">Tu aplicación para seguimiento de entrenamientos y progresos.</p>
 
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Email</th>
-            <th>Creado</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="u : ${usuarios}">
-            <td th:text="${u.id}">1</td>
-            <td th:text="${u.nombre}">Nombre</td>
-            <td th:text="${u.email}">correo</td>
-            <td th:text="${#temporals.format(u.creadoEn,'yyyy-MM-dd HH:mm')}">fecha</td>
-        </tr>
-        </tbody>
-    </table>
+        <p class="readme-note">Consulta el <strong>README</strong> del proyecto para instrucciones de instalación y uso.</p>
 
-    <div class="footer">
-        <p>Rocky App — Prueba de conexión con base de datos</p>
-    </div>
+        <div class="actions">
+            <a class="btn btn-primary" th:href="@{/login}">Ir al login</a>
+        </div>
+    </section>
+
+    <section class="info">
+        <p>Prueba.</p>
+    </section>
+
+    <footer class="footer">
+        <small>Rocky App — Página de bienvenida</small>
+    </footer>
 </div>
 </body>
 </html>
