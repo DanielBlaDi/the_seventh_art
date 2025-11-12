@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Rocky</title>
-    <link rel="stylesheet" th:href="@{/css/login.css}">
-</head>
-<body class="bg">
-<main class="card">
-    <div class="logo">
-        <!-- ícono simple -->
+
+<body class="bg-auth">
+<header th:replace="~{home/layout :: header}"></header>
+
+<main class="card card--narrow">
+    <div class="logo-circle">
         <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M7 14l3-3 4 4 3-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             <circle cx="7" cy="14" r="2" fill="currentColor"/>
@@ -16,28 +13,25 @@
         </svg>
     </div>
 
-    <h1 class="title">Rocky</h1>
+    <h1 class="title">Crear Cuenta</h1>
+    <p class="subtitle">Realiza tu registro de usuario por primera vez</p>
 
-    <p class="subtitle">Realiza tu registro de usuario</p>
+    <form class="form" th:action="@{/registro}" method="post">
+        <label class="form-label" for="nombre">Nombre</label>
+        <input class="form-input" id="nombre" name="nombre" type="text" placeholder="Juan Pérez" required>
 
-    <form class="form" th:action=" @{/registro}" method="post"> <!-- Al oprimir el boton, envia los datos al metodo de un controlador que maneje la ruta /login con metodo POST  -->
+        <label class="form-label" for="email">Correo Electrónico</label>
+        <input class="form-input" id="email" name="email" type="email" placeholder="tu@email.com" required>
 
-        <label for="nombre">Nombre</label>
-        <input id="nombre" name="nombre" type="text" placeholder="Fernando" required>
+        <label class="form-label" for="password">Contraseña</label>
+        <input class="form-input" id="password" name="password" type="password" placeholder="••••••••" required>
 
-        <label for="email">Correo Electrónico</label>
-        <input id="email" name="email" type="email" placeholder="fernando@email.com" required>
+        <button class="btn btn-primary" type="submit">Registrarme</button>
 
-        <label for="password">Contraseña</label>
-        <input id="password" name="password" type="password" placeholder="••••••••" required>
-
-        <div class="divider">
-        </div>
-
-        <button class="btn-primary" type="submit">Registrarme</button>
-
-        <p class="error" th:if="${error}" th:text="${error}"></p>
+        <p class="form-error" th:if="${error}" th:text="${error}"></p>
     </form>
 </main>
+
+<footer th:replace="~{home/layout :: footer}"></footer>
 </body>
 </html>
