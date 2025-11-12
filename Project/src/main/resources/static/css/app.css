@@ -205,6 +205,25 @@ a:hover{
 
 .btn-google img{ width:18px; height:18px; }
 
+/* Barra de pasos (registro) */
+.steps{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin:8px 0 18px;
+}
+.step{
+    height:4px;
+    border-radius:999px;
+    background:var(--ring);
+}
+.step.is-active{ background:var(--primary); }
+
+/* Botón ancho completo solo cuando lo necesites */
+.btn--full{ width:100%; }
+
+
+
 /* ========= Extras UI ========= */
 
 .link-inline{

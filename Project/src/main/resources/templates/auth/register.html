@@ -3,7 +3,6 @@
 <head th:replace="~{home/layout :: head('Registro')}"></head>
 
 <body class="bg-auth">
-
 <main class="card card--narrow">
     <div class="logo-circle">
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -14,10 +13,17 @@
     </div>
 
     <h1 class="title">Crear Cuenta</h1>
-    <p class="subtitle">Realiza tu registro de usuario por primera vez</p>
+    <p class="subtitle">Paso 1 de 3</p>
+
+    <!-- barra de pasos -->
+    <div class="steps">
+        <span class="step is-active"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+    </div>
 
     <form class="form" th:action="@{/registro}" method="post">
-        <label class="form-label" for="nombre">Nombre</label>
+        <label class="form-label" for="nombre">Nombre Completo</label>
         <input class="form-input" id="nombre" name="nombre" type="text" placeholder="Juan Pérez" required>
 
         <label class="form-label" for="email">Correo Electrónico</label>
@@ -26,7 +32,17 @@
         <label class="form-label" for="password">Contraseña</label>
         <input class="form-input" id="password" name="password" type="password" placeholder="••••••••" required>
 
-        <button class="btn btn-primary" type="submit">Registrarme</button>
+        <label class="form-label" for="password2">Confirmar Contraseña</label>
+        <input class="form-input" id="password2" name="password2" type="password" placeholder="••••••••" required>
+
+        <!-- sin botón de Google por ahora -->
+
+        <button class="btn btn-primary btn--full" type="submit">Crear Cuenta</button>
+
+        <p class="auth-foot">
+            ¿Ya tienes una cuenta?
+            <a th:href="@{/login}" class="link-inline">Inicia sesión</a>
+        </p>
 
         <p class="form-error" th:if="${error}" th:text="${error}"></p>
     </form>
