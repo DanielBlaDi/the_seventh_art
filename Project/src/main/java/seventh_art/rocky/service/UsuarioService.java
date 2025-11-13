@@ -13,6 +13,7 @@ public class UsuarioService {
 
     private final UsuarioRepository repo;
     private final PasswordEncoder passwordEncoder;
+    
 
     public UsuarioService(UsuarioRepository repo, PasswordEncoder passwordEncoder) {
         this.repo = repo;
@@ -24,6 +25,15 @@ public class UsuarioService {
         if (repo.existsByEmailIgnoreCase(u.getEmail())) {
             throw new IllegalArgumentException("El email ya está registrado");
         }
+
+        // HACE FALTA VALIDAR QUE EL CORREO EXISTE
+        // Y ENVIAR EMAIL DE CONFIRMACIÓN
+
+        if (u.getNombre() == null || u.getNombre().isBlank()) {
+            throw new IllegalArgumentException("El nombre no puede estar vacío");
+        }
+
+    
         // Encripta la contraseña antes de guardarla
         u.setPassword(passwordEncoder.encode(u.getPassword()));
         return repo.save(u);

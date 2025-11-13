@@ -1,10 +1,20 @@
 package seventh_art.rocky.controller.auth;
 
+import org.springframework.security.core.AuthenticationException;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.core.Authentication;
+
+import jakarta.servlet.http.HttpServletRequest;
 import seventh_art.rocky.service.UsuarioService;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import seventh_art.rocky.entity.Usuario;
@@ -12,22 +22,38 @@ import seventh_art.rocky.entity.Usuario;
 @Controller
 public class AuthController {
     private final UsuarioService usuarioService;
+    private final AuthenticationManager authenticationManager;
 
-    public AuthController(UsuarioService usuarioService){this.usuarioService = usuarioService;}
+    public AuthController(UsuarioService usuarioService, AuthenticationManager authenticationManager){
+        this.usuarioService = usuarioService;
+        this.authenticationManager = authenticationManager;
+    }
 
     @GetMapping("/login") // En esta dirección de url se carga la vista del login
     public String MostrarLogin() {
         return "auth/login"; // Muestra la vista
     }
 
-    @PostMapping("/login") //Recibe los datos enviados del Html por metodo POST
-    public String procesarLogin(@RequestParam String email, @RequestParam String password, Model model){
-        boolean ok = usuarioService.login(email, password);
-        if(ok){
-            return "redirect:/"; //redirigir a home, CUANDO SE CREE ESA VISTA
-        } else {
-            System.out.println("Credenciales incorrectas!!");
-            model.addAttribute("ErroCredenciales", "Las credenciales no coiciden.");
+    @PostMapping("/login")
+    public String procesarLogin(@RequestParam String email,
+                                @RequestParam String password,
+                                HttpServletRequest request,
+                                Model model) {
+        try {
+            Authentication authRequest =
+                new UsernamePasswordAuthenticationToken(email, password);
+            Authentication authResult = authenticationManager.authenticate(authRequest);
+
+            SecurityContext context = SecurityContextHolder.createEmptyContext();
+            context.setAuthentication(authResult);
+            SecurityContextHolder.setContext(context);
+            request.getSession(true).setAttribute(
+                HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, context
+            );
+
+            return "redirect:/home/prueba";
+        } catch (AuthenticationException ex) {
+            model.addAttribute("ErroCredenciales", "Credenciales inválidas");
             return "auth/login";
         }
     }
@@ -47,6 +73,12 @@ public class AuthController {
             model.addAttribute("error", e.getMessage());
             return "/registro";
         }
+    }
+
+    // Llamada a la vista de confirmación de cuenta creada - pendiente de implementar
+    @GetMapping("/home/prueba")
+    public String homePrueba() {
+        return "home/prueba";
     }
 
 }

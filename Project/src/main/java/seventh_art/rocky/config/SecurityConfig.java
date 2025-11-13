@@ -2,26 +2,62 @@ package seventh_art.rocky.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import seventh_art.rocky.repository.UsuarioRepository;
 
 @Configuration
 public class SecurityConfig {
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // 🔓 Desactiva la protección CSRF (solo para pruebas)
-                .csrf(csrf -> csrf.disable())
-                // 🔓 Permite acceso libre a todos los endpoints /api/**
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/**").permitAll()
-                        .anyRequest().permitAll()
+                .requestMatchers("/", "/login", "/registro", "/css/**", "/js/**", "/images/**", "/api/public/**").permitAll() // Rutas públicas: Añadir todas las rutas necesarias
+                .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                .requestMatchers(HttpMethod.POST, "/registro").permitAll()
+                .requestMatchers("/api/**").permitAll()
+                .anyRequest().authenticated()
                 )
-                // Configura un esquema básico por si más adelante lo necesitas
-                .httpBasic(Customizer.withDefaults());
-
+                .logout(logout -> logout
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/login")
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID")
+                );
         return http.build();
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService(UsuarioRepository repo) {
+        return username -> repo.findByEmailIgnoreCase(username)
+            .map(UsuarioPrincipal::new)
+            .orElseThrow(() -> new UsernameNotFoundException("No existe: " + username));
+    }
+    @Bean
+    public AuthenticationProvider authenticationProvider(UserDetailsService uds, PasswordEncoder enc) {
+        var p = new DaoAuthenticationProvider();
+        p.setUserDetailsService(uds);
+        p.setPasswordEncoder(enc);
+        return p;
+    }
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration cfg) throws Exception {
+        return cfg.getAuthenticationManager();
     }
 }
