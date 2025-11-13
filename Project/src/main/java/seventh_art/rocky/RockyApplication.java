@@ -13,9 +13,4 @@ public class RockyApplication {
     public static void main(String[] args) {
         SpringApplication.run(RockyApplication.class, args);
     }
-
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
 }
