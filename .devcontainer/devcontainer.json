@@ -1,0 +1,21 @@
+{
+  "name": "the_seventh_art",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "dev",
+  "runServices": ["mysql"],
+  "workspaceFolder": "/workspaces/the_seventh_art",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/the_seventh_art,type=bind,consistency=cached",
+  "overrideCommand": true,
+  "remoteUser": "vscode",
+  "forwardPorts": [8080, 3307],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "redhat.vscode-xml",
+        "vmware.vscode-spring-boot",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  }
+}
