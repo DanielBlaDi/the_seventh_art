@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fitness App - Principal Home</title>
+  <link rel="stylesheet" th:href="@{/css/principal_home.css}" />
+</head>
+
+<body>
+  <div class="layout">
+    <!-- Sidebar para pantallas grandes -->
+    <aside class="sidebar">
+      <div class="logo">
+        <h2>🏋️‍♂️ Rocky</h2>
+      </div>
+      <nav class="sidebar-nav">
+        <a th:href="@{/principal_home}" class="active">🏠 Home</a>
+        <a th:href="@{/rutinas}">📋 Mis Rutinas</a>
+        <a th:href="@{/estadisticas}">📊 Estadísticas</a>
+        <a th:href="@{/perfil}">👤 Mi Perfil</a>
+      </nav>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="container">
+      <!-- Encabezado -->
+      <header class="header">
+        <h1>¡Hola, <span th:text="${usuario}">Usuario</span>!</h1>
+      </header>
+
+      <!-- 🔥 Mensaje del día -->
+      <section class="mensaje-dia">
+        <h2>🔥 Mensaje del Día</h2>
+        <p>Cada repetición te acerca a tu objetivo. ¡Vamos con todo! ⚡</p>
+      </section>
+
+      <!-- Progreso del día -->
+      <section class="progreso-hoy">
+        <h2>Tu progreso de hoy</h2>
+        
+        <div class="progreso-grid">
+          <div class="rutina-actual">
+            <h3>Rutina en curso</h3>
+            <p><strong>Rutina Full Body</strong></p>
+            <p><span th:text="${ejerciciosCompletados}">3</span> de <span th:text="${totalEjercicios}">8</span> ejercicios completados</p>
+            <a th:href="@{/rutina_actual}" class="btn">Continuar ▶</a>
+          </div>
+
+          <div class="stats-container">
+            <div class="stat-item">
+              <h4>Racha Semanal</h4>
+              <p class="stat-value" th:text="${rachaSemanas} + ' semanas'">3 semanas</p>
+            </div>
+            <div class="stat-item">
+              <h4>Esta Semana</h4>
+              <p class="stat-value" th:text="${entrenamientosEstaSemana}">5/6</p>
+            </div>
+            <div class="stat-item">
+              <h4>Tiempo Total</h4>
+              <p class="stat-value" th:text="${tiempoTotal} + ' hrs'">89 hrs</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Estadísticas -->
+      <section class="estadisticas">
+        <h2>Estadísticas Generales</h2>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Total de entrenamientos</h3>
+            <p class="stat-number" th:text="${totalEntrenamientos}">45</p>
+          </div>
+          <div class="stat-card">
+            <h3>Horas de ejercicio</h3>
+            <p class="stat-number" th:text="${horasEjercicio}">89</p>
+          </div>
+          <div class="stat-card">
+            <h3>Promedio semanal</h3>
+            <p class="stat-number" th:text="${promedioSemanal}">5</p>
+          </div>
+        </div>
+
+        <div class="progreso-semanal">
+          <h3>Progreso Semanal</h3>
+          <div class="progreso-info">
+            <p class="racha" th:text="${rachaSemanas} + ' semanas'">3 semanas</p>
+            <p class="progreso-texto" th:text="${entrenamientosEstaSemana}">5 de 6 entrenamientos</p>
+          </div>
+          <p class="mensaje-racha" th:text="'Te falta ' + ${entrenamientosRestantes} + ' entrenamiento para mantener tu racha de ' + ${rachaSemanas} + ' semanas'">
+            Te falta 1 entrenamiento para mantener tu racha de 3 semanas
+          </p>
+        </div>
+      </section>
+
+      <!-- Actividad reciente -->
+      <section class="actividad-reciente">
+        <h2>Actividad Reciente</h2>
+
+        <div class="actividad-item">
+          <h3>Rutina de Pierna</h3>
+          <p class="actividad-detalle">Ayer • 45 min</p>
+        </div>
+        <div class="actividad-item">
+          <h3>Rutina Full Body</h3>
+          <p class="actividad-detalle">Hace 2 días • 52 min</p>
+        </div>
+        <div class="actividad-item">
+          <h3>Rutina de Pecho</h3>
+          <p class="actividad-detalle">Hace 3 días • 38 min</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Navegación inferior (solo visible en móvil) -->
+  <footer class="navegacion-movil">
+    <a th:href="@{/principal_home}" class="nav-item active">🏠</a>
+    <a th:href="@{/rutinas}" class="nav-item">📋</a>
+    <a th:href="@{/perfil}" class="nav-item">👤</a>
+  </footer>
+</body>
+</html>

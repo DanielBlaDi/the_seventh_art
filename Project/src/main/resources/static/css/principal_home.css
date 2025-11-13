@@ -1,0 +1,328 @@
+/* ===== Variables globales ===== */
+:root {
+  --color-primario: #6a11cb;
+  --color-secundario: #2575fc;
+  --color-fondo: #f5f6fa;
+  --color-texto: #333;
+  --color-blanco: #fff;
+  --color-gris: #888;
+  --border-radius: 12px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== Estructura principal ===== */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+}
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+  width: 150px;
+  background: linear-gradient(180deg, var(--color-primario), var(--color-secundario));
+  color: var(--color-blanco);
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-md);
+  position: fixed;
+  height: 100%;
+  box-shadow: var(--shadow);
+}
+
+.sidebar .logo {
+  text-align: center;
+  margin-bottom: var(--spacing-md);
+  padding-top: var(--spacing-sm);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-top: 0;
+  flex: 1;
+  justify-content: flex-start;
+}
+
+.sidebar-nav a {
+  color: var(--color-blanco);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 10px 12px;
+  border-radius: var(--border-radius);
+  transition: 0.3s;
+  font-size: 0.9rem;
+}
+
+.sidebar-nav a:hover,
+.sidebar-nav a.active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ===== Contenido principal ===== */
+.container {
+  flex: 1;
+  margin-left: 200px;
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+/* ===== Encabezado ===== */
+.header h1 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+/* ===== 🔥 Mensaje del día ===== */
+.mensaje-dia {
+  background: linear-gradient(135deg, #6a11cb, #8a2be2);
+  color: #fff;
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  text-align: left;
+  gap: var(--spacing-sm);
+}
+
+.mensaje-dia h2 {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.mensaje-dia p {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* ===== Progreso del día ===== */
+.progreso-hoy h2 {
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.progreso-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+  align-items: stretch;
+}
+
+.rutina-actual {
+  background-color: var(--color-blanco);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  flex: 1;
+  min-width: 300px;
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.rutina-actual h3 {
+  margin-bottom: var(--spacing-sm);
+}
+
+.rutina-actual p {
+  margin: 4px 0;
+}
+
+.rutina-actual .btn {
+  align-self: flex-end;
+  background: linear-gradient(90deg, var(--color-primario), var(--color-secundario));
+  color: var(--color-blanco);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  transition: 0.3s;
+  position: absolute;
+  right: var(--spacing-lg);
+  bottom: var(--spacing-lg);
+}
+
+.rutina-actual .btn:hover {
+  opacity: 0.9;
+}
+
+/* ===== Estadísticas ===== */
+.stats-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  flex: 2;
+}
+
+.stat-item {
+  background-color: var(--color-blanco);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  flex: 1;
+  padding: var(--spacing-md);
+  text-align: center;
+}
+
+.stat-item h4 {
+  font-size: 1rem;
+  color: var(--color-gris);
+  margin-bottom: var(--spacing-sm);
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+/* ===== Estadísticas generales ===== */
+.estadisticas h2 {
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.stat-card {
+  background-color: var(--color-blanco);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  text-align: center;
+  padding: var(--spacing-lg);
+}
+
+.stat-card h3 {
+  color: var(--color-gris);
+  font-size: 1rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.stat-number {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+/* ===== Progreso semanal ===== */
+.progreso-semanal {
+  background-color: var(--color-blanco);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+
+.progreso-info {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+  color: var(--color-texto);
+}
+
+.mensaje-racha {
+  margin-top: var(--spacing-md);
+  color: var(--color-gris);
+}
+
+/* ===== Actividad reciente ===== */
+.actividad-reciente h2 {
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.actividad-item {
+  background-color: var(--color-blanco);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+}
+
+.actividad-detalle {
+  color: var(--color-gris);
+  font-size: 0.9rem;
+}
+
+/* ===== Navegación móvil ===== */
+.navegacion-movil {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-blanco);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  padding: var(--spacing-sm) 0;
+  justify-content: space-around;
+  z-index: 10;
+}
+
+.navegacion-movil .nav-item {
+  color: var(--color-gris);
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+.navegacion-movil .nav-item.active {
+  color: var(--color-primario);
+}
+
+/* ===== Responsividad ===== */
+@media (max-width: 1024px) {
+  .container {
+    margin-left: 0;
+    padding-bottom: 60px;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .navegacion-movil {
+    display: flex;
+  }
+
+  .progreso-grid {
+    flex-direction: column;
+  }
+
+  .rutina-actual .btn {
+    position: relative;
+    align-self: center;
+    margin-top: var(--spacing-md);
+    right: auto;
+    bottom: auto;
+  }
+
+  .mensaje-dia {
+    text-align: center;
+    align-items: center;
+  }
+}
+
+/* 🔥 Adaptación para móvil del mensaje del día */
+@media (max-width: 768px) {
+  .mensaje-dia {
+    text-align: center;
+    align-items: center;
+  }
+}
