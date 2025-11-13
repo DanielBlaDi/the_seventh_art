@@ -20,7 +20,7 @@ public class RegistroDTO {
     private Integer edad;
     private Sexo sexo;
     private Float peso;     // kg
-    private Float estatura;  // cm
+    private Float estatura;  // m
 
     // Paso 3 (Perfil)
     private Objetivo objetivo;   // o enum como texto

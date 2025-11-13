@@ -23,9 +23,6 @@
     </div>
 
     <form class="form" th:action="@{/registro}" method="post">
-        <label class="form-label" for="nombre">Nombre Completo</label>
-        <input class="form-input" id="nombre" name="nombre" type="text" placeholder="Juan Pérez" required>
-
         <label class="form-label" for="email">Correo Electrónico</label>
         <input class="form-input" id="email" name="email" type="email" placeholder="tu@email.com" required>
 
@@ -35,9 +32,7 @@
         <label class="form-label" for="password2">Confirmar Contraseña</label>
         <input class="form-input" id="password2" name="password2" type="password" placeholder="••••••••" required>
 
-        <!-- sin botón de Google por ahora -->
-
-        <button class="btn btn-primary btn--full" type="submit">Crear Cuenta</button>
+        <button class="btn btn-primary btn--full form-submit" type="submit">Crear Cuenta</button>
 
         <p class="auth-foot">
             ¿Ya tienes una cuenta?
