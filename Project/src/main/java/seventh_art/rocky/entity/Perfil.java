@@ -28,7 +28,7 @@ public class Perfil {
 
     @Positive @NotBlank
     @Column(nullable = false)
-    private int edad;
+    private Integer edad;
     
     @Enumerated(EnumType.STRING) @NotBlank
     @Column(nullable = false, length = 10)
@@ -40,19 +40,19 @@ public class Perfil {
 
     @NotBlank @Positive
     @Column(nullable = false)
-    private int rachaDeseada;       // En dias (semanalmente)
+    private Integer rachaDeseada;       // En dias (semanalmente)
 
     @Positive @NotBlank
     @Column(nullable = false)
-    private int rachaActual;
+    private Integer rachaActual;
 
     @Positive @NotBlank
     @Column(nullable = false)
-    private float estatura;         // En metros
+    private Float estatura;         // En metros
 
     @Positive
     @Column(nullable = false)
-    private float imc;
+    private Float imc;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(

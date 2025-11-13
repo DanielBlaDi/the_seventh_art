@@ -25,7 +25,7 @@ public class Peso {
 
     @Positive @NotBlank
     @Column(nullable = false)
-    private float valor;         // En kilogramos
+    private Float valor;         // En kilogramos
 
     @PastOrPresent @NotBlank
     @Column(nullable = false)
