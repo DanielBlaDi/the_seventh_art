@@ -2,6 +2,7 @@ package seventh_art.rocky.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
 
@@ -26,27 +27,30 @@ public class Perfil {
     @Column(length = 50)
     private String apellido;
 
-    @Positive @NotBlank
+    @Positive @NotNull
     @Column(nullable = false)
     private Integer edad;
     
-    @Enumerated(EnumType.STRING) @NotBlank
+    @Enumerated(EnumType.STRING)
+    @NotNull
     @Column(nullable = false, length = 10)
     private Sexo sexo;
 
-    @Enumerated(EnumType.STRING) @NotBlank
+    @Enumerated(EnumType.STRING)
+    @NotNull
     @Column(nullable = false, length = 30)
     private Objetivo objetivo;
 
-    @NotBlank @Positive
+    @NotNull
+    @Positive
     @Column(nullable = false)
     private Integer rachaDeseada;       // En dias (semanalmente)
 
-    @Positive @NotBlank
+    @NotNull
     @Column(nullable = false)
     private Integer rachaActual;
 
-    @Positive @NotBlank
+    @Positive @NotNull
     @Column(nullable = false)
     private Float estatura;         // En metros
 
@@ -63,6 +67,10 @@ public class Perfil {
     )
     private Usuario idUsuario;
 
+    @PrePersist
+    public void inicioalizarRacha() {
+        this.rachaActual = 0;
+    }
 }
 
 
