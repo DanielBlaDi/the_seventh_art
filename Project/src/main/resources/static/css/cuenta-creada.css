@@ -22,15 +22,15 @@ body {
     padding: 40px 0;
 }
 
-/* Tarjeta */
+/* TARJETA MÁS ANGOSTA */
 .card {
     background: #ffffff;
     border-radius: 28px;
-    padding: 64px 80px 80px;
+    padding: 56px 64px 72px;
     box-shadow: 0 30px 80px rgba(15, 23, 42, 0.18);
     text-align: center;
-    max-width: 800px;
-    width: 90%;
+    max-width: 560px;   /* <- aquí la hacemos más angosta */
+    width: 100%;
 }
 
 /* Icono */
@@ -58,7 +58,7 @@ body {
 
 /* Título */
 .title {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
     margin: 12px 0 16px;
 }
@@ -66,24 +66,25 @@ body {
 /* Subtítulo */
 .subtitle {
     margin: 0 0 40px;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.5;
     color: #6b7280;
 }
 
-/* Botón */
+/* BOTÓN CENTRADO Y MÁS ESTRECHO */
 .primary-btn {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+    display: block;          /* bloque para poder centrar con margin */
+    width: 70%;              /* ancho relativo a la tarjeta */
+    max-width: 380px;        /* límite para pantallas grandes */
+    margin: 0 auto;          /* <- esto lo centra horizontalmente */
     padding: 16px 24px;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 600;
     border-radius: 999px;
     text-decoration: none;
     background: #4f46e5;
     color: #ffffff;
+    text-align: center;
     box-shadow: 0 10px 30px rgba(79, 70, 229, 0.35);
     transition: all 0.15s ease;
 }

@@ -32,7 +32,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
                 .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/login", "/registro", "/css/**", "/js/**", "/images/**", "/api/public/**", "/cuenta-creada").permitAll() // Rutas públicas: Añadir todas las rutas necesarias
+                .requestMatchers("/", "/login", "/registro", "/registro/**", "/css/**", "/js/**", "/images/**", "/api/public/**").permitAll() // Rutas públicas: Añadir todas las rutas necesarias
                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/registro").permitAll()
                 .requestMatchers("/oauth2/**", "/login/oauth2/**").permitAll()

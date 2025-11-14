@@ -55,7 +55,7 @@ public class AuthController {
             // Realizar un mensaje login exitoso
             // Mostrarlo en la vista de login por 2 segundos antes de redirigir al home
 
-            return "redirect:/prueba";   //Redirigir a la pagina del Home
+            return "redirect:/prueba";   //Redirigir a la pagina del Home - Tiene el botón de logout
         } catch (AuthenticationException ex) {
 
             //Mostrar mensaje de error en la verificación de credenciales
@@ -67,7 +67,7 @@ public class AuthController {
 //---- RUTAS DE REGISTRO DE USUARIOS ----//
     @GetMapping("/registro")
     public String mostrarRegistro(){
-        return "auth/register";
+        return "register/register";
     }
 
     @PostMapping("/registro")
@@ -75,30 +75,32 @@ public class AuthController {
         try {
             usuarioService.crear(usuario);
             System.out.println("Usuario creado correctamente!");
-            return "redirect:/cuenta-creada";
+            return "redirect:/registro/cuenta-creada";   // Redirigir a la vista de cuenta creada
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
-            return "auth/register";
+            return "register/register";
         }
     }
 
     // Llamada a la vista de confirmación de cuenta creada - pendiente de implementar
-    @GetMapping("/cuenta-creada")
-    public String cuentaCreada() {
-        return "auth/cuenta-creada";
+    @GetMapping("/registro/cuenta-creada")      //Esta es el endpoint
+    public String mostrarCuentaCreada() {
+        return "register/cuenta-creada";        //Esta es la ruta en el templates del proyecto
     }
+
+//---- Editar estas rutas posteriormente | rutas del home | crear controller para el home ----// 
 
     // Vista de prueba del home después del login
     @GetMapping("/prueba")
-    public String homePrueba() {
+    public String mostrarHomePrueba() {
         System.out.println("Has llegado al home de prueba tras el login");
         return "home/prueba";
     }
 
-    @GetMapping("/home")
-    public String home() {
+    @GetMapping("/registro/profile-data")
+    public String mostrarRegistroProfileData() {
         System.out.println("Has llegado al home principal");
-        return "home/home";
+        return "register/profile-data"; // ruta en donde se pondrá el formulario de datos despues de crear la cuenta
     }
 
 }
