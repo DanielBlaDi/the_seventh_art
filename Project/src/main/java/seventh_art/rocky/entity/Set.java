@@ -22,11 +22,11 @@ public class Set {
 
     @NotBlank
     @Column(nullable = false, length = 100)
-    private float peso;      // En kilogramos
+    private Float peso;      // En kilogramos
 
     @NotBlank
     @Column(nullable = false)
-    private int repeticiones;
+    private Integer repeticiones;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
