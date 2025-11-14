@@ -82,7 +82,6 @@ public class AuthController {
         }
     }
 
-    // Llamada a la vista de confirmación de cuenta creada - pendiente de implementar
     @GetMapping("/registro/cuenta-creada")      //Esta es el endpoint
     public String mostrarCuentaCreada() {
         return "register/cuenta-creada";        //Esta es la ruta en el templates del proyecto
