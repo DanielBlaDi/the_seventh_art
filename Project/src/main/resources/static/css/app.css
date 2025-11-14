@@ -148,11 +148,6 @@ a:hover{
     color:var(--muted);
 }
 
-/* Separación extra entre el último campo y el botón */
-.form-submit{
-    margin-top:18px;
-}
-
 /* ========= Botones ========= */
 
 .btn{

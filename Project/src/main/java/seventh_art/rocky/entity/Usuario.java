@@ -22,16 +22,25 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Column(nullable = false, length = 80)
+    private String nombre;
+
     @Email
     @NotBlank
     @Column(nullable = false, length = 120)
     private String email;
 
+    // Por ahora texto plano para la prueba; luego lo cambiaremos a hash (BCrypt).
     @NotBlank
     @Column(nullable = false, length = 120)
     private String password;
 
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private Perfil perfil;
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime creadoEn;
 
+    @PrePersist
+    public void prePersist() {
+        this.creadoEn = LocalDateTime.now();
+    }
 }
