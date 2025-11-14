@@ -1,0 +1,207 @@
+/* Variables de color (ajustadas) */
+:root {
+    --color-bg-light: #f9fafb; /* gray-50 */
+    --color-text-dark: oklch(0.145 0 0);
+    --color-text-muted: oklch(0.45 0 0);
+    --color-indigo-50: #eef2ff;
+    --color-indigo-100: #e0e7ff; 
+    --color-indigo-600: #4f46e5;
+    --color-indigo-700: #4338ca;
+    --color-border: #e5e7eb;
+    --color-white: #ffffff;
+    --color-blue-50: #eff6ff; 
+    --color-green-50: #f0fdf4; 
+    --color-orange-50: #fff7ed; 
+    --color-purple-50: #f5f3ff; 
+    /* ESTE ES EL COLOR ROJO AJUSTADO PARA CERRAR SESIÓN (Simulación del tono rosado/rojo) */
+    --color-destructive: #db2777; /* Rojo intenso/rosado (similar al tono de la imagen) */
+    --color-destructive-hover: #b41662; /* Tono más oscuro para el hover */
+}
+
+/* --- Estilos Base y Layout (Copia de principal_home.css) --- */
+.app-container {
+    min-height: 100vh;
+    background-color: var(--color-bg-light);
+    display: flex;
+    flex-direction: column;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    color: var(--color-text-dark);
+}
+
+.content-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 64px; 
+    box-sizing: border-box;
+}
+
+.p-4.max-w-screen-lg.mx-auto {
+    padding: 1rem;
+    max-width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- Tipografía y Utilitarios Generales --- */
+h1 { font-size: 1.5rem; font-weight: 700; }
+h2 { font-size: 1.25rem; font-weight: 600; }
+h3 { font-size: 1.125rem; font-weight: 600; }
+.text-muted-foreground { color: var(--color-text-muted); }
+.text-sm { font-size: 0.875rem; }
+.text-xs { font-size: 0.75rem; }
+.text-2xl { font-size: 1.5rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-1 { margin-bottom: 0.25rem; }
+.mr-2 { margin-right: 0.5rem; }
+
+/* --- Cartas (Cards) y Flexbox --- */
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    background-color: var(--color-white);
+}
+
+.flex { display: flex; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-4 { gap: 1rem; }
+.gap-3 { gap: 0.75rem; }
+.flex-1 { flex: 1 1 0%; }
+.rounded-full { border-radius: 9999px; }
+.p-6 { padding: 1.5rem; }
+.p-4 { padding: 1rem; }
+
+.bg-indigo-100 { background-color: var(--color-indigo-100); }
+.text-indigo-600 { color: var(--color-indigo-600); }
+.text-destructive { color: var(--color-destructive); }
+
+/* Grid para Información Personal y Estadísticas */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+    gap: 1rem; 
+}
+
+/* --- Botón General (Editar) --- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    height: 2.25rem;
+    padding: 0 1rem;
+    cursor: pointer;
+    border: 1px solid var(--color-border); 
+    background-color: var(--color-white);
+    color: var(--color-text-dark);
+    text-decoration: none; 
+}
+.btn:hover {
+    background-color: #f3f4f6;
+}
+
+/* --- ESTILO DEL BOTÓN/ENLACE CERRAR SESIÓN --- */
+.btn-logout {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem; 
+    white-space: nowrap;
+    text-decoration: none;
+    font-size: 0.875rem; 
+    font-weight: 500; 
+    
+    /* ELIMINAR BORDE Y FONDO, SOLO TEXTO EN ROJO */
+    color: var(--color-destructive);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    height: 2.25rem; 
+}
+
+.btn-logout:hover {
+    /* Usar la variable de hover ajustada */
+    color: var(--color-destructive-hover); 
+}
+
+/* --- Estilos de Bloques de Estadísticas --- */
+.card-stat-small {
+    text-align: center;
+    border-radius: 0.5rem;
+}
+/* Colores de Fondo para Estadísticas */
+.card-stat-blue { background-color: var(--color-blue-50); }
+.card-stat-green { background-color: var(--color-green-50); }
+.card-stat-orange { background-color: var(--color-orange-50); }
+.card-stat-purple { background-color: var(--color-purple-50); }
+
+
+/* --- Estilos de la Barra de Navegación Fija --- */
+.fixed-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--color-white);
+    border-top: 1px solid var(--color-border);
+    height: 64px; 
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
+    z-index: 10;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--color-text-muted);
+    padding: 0.25rem 0.5rem;
+    transition: color 0.2s;
+    flex: 1;
+}
+
+.nav-item:hover {
+    color: var(--color-indigo-600);
+}
+
+.nav-item.active {
+    color: var(--color-indigo-600);
+}
+
+.nav-item .icon-svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-bottom: 2px;
+}
+
+.nav-item span {
+    font-size: 0.6875rem;
+    font-weight: 500;
+}
+
+/* --- RESPONSIVIDAD PARA MÓVILES --- */
+@media (max-width: 768px) {
+    .p-4.max-w-screen-lg.mx-auto {
+        padding: 0.75rem;
+    }
+    .card {
+        padding: 1rem;
+    }
+    /* Ajuste para los bloques pequeños en móvil: una columna */
+    .stats-grid {
+        grid-template-columns: 1fr; 
+    }
+}
