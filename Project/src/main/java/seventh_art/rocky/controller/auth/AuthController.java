@@ -55,7 +55,7 @@ public class AuthController {
             // Realizar un mensaje login exitoso
             // Mostrarlo en la vista de login por 2 segundos antes de redirigir al home
 
-            return "redirect:/home/prueba";   //Redirigir a la pagina del Home
+            return "redirect:/prueba";   //Redirigir a la pagina del Home
         } catch (AuthenticationException ex) {
 
             //Mostrar mensaje de error en la verificación de credenciales
@@ -75,17 +75,30 @@ public class AuthController {
         try {
             usuarioService.crear(usuario);
             System.out.println("Usuario creado correctamente!");
-            return "redirect:/login";
+            return "redirect:/cuenta-creada";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
-            return "/registro";
+            return "auth/register";
         }
     }
 
     // Llamada a la vista de confirmación de cuenta creada - pendiente de implementar
-    @GetMapping("/home/prueba")
+    @GetMapping("/cuenta-creada")
+    public String cuentaCreada() {
+        return "auth/cuenta-creada";
+    }
+
+    // Vista de prueba del home después del login
+    @GetMapping("/prueba")
     public String homePrueba() {
+        System.out.println("Has llegado al home de prueba tras el login");
         return "home/prueba";
+    }
+
+    @GetMapping("/home")
+    public String home() {
+        System.out.println("Has llegado al home principal");
+        return "home/home";
     }
 
 }

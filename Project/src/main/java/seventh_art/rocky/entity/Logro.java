@@ -33,9 +33,9 @@ public class Logro {
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
-            name = "idPerfil",
-            nullable = false,
-            foreignKey = @ForeignKey(name = "fk_peso_perfil")
+            name = "id_perfil",
+            nullable = false
+            //foreignKey = @ForeignKey(name = "fk_peso_perfil")
     )
     private Perfil idPerfil;
 
