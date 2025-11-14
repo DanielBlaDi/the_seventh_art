@@ -29,6 +29,7 @@ public class AuthController {
         this.authenticationManager = authenticationManager;
     }
 
+//---- RUTAS DE AUTENTICACIÓN ----//
     @GetMapping("/login") // En esta dirección de url se carga la vista del login
     public String MostrarLogin() {
         return "auth/login"; // Muestra la vista
@@ -51,13 +52,19 @@ public class AuthController {
                 HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, context
             );
 
-            return "redirect:/home/prueba";
+            // Realizar un mensaje login exitoso
+            // Mostrarlo en la vista de login por 2 segundos antes de redirigir al home
+
+            return "redirect:/home/prueba";   //Redirigir a la pagina del Home
         } catch (AuthenticationException ex) {
+
+            //Mostrar mensaje de error en la verificación de credenciales
             model.addAttribute("ErroCredenciales", "Credenciales inválidas");
             return "auth/login";
         }
     }
 
+//---- RUTAS DE REGISTRO DE USUARIOS ----//
     @GetMapping("/registro")
     public String mostrarRegistro(){
         return "auth/register";

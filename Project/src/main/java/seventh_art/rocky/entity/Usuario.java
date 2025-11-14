@@ -22,8 +22,8 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Column(nullable = false, length = 80)
+    // puede ser null, revisar por qué no se actualiza automáticamente
+    @Column(length = 80)
     private String nombre;
 
     @Email
@@ -31,7 +31,7 @@ public class Usuario {
     @Column(nullable = false, length = 120)
     private String email;
 
-    // Por ahora texto plano para la prueba; luego lo cambiaremos a hash (BCrypt).
+    // Se almacena la contraseña y se encripta con BCrypt
     @NotBlank
     @Column(nullable = false, length = 120)
     private String password;
