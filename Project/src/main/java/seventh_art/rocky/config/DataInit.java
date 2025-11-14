@@ -11,6 +11,7 @@ public class DataInit {
     @Bean
     CommandLineRunner initUsuarios(UsuarioRepository repo) {
         return args -> {
+            // Aquí se pueden agregar usuarios iniciales si es necesario
         };
     }
 }

@@ -14,9 +14,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import seventh_art.rocky.repository.UsuarioRepository;
+//import seventh_art.rocky.service.auth.GoogleOAuth2UserService;
+import seventh_art.rocky.service.auth.GoogleOidcUserService;
 
 @Configuration
 public class SecurityConfig {
+
+    //private final GoogleOAuth2UserService googleOAuth2UserService;
+    private final GoogleOidcUserService googleOidcUserService;
+
+    public SecurityConfig(GoogleOidcUserService googleOidcUserService) {
+        this.googleOidcUserService = googleOidcUserService;
+    }
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -26,21 +35,23 @@ public class SecurityConfig {
                 .requestMatchers("/", "/login", "/registro", "/css/**", "/js/**", "/images/**", "/api/public/**").permitAll() // Rutas públicas: Añadir todas las rutas necesarias
                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/registro").permitAll()
+                .requestMatchers("/oauth2/**", "/login/oauth2/**").permitAll()
                 .requestMatchers("/api/**").permitAll()
                 .anyRequest().authenticated()
+                )
+                .oauth2Login(oauth -> oauth
+                    .loginPage("/login")                      // desde dónde se inicia el login
+                    .userInfoEndpoint(ui -> ui.oidcUserService(googleOidcUserService)) // servicio para cargar el usuario desde Google
+                    .defaultSuccessUrl("/home/prueba", true) // la vista a donde se dirige tras login Google
+                    .failureUrl("/login?error")             // FALTA CREAR LA VISTA DE ERROR
                 )
                 .logout(logout -> logout
                     .logoutUrl("/logout")
                     .logoutSuccessUrl("/login")
                     .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID")
+                    .deleteCookies("JSESSIONID")            // Eliminar la cookie de sesión del usuario en el navegador
                 );
         return http.build();
-    }
-
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder();
     }
 
     @Bean
