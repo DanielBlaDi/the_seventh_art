@@ -1,4 +1,14 @@
 package seventh_art.rocky.controller;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
 public class PerfilController {
+
+    @GetMapping("/perfil")
+    public String mostrarPerfil() {
+        // Asumiendo que el archivo estará en templates/home/perfil.html
+        return "home/perfil"; 
+    }
 }

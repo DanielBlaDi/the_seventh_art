@@ -55,7 +55,7 @@ public class AuthController {
             // Realizar un mensaje login exitoso
             // Mostrarlo en la vista de login por 2 segundos antes de redirigir al home
 
-            return "redirect:/prueba";   //Redirigir a la pagina del Home - Tiene el botón de logout
+            return "redirect:/principal_home";   //Redirigir a la pagina del Home - Tiene el botón de logout
         } catch (AuthenticationException ex) {
 
             //Mostrar mensaje de error en la verificación de credenciales
@@ -73,33 +73,34 @@ public class AuthController {
     @PostMapping("/registro")
     public String procesarRegistro(@ModelAttribute Usuario usuario, Model model){
         try {
-            usuarioService.crear(usuario);
+            usuarioService.crear(usuario); //comentado provisionalmente para visualizar paso 2
             System.out.println("Usuario creado correctamente!");
-            return "redirect:/registro/cuenta-creada";   // Redirigir a la vista de cuenta creada
+            return "redirect:/registro/cuenta-creada";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", usuarioService.ValidarRegistro(usuario));
             return "register/register";
         }
     }
 
-    @GetMapping("/registro/cuenta-creada")      //Esta es el endpoint
+    @GetMapping("/registro/cuenta-creada")
     public String mostrarCuentaCreada() {
-        return "register/cuenta-creada";        //Esta es la ruta en el templates del proyecto
+        return "register/cuenta-creada";
     }
 
-//---- Editar estas rutas posteriormente | rutas del home | crear controller para el home ----// 
-
-    // Vista de prueba del home después del login
-    @GetMapping("/prueba")
-    public String mostrarHomePrueba() {
-        System.out.println("Has llegado al home de prueba tras el login");
-        return "home/prueba";
+    @GetMapping("/registro/paso2")
+    public String mostrarPaso2(){
+        return "auth/register-step2";
     }
 
-    @GetMapping("/registro/profile-data")
-    public String mostrarRegistroProfileData() {
-        System.out.println("Has llegado al home principal");
-        return "register/profile-data"; // ruta en donde se pondrá el formulario de datos despues de crear la cuenta
+    @PostMapping("/registro/paso2")
+    public String procesarPaso2() {
+        return "redirect:/registro/paso3";
     }
+
+    @GetMapping("/registro/paso3")
+    public String mostrarPaso3() {
+        return "auth/register-step3";
+    }
+
 
 }
