@@ -77,7 +77,7 @@ public class AuthController {
             System.out.println("Usuario creado correctamente!");
             return "redirect:/registro/cuenta-creada";   // Redirigir a la vista de cuenta creada
         } catch (IllegalArgumentException e) {
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("error", usuarioService.ValidarRegistro(usuario));
             return "register/register";
         }
     }

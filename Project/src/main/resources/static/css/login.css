@@ -52,3 +52,15 @@ input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,.15)
 .link-strong{color:var(--primary);text-decoration:none;font-weight:600}
 .link-strong:hover{text-decoration:underline}
 .error{margin-top:10px;color:#b91c1c;text-align:center;font-size:14px}
+
+.error-list {
+    color: #dc2626;          /* rojo suave */
+    font-size: 14px;
+    margin-top: 12px;
+    padding-left: 18px;      /* desplazamiento típico de ul */
+    list-style-type: disc;   /* viñetas circulares */
+}
+
+.error-list li {
+    margin-bottom: 4px;
+}
