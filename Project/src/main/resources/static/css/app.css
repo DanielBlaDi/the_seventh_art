@@ -1,12 +1,12 @@
 /* ========= Variables globales ========= */
 :root{
-    --primary:#4f46e5;      /* morado */
+    --primary:#4f46e5;
     --primary-hover:#4338ca;
     --text:#111827;
     --muted:#6b7280;
     --surface:#ffffff;
     --ring:#e5e7eb;
-    --bg1:#eef2ff;          /* azul muy claro */
+    --bg1:#eef2ff;
 
     --radius-lg:18px;
     --radius-md:12px;
@@ -199,7 +199,6 @@ a:hover{
 }
 
 .btn img,
-
 .btn .icon{
     width:18px;
     height:18px;
@@ -209,6 +208,17 @@ a:hover{
 }
 
 .btn-google img{ width:18px; height:18px; }
+
+/* ====== Botones Atrás / Siguiente (Paso 2) ====== */
+.form-buttons{
+    display:flex;
+    gap:12px;
+    margin-top:20px;
+}
+
+.form-buttons .btn{
+    flex:1;
+}
 
 /* Barra de pasos (registro) */
 .steps{
@@ -226,8 +236,6 @@ a:hover{
 
 /* Botón ancho completo solo cuando lo necesites */
 .btn--full{ width:100%; }
-
-
 
 /* ========= Extras UI ========= */
 
@@ -290,4 +298,113 @@ a:hover{
 .stats-card-value{
     font-size:18px;
     font-weight:600;
+}
+
+/* --- Unificar estilo del SELECT con los inputs --- */
+
+/* Placeholder gris antes de elegir */
+select.form-input {
+    color: var(--muted); /* gris como los otros placeholders */
+}
+
+/* Opciones reales en color normal */
+select.form-input option {
+    color: var(--text);
+}
+
+/* Cuando ya seleccionó M o F → vuelve a texto normal */
+select.form-input:valid {
+    color: var(--text);
+}
+
+/* El placeholder explícito (value="") debe ser gris */
+select.form-input option[value=""] {
+    color: var(--muted);
+}
+
+/* === Paso 3: objetivo y días === */
+
+.objective-group{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-top:6px;
+}
+
+.objective-option input{
+    display:none;
+}
+
+.objective-option label{
+    display:block;
+    border-radius:10px;
+    border:1px solid var(--ring);
+    background:#f3f4f6;
+    padding:10px 12px;
+    font-size:14px;
+    cursor:pointer;
+}
+
+.objective-option input:checked + label{
+    border-color:var(--primary);
+    background:#eef2ff;
+}
+
+/* Tarjetas de días (Paso 3) */
+.days-grid{
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0,1fr));
+    gap:12px;
+    margin-top:10px;
+}
+
+.day-option{
+    position:relative;
+}
+
+.day-option input{
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
+}
+
+.day-option label{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    border-radius:14px;
+    border:1px solid var(--ring);
+    background:#ffffff;
+    padding:10px 0 12px;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(15,23,42,.04);
+    transition:
+            border-color 150ms ease-out,
+            box-shadow 150ms ease-out,
+            background-color 150ms ease-out,
+            color 150ms ease-out;
+}
+
+.day-number{
+    display:block;
+    font-size:18px;
+    font-weight:600;
+}
+
+.day-text{
+    display:block;
+    font-size:11px;
+    color:var(--muted);
+}
+
+/* Estado seleccionado */
+.day-option input:checked + label{
+    border-color:var(--primary);
+    background:#eef2ff;
+    box-shadow:0 10px 24px rgba(79,70,229,.20);
+}
+
+.day-option input:checked + label .day-number{
+    color:var(--primary);
 }

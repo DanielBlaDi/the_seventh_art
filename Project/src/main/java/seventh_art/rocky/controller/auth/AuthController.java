@@ -40,13 +40,29 @@ public class AuthController {
     @PostMapping("/registro")
     public String procesarRegistro(@ModelAttribute Usuario usuario, Model model){
         try {
-            usuarioService.crear(usuario);
+            // usuarioService.crear(usuario); comentado provisionalmente para visualizar paso 2
             System.out.println("Usuario creado correctamente!");
-            return "redirect:/login";
+            return "redirect:/registro/paso2";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
             return "/registro";
         }
     }
+
+    @GetMapping("/registro/paso2")
+    public String mostrarPaso2(){
+        return "auth/register-step2";
+    }
+
+    @PostMapping("/registro/paso2")
+    public String procesarPaso2() {
+        return "redirect:/registro/paso3";
+    }
+
+    @GetMapping("/registro/paso3")
+    public String mostrarPaso3() {
+        return "auth/register-step3";
+    }
+
 
 }

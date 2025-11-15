@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{home/layout :: head('Registro - Paso 2')}"></head>
+
+<body class="bg-auth">
+<main class="card card--narrow">
+
+    <!-- Logo circular igual que en el paso 1 -->
+    <div class="logo-circle">
+        <img src="/img/dumbbell.svg" alt="Logo Rocky">
+    </div>
+
+    <h1 class="title">Crear Cuenta</h1>
+    <p class="subtitle">Paso 2 de 3</p>
+
+    <!-- barra de pasos -->
+    <div class="steps">
+        <span class="step is-active"></span>
+        <span class="step is-active"></span>
+        <span class="step"></span>
+    </div>
+
+    <form class="form" th:action="@{/registro/paso2}" method="post">
+
+        <p class="form-help">
+            Ingresa tus datos personales para personalizar tu experiencia
+        </p>
+
+        <!-- Nombre -->
+        <label class="form-label" for="nombre">Nombre</label>
+        <input class="form-input"
+               id="nombre"
+               name="nombre"
+               type="text"
+               placeholder="Juan"
+               required>
+
+        <!-- Apellido -->
+        <label class="form-label" for="apellido">Apellido</label>
+        <input class="form-input"
+               id="apellido"
+               name="apellido"
+               type="text"
+               placeholder="Pérez"
+               required>
+
+        <!-- Edad -->
+        <label class="form-label" for="edad">Edad</label>
+        <input class="form-input"
+               id="edad"
+               name="edad"
+               type="number"
+               placeholder="25"
+               required>
+
+        <!-- Sexo -->
+        <label class="form-label" for="sexo">Sexo</label>
+        <select class="form-input" id="sexo" name="sexo" required>
+            <option value="" disabled selected hidden>Selecciona tu sexo</option>
+            <option value="M">Masculino</option>
+            <option value="F">Femenino</option>
+        </select>
+
+        <!-- Peso -->
+        <label class="form-label" for="peso">Peso (kg)</label>
+        <input class="form-input"
+               id="peso"
+               name="peso"
+               type="number"
+               step="0.1"
+               placeholder="70"
+               required>
+
+        <!-- Estatura en metros -->
+        <label class="form-label" for="estatura">Estatura (m)</label>
+        <input class="form-input"
+               id="estatura"
+               name="estatura"
+               type="number"
+               step="0.01"
+               placeholder="1.70"
+               required>
+
+        <!-- Botones -->
+        <div class="form-buttons">
+            <a class="btn btn-outline" th:href="@{/registro}">Atrás</a>
+            <button class="btn btn-primary" type="submit">Siguiente</button>
+        </div>
+
+        <p class="auth-foot">
+            ¿Ya tienes una cuenta?
+            <a th:href="@{/login}" class="link-inline">Inicia sesión</a>
+        </p>
+
+    </form>
+</main>
+
+<footer th:replace="~{home/layout :: footer}"></footer>
+</body>
+</html>
