@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cuenta Creada</title>
+    <link rel="stylesheet" th:href="@{/css/cuenta-creada.css}">
+</head>
+<body>
+
+<div class="page-wrapper">
+    <div class="card">
+
+        <div class="icon-wrapper">
+            <div class="icon-circle">
+                <svg viewBox="0 0 24 24" class="check-icon">
+                    <circle cx="12" cy="12" r="11" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <path d="M7 12.5l3 3.2 6-7.2"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+
+        <h1 class="title">¡Cuenta Creada con Éxito!</h1>
+
+        <p class="subtitle">
+            Ahora completa tu perfil para personalizar tu<br>
+            experiencia
+        </p>
+
+        <a th:href="@{/registro/profile-data}" class="primary-btn" >Siguiente</a>
+        
+    </div>
+</div>
+
+</body>
+</html>

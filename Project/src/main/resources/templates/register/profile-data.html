@@ -5,19 +5,13 @@
     <title>Rocky</title>
     <!-- Se enlazan ambos estilos: app.css (global) y home.css (específico) -->
     <link rel="stylesheet" th:href="@{/css/app.css}">
-    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}"> <!-- Cambiar estilos al de css de este archivo   -->
 </head>
 <body>
 <div class="home-container">
     <section class="welcome">
-        <h1>Home</h1>
-        <p class="lead">Estás logueado y te damos la bienvenida. Este es tu HOME</p>
-
-            <form th:action="@{/logout}" method="post" style="display:inline">
-                
-                <button type="submit" class="btn btn-primary">Logout</button>
-            </form>
-
+        <h1>Registremos ahora unos datos básicos</h1>
+        <p class="lead">Aquí ingresarás tu nombre, apellido, edad, peso, altura, y más.</p>
     </section>
 </div>
 </body>
