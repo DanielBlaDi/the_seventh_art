@@ -3,31 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>Rocky</title>
-    <!-- Se enlazan ambos estilos: app.css (global) y home.css (específico) -->
+
     <link rel="stylesheet" th:href="@{/css/app.css}">
     <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
-<div class="home-container">
-    <section class="welcome">
-        <h1>Bienvenido a Rocky</h1>
-        <p class="lead">Tu aplicación para seguimiento de entrenamientos y progresos.</p>
-
-        <p class="readme-note">Consulta el <strong>README</strong> del proyecto para instrucciones de instalación y uso.</p>
-
-        <div class="actions">
-            <a class="btn btn-primary" th:href="@{/login}">Ir al login</a>
+<div class="landing">
+    <main class="hero">
+        <div class="hero-logo">
+            <span class="hero-logo-icon">🏋</span>
         </div>
-    </section>
 
-    <section class="info">
-        <p>Prueba.</p>
-    </section>
+        <h1 class="hero-title">Bienvenido a Rocky</h1>
 
-    <footer class="footer">
-        <small>Rocky App — Página de bienvenida</small>
-    </footer>
+        <p class="hero-text">
+            Tu compañero definitivo para el seguimiento de entrenamientos y progreso.
+        </p>
+        <p class="hero-text">
+            Alcanza tus metas con un sistema inteligente de gestión de rutinas.
+        </p>
+
+        <section class="features">
+            <article class="feature-card">
+                <div class="feature-icon">
+                    <span>🎯</span>
+                </div>
+                <h3 class="feature-title">Crea Rutinas</h3>
+                <p class="feature-desc">Diseña entrenamientos personalizados</p>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon">
+                    <span>⚡</span>
+                </div>
+                <h3 class="feature-title">Seguimiento en Tiempo Real</h3>
+                <p class="feature-desc">Temporizadores y control de series</p>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon">
+                    <span>📈</span>
+                </div>
+                <h3 class="feature-title">Mide tu Progreso</h3>
+                <p class="feature-desc">Estadísticas y análisis detallados</p>
+            </article>
+        </section>
+        
+        <div class="hero-cta">
+            <a class="btn-primary" th:href="@{/login}">Comenzar Ahora</a>
+        </div>
+
+        <p class="hero-tagline">
+            Transforma tu entrenamiento, alcanza tus objetivos
+        </p>
+    </main>
 </div>
 </body>
 </html>
+
 
