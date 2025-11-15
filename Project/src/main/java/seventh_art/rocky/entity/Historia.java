@@ -1,11 +1,25 @@
 package seventh_art.rocky.entity;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import lombok.*;
-
 import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(
@@ -24,19 +38,21 @@ public class Historia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Positive @NotBlank
+    @NotNull
+    @Positive
     @Column(nullable = false)
-    private String tiempo;              //En segundos
+    private Long tiempo;              //En segundos
 
-    @NotBlank
+    @NotNull
+    @PastOrPresent
     @Column(nullable = false)
     private LocalDate fecha;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
-            name = "idRutina",
+            name = "id_rutina",
             nullable = false,
             foreignKey = @ForeignKey(name = "fk_historia_rutina")
     )
-    private Rutina idRutina;
+    private Rutina rutina;
 }
