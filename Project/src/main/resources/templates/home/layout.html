@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<!-- ========================= -->
+<!-- HEAD (fragmento reutilizable) -->
+<!-- ========================= -->
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} ?: 'Rocky Gym'">Rocky Gym</title>
+
+
+    <!-- Estilos globales -->
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+
+    <!-- Favicon (opcional) -->
+    <link rel="icon" th:href="@{/img/favicon.png}" type="image/png">
+</head>
+
+<body>
+
+<!-- ========================= -->
+<!-- HEADER (fragmento reutilizable) -->
+<!-- ========================= -->
+<header th:fragment="header">
+    <nav class="navbar">
+        <div class="navbar__left">
+            <a th:href="@{/home}" class="navbar__brand">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round"
+                     class="navbar__icon">
+                    <path d="M7 14l3-3 4 4 3-3"/>
+                    <circle cx="7" cy="14" r="2"/>
+                    <circle cx="17" cy="12" r="2"/>
+                </svg>
+                <span>Rocky</span>
+            </a>
+        </div>
+
+        <div class="navbar__right">
+            <a th:href="@{/profile}" class="navbar__link">Mi Perfil</a>
+            <a th:href="@{/logout}" class="btn btn-ghost">Cerrar sesión</a>
+        </div>
+    </nav>
+</header>
+
+<!-- ========================= -->
+<!-- CONTENIDO PRINCIPAL (aquí se insertan las vistas) -->
+<!-- ========================= -->
+<main class="container" th:fragment="content">
+    <!-- Las vistas (login, home, etc.) reemplazan este bloque -->
+</main>
+
+<!-- ========================= -->
+<!-- FOOTER (fragmento reutilizable) -->
+<!-- ========================= -->
+<footer th:fragment="footer">
+    <div class="footer">
+        <p>© 2025 Rocky Gym. Todos los derechos reservados.</p>
+    </div>
+</footer>
+
+</body>
+</html>

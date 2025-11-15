@@ -1,0 +1,349 @@
+/* Variables de color (ajustadas) */
+:root {
+    --color-bg-light: #f9fafb; /* gray-50 */
+    --color-text-dark: oklch(0.145 0 0);
+    --color-text-muted: oklch(0.45 0 0);
+    --color-indigo-50: #eef2ff;
+    --color-indigo-100: #e0e7ff; 
+    --color-indigo-600: #4f46e5;
+    --color-indigo-700: #4338ca;
+    --color-border: #e5e7eb;
+    --color-white: #ffffff;
+    --color-blue-50: #eff6ff; 
+    --color-green-50: #f0fdf4; 
+    --color-orange-50: #fff7ed; 
+    --color-purple-50: #f5f3ff; 
+    /* COLOR ROJO AJUSTADO para Cerrar Sesión */
+    --color-destructive: #db2777; 
+    --color-destructive-hover: #b41662; 
+}
+
+/* ------------------------------------------- */
+/* --- ESTILOS BASE Y LAYOUT DEL PERFIL --- */
+/* ------------------------------------------- */
+/* CAMBIO: Definición de fuente en body para coherencia total */
+body {
+    font-family: ui-sans-serif, system-ui, sans-serif; 
+}
+
+.app-container {
+    min-height: 100vh;
+    background-color: var(--color-bg-light);
+    display: flex;
+    flex-direction: column;
+    color: var(--color-text-dark);
+}
+
+.content-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 64px; 
+    box-sizing: border-box;
+}
+
+.p-4.max-w-screen-lg.mx-auto {
+    padding: 1rem;
+    max-width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- Tipografía y Utilitarios Generales --- */
+h1 { font-size: 1.5rem; font-weight: 700; }
+h2 { font-size: 1.25rem; font-weight: 600; }
+h3 { font-size: 1.125rem; font-weight: 600; }
+.text-muted-foreground { color: var(--color-text-muted); }
+.text-sm { font-size: 0.875rem; }
+.text-xs { font-size: 0.75rem; }
+.text-2xl { font-size: 1.5rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-1 { margin-bottom: 0.25rem; }
+.mr-2 { margin-right: 0.5rem; }
+
+/* --- Cartas (Cards) y Flexbox --- */
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    background-color: var(--color-white);
+}
+
+.flex { display: flex; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-4 { gap: 1rem; }
+.gap-3 { gap: 0.75rem; }
+.flex-1 { flex: 1 1 0%; }
+.rounded-full { border-radius: 9999px; }
+.p-6 { padding: 1.5rem; }
+.p-4 { padding: 1rem; }
+
+.bg-indigo-100 { background-color: var(--color-indigo-100); }
+.text-indigo-600 { color: var(--color-indigo-600); }
+.text-destructive { color: var(--color-destructive); }
+
+/* Grid para Información Personal y Estadísticas */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+    gap: 1rem; 
+}
+
+/* ------------------------------------------- */
+/* --- ESTILOS DE BOTONES --- */
+/* ------------------------------------------- */
+
+/* --- Botón General (Editar) --- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    height: 2.25rem;
+    padding: 0 1rem;
+    cursor: pointer;
+    border: 1px solid var(--color-border); 
+    background-color: var(--color-white);
+    color: var(--color-text-dark);
+    text-decoration: none; 
+    transition: background-color 0.2s;
+}
+.btn:hover {
+    background-color: #f3f4f6;
+}
+
+/* Botones de acción del formulario (Guardar/Cancelar) */
+.btn-primary {
+    background-color: var(--color-indigo-600);
+    color: var(--color-white);
+    border: 1px solid var(--color-indigo-600);
+}
+.btn-primary:hover {
+    background-color: var(--color-indigo-700);
+}
+.btn-cancel {
+    background-color: var(--color-white);
+    color: var(--color-text-dark);
+    border: 1px solid var(--color-border);
+}
+.btn-cancel:hover {
+    background-color: #f3f4f6;
+}
+
+/* --- ESTILO DEL BOTÓN/ENLACE CERRAR SESIÓN (Específico) --- */
+.btn-logout {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem; 
+    white-space: nowrap;
+    text-decoration: none;
+    font-size: 0.875rem; 
+    font-weight: 500; 
+    
+    /* ELIMINAR BORDE Y FONDO, solo texto en rojo */
+    color: var(--color-destructive);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    height: 2.25rem; 
+    transition: color 0.2s;
+}
+
+.btn-logout:hover {
+    color: var(--color-destructive-hover); 
+}
+
+/* --- Estilos de Bloques de Estadísticas --- */
+.card-stat-small {
+    text-align: center;
+    border-radius: 0.5rem;
+}
+/* Colores de Fondo para Estadísticas */
+.card-stat-blue { background-color: var(--color-blue-50); }
+.card-stat-green { background-color: var(--color-green-50); }
+.card-stat-orange { background-color: var(--color-orange-50); }
+.card-stat-purple { background-color: var(--color-purple-50); }
+
+
+/* ------------------------------------------- */
+/* --- BARRA DE NAVEGACIÓN FIJA --- */
+/* ------------------------------------------- */
+.fixed-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--color-white);
+    border-top: 1px solid var(--color-border);
+    height: 64px; 
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
+    z-index: 10;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--color-text-muted);
+    padding: 0.25rem 0.5rem;
+    transition: color 0.2s;
+    flex: 1;
+}
+
+.nav-item:hover {
+    color: var(--color-indigo-600);
+}
+
+.nav-item.active {
+    color: var(--color-indigo-600);
+}
+
+.nav-item .icon-svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-bottom: 2px;
+}
+
+.nav-item span {
+    font-size: 0.6875rem;
+    font-weight: 500;
+}
+
+
+/* ------------------------------------------- */
+/* --- ESTILOS DEL MODAL (DESPLEGABLE) --- */
+/* ------------------------------------------- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    display: none; 
+    justify-content: center;
+    align-items: center;
+    z-index: 100; 
+}
+.modal-content {
+    background-color: var(--color-white);
+    border-radius: 0.75rem;
+    max-width: 600px; 
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 0; 
+}
+
+/* Ajuste para la tarjeta principal del modal */
+.card-user-info-modal {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    border-radius: 0.75rem 0.75rem 0 0;
+    background-color: var(--color-white);
+}
+.card-form-modal {
+    padding: 1.5rem;
+}
+.user-icon-large {
+    padding: 1rem;
+    background-color: var(--color-indigo-100);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.user-icon-large svg {
+    width: 32px;
+    height: 32px;
+    color: var(--color-indigo-600);
+}
+
+/* --- ESTILOS DEL FORMULARIO DE EDICIÓN --- */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+.form-group-full {
+    grid-column: 1 / -1; 
+    margin-bottom: 0.5rem;
+}
+.form-group-half {
+    margin-bottom: 0.5rem;
+}
+.input-field, .input-readonly {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.375rem;
+    font-size: 1rem;
+    box-sizing: border-box;
+    background-color: var(--color-bg-light); 
+    font-family: inherit; /* Asegura que los campos de formulario usen la fuente global */
+}
+.input-readonly {
+     background-color: #f0f0f0; 
+     pointer-events: none; 
+}
+.form-label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-dark);
+    font-family: inherit; /* Asegura que las etiquetas de formulario usen la fuente global */
+}
+.btn-action-group {
+    display: flex;
+    gap: 1rem;
+    grid-column: 1 / -1;
+    justify-content: flex-end; 
+    margin-top: 1.5rem;
+}
+
+
+/* ------------------------------------------- */
+/* --- RESPONSIVIDAD PARA MÓVILES --- */
+/* ------------------------------------------- */
+@media (max-width: 768px) {
+    .p-4.max-w-screen-lg.mx-auto {
+        padding: 0.75rem;
+    }
+    .card {
+        padding: 1rem;
+    }
+    /* Ajuste para los bloques pequeños en móvil: una columna */
+    .stats-grid {
+        grid-template-columns: 1fr; 
+    }
+    
+    /* Ajuste para el formulario de edición en móvil */
+    .form-grid {
+        grid-template-columns: 1fr; 
+    }
+    .form-group-half {
+        grid-column: 1 / -1; 
+    }
+    .btn-action-group {
+        justify-content: center; 
+    }
+}
