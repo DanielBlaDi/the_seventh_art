@@ -19,5 +19,5 @@ To address these needs, Rocky emerges as an application designed to support thos
 Unlike other solutions available on the market, Rocky aims to stand out through the integration of artificial intelligence, capable of recommending exercises and personalized adjustments based on user performance, along with a user-friendly and attractive interface that facilitates continuous interaction with the application.  
 
 ## 🖼️ Logo
-<img width="550" height="556" alt="logo-Rocky" src="https://github.com/user-attachments/assets/5361b4f4-2790-4ac4-ab24-ec0252d38862" />
+<img width="550" height="550" alt="logo-Rocky" src="Project/src/main/resources/static/images/multipurpose/Logo_app.jpg" />
 

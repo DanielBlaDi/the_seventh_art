@@ -1,0 +1,860 @@
+[
+  {
+    "nombre": "Press de banca con barra",
+    "descripcion": "Acuéstate en un banco plano, toma la barra con un agarre ligeramente más amplio que los hombros, baja la barra al pecho y empuja explosivamente hacia arriba.",
+    "imagenUrl": "images/exercises/pecho/press_de_banca_con_barra",
+    "tipoEjercicio": "PECHO"
+  },
+  {
+    "nombre": "Press banca inclinado con mancuernas",
+    "descripcion": "Siéntate en un banco inclinado a 30-45°, empuja las mancuernas hacia arriba manteniendo el pecho elevado y baja controladamente.",
+    "imagenUrl": "images/exercises/pecho/press_banca_inclinado_con_mancuernas",
+    "tipoEjercicio": "PECHO"
+  },
+  {
+    "nombre": "Aperturas en máquina Peck Deck",
+    "descripcion": "Siéntate en la máquina contractora, abraza las almohadillas y lleva los codos al frente juntando las manos al final del movimiento.",
+    "imagenUrl": "images/exercises/pecho/aperturas_en_maquina_peck_deck",
+    "tipoEjercicio": "PECHO"
+  },
+  {
+    "nombre": "Cruce de poleas",
+    "descripcion": "Con ambas poleas altas, lleva los brazos al frente cruzándolos ligeramente manteniendo el pecho firme y codos semiflexionados.",
+    "imagenUrl": "images/exercises/pecho/cruce_de_poleas",
+    "tipoEjercicio": "PECHO"
+  },
+  {
+    "nombre": "Press de banca inclinado con barra",
+    "descripcion": "En banco inclinado, toma la barra y empuja hacia arriba manteniendo los hombros retraídos y el pecho elevado.",
+    "imagenUrl": "images/exercises/pecho/press_de_banca_inclinado_con_barra",
+    "tipoEjercicio": "PECHO"
+  },
+  {
+    "nombre": "Press de banca con mancuernas",
+    "descripcion": "En banco plano, empuja ambas mancuernas hacia arriba manteniendo estabilidad y control en cada repetición.",
+    "imagenUrl": "images/exercises/pecho/press_de_banca_con_mancuernas",
+    "tipoEjercicio": "PECHO"
+  },
+  {
+    "nombre": "Aperturas con mancuernas",
+    "descripcion": "Con mancuernas en banco plano, abre los brazos ampliamente y júntalos arriba sin bloquear los codos.",
+    "imagenUrl": "images/exercises/pecho/aperturas_con_mancuernas",
+    "tipoEjercicio": "PECHO"
+  },
+  {
+    "nombre": "Aperturas inclinadas con mancuernas",
+    "descripcion": "En banco inclinado, abre y cierra los brazos de forma controlada manteniendo la tensión en el pecho superior.",
+    "imagenUrl": "images/exercises/pecho/aperturas_inclinadas_con_mancuernas",
+    "tipoEjercicio": "PECHO"
+  },
+  {
+    "nombre": "Press de banca en máquina sentado",
+    "descripcion": "Ajusta el asiento, toma las empuñaduras y empuja hacia adelante manteniendo la espalda apoyada.",
+    "imagenUrl": "images/exercises/pecho/press_de_banca_en_maquina_sentado",
+    "tipoEjercicio": "PECHO"
+  },
+  {
+    "nombre": "Press de banca declinado con barra",
+    "descripcion": "En banco declinado, baja la barra al pecho inferior y empuja explosivamente hacia arriba.",
+    "imagenUrl": "images/exercises/pecho/press_de_banca_declinado_con_barra",
+    "tipoEjercicio": "PECHO"
+  },
+  {
+    "nombre": "Press de banca declinado con mancuernas",
+    "descripcion": "En declinado, empuja las mancuernas hacia arriba manteniendo el control del recorrido.",
+    "imagenUrl": "images/exercises/pecho/press_de_banca_declinado_con_mancuernas",
+    "tipoEjercicio": "PECHO"
+  },
+  {
+    "nombre": "Flexiones",
+    "descripcion": "Mantén el cuerpo alineado y baja el pecho al suelo empujando luego de forma explosiva.",
+    "imagenUrl": "images/exercises/pecho/flexiones",
+    "tipoEjercicio": "PECHO"
+  },
+  {
+    "nombre": "Remo con mancuerna a una mano",
+    "descripcion": "Coloca una rodilla en el banco, toma una mancuerna y jálala hacia tu cadera manteniendo la espalda recta.",
+    "imagenUrl": "images/exercises/dorsales/remo_con_mancuerna_a_una_mano",
+    "tipoEjercicio": "DORSALES"
+  },
+  {
+    "nombre": "Jalón con agarre ancho",
+    "descripcion": "Toma la barra ancha de la polea alta, retrae escápulas y baja la barra hacia el pecho.",
+    "imagenUrl": "images/exercises/dorsales/jalon_con_agarre_ancho",
+    "tipoEjercicio": "DORSALES"
+  },
+  {
+    "nombre": "Remo en máquina",
+    "descripcion": "Ajusta el asiento, toma las empuñaduras y jala hacia el torso manteniendo el pecho firme.",
+    "imagenUrl": "images/exercises/dorsales/remo_en_maquina",
+    "tipoEjercicio": "DORSALES"
+  },
+  {
+    "nombre": "Jalón al pecho con agarre cerrado",
+    "descripcion": "Con agarre en V, baja la polea al pecho manteniendo los codos cerca del torso.",
+    "imagenUrl": "images/exercises/dorsales/jalon_al_pecho_con_agarre_cerrado",
+    "tipoEjercicio": "DORSALES"
+  },
+  {
+    "nombre": "Remo con barra",
+    "descripcion": "Inclina el torso a 45°, toma la barra y jálala hacia el abdomen manteniendo la espalda neutra.",
+    "imagenUrl": "images/exercises/dorsales/remo_con_barra",
+    "tipoEjercicio": "DORSALES"
+  },
+  {
+    "nombre": "Jalón tras nuca",
+    "descripcion": "Baja la barra detrás de la cabeza manteniendo el torso erguido y control del movimiento.",
+    "imagenUrl": "images/exercises/dorsales/jalon_tras_nuca",
+    "tipoEjercicio": "DORSALES"
+  },
+  {
+    "nombre": "Jalón al pecho con agarre invertido",
+    "descripcion": "Con agarre supinado, baja la barra hacia el pecho enfatizando la activación del dorsal.",
+    "imagenUrl": "images/exercises/dorsales/jalon_al_pecho_con_agarre_invertido",
+    "tipoEjercicio": "DORSALES"
+  },
+  {
+    "nombre": "Jalón en polea con cuerda",
+    "descripcion": "Desde la polea alta, baja la cuerda hacia el pecho manteniendo extensión escapular.",
+    "imagenUrl": "images/exercises/dorsales/jalon_en_polea_con_cuerda",
+    "tipoEjercicio": "DORSALES"
+  },
+  {
+    "nombre": "Remo en barra T",
+    "descripcion": "Toma la barra T y jálala hacia el pecho manteniendo el torso estable.",
+    "imagenUrl": "images/exercises/dorsales/remo_en_barra_t",
+    "tipoEjercicio": "DORSALES"
+  },
+  {
+    "nombre": "Remo inclinado con barra con agarre supinado",
+    "descripcion": "Con agarre supinado, jala la barra hacia el abdomen destacando la porción baja del dorsal.",
+    "imagenUrl": "images/exercises/dorsales/remo_inclinado_con_barra_con_agarre_supinado",
+    "tipoEjercicio": "DORSALES"
+  },
+  {
+    "nombre": "Elevaciones en barra fija",
+    "descripcion": "Cuelga de la barra y eleva el cuerpo hasta que el mentón supere la barra.",
+    "imagenUrl": "images/exercises/dorsales/elevaciones_en_barra_fija",
+    "tipoEjercicio": "DORSALES"
+  },
+  {
+    "nombre": "Elevaciones tras nuca en barra fija",
+    "descripcion": "Eleva el cuerpo buscando llevar la nuca hacia la barra en dominada controlada.",
+    "imagenUrl": "images/exercises/dorsales/elevaciones_tras_nuca_en_barra_fija",
+    "tipoEjercicio": "DORSALES"
+  },
+  {
+    "nombre": "Elevaciones en barra fija con agarre supinado",
+    "descripcion": "Con agarre supinado, eleva el cuerpo activando fuertemente el dorsal y el bíceps.",
+    "imagenUrl": "images/exercises/dorsales/elevaciones_en_barra_fija_con_agarre_supinado",
+    "tipoEjercicio": "DORSALES"
+  },
+  {
+    "nombre": "Jalón dorsal con brazos rectos",
+    "descripcion": "Desde polea alta, baja la barra con brazos extendidos manteniendo tensión constante.",
+    "imagenUrl": "images/exercises/dorsales/jalon_dorsal_con_brazos_rectos",
+    "tipoEjercicio": "DORSALES"
+  },
+  {
+    "nombre": "Remo inclinado con mancuernas",
+    "descripcion": "Con mancuernas, inclina el torso y jala hacia el abdomen manteniendo estabilidad.",
+    "imagenUrl": "images/exercises/dorsales/remo_inclinado_con_mancuernas",
+    "tipoEjercicio": "DORSALES"
+  },
+  {
+    "nombre": "Pullover con mancuerna",
+    "descripcion": "Acostado en banco, lleva la mancuerna detrás de la cabeza y vuelve con control.",
+    "imagenUrl": "images/exercises/dorsales/pullover_con_mancuerna",
+    "tipoEjercicio": "DORSALES"
+  },
+  {
+    "nombre": "Pullover con barra",
+    "descripcion": "Realiza el movimiento llevando la barra atrás de la cabeza y regresando con activación del dorsal.",
+    "imagenUrl": "images/exercises/dorsales/pullover_con_barra",
+    "tipoEjercicio": "DORSALES"
+  },
+  {
+    "nombre": "Peso muerto con barra",
+    "descripcion": "Con barra desde el suelo, extiende cadera y rodillas manteniendo la barra cerca del cuerpo.",
+    "imagenUrl": "images/exercises/erectores_espinales/peso_muerto_con_barra",
+    "tipoEjercicio": "ERECTORES_ESPINALES"
+  },
+  {
+    "nombre": "Peso muerto sumo con barra",
+    "descripcion": "Con pies anchos y puntas abiertas, eleva la barra manteniendo espalda firme.",
+    "imagenUrl": "images/exercises/erectores_espinales/peso_muerto_sumo_con_barra",
+    "tipoEjercicio": "ERECTORES_ESPINALES"
+  },
+  {
+    "nombre": "Peso muerto con barra hexagonal",
+    "descripcion": "Toma la barra hexagonal y elévate impulsando cadera y piernas.",
+    "imagenUrl": "images/exercises/erectores_espinales/peso_muerto_con_barra_hexagonal",
+    "tipoEjercicio": "ERECTORES_ESPINALES"
+  },
+  {
+    "nombre": "Peso muerto con mancuernas",
+    "descripcion": "Con mancuernas, baja manteniendo la espalda recta y sube extendiendo la cadera.",
+    "imagenUrl": "images/exercises/erectores_espinales/peso_muerto_con_mancuernas",
+    "tipoEjercicio": "ERECTORES_ESPINALES"
+  },
+  {
+    "nombre": "Encogimiento de hombros con barra",
+    "descripcion": "Toma la barra y eleva los hombros hacia las orejas sin doblar los codos.",
+    "imagenUrl": "images/exercises/trapecio_superior/encogimiento_de_hombros_con_barra",
+    "tipoEjercicio": "TRAPECIO_SUPERIOR"
+  },
+  {
+    "nombre": "Encogimiento de hombros con mancuernas",
+    "descripcion": "Sujeta las mancuernas y eleva los hombros hacia arriba de manera controlada.",
+    "imagenUrl": "images/exercises/trapecio_superior/encogimiento_de_hombros_con_mancuernas",
+    "tipoEjercicio": "TRAPECIO_SUPERIOR"
+  },
+  {
+    "nombre": "Press de hombro con mancuernas",
+    "descripcion": "Ajustado el respaldo o sentado, sostén una mancuerna en cada mano a la altura de los hombros y empuja hacia arriba hasta extender los brazos sin bloquear.",
+    "imagenUrl": "images/exercises/deltoide_anterior/press_de_hombro_con_mancuernas",
+    "tipoEjercicio": "DELTOIDE_ANTERIOR"
+  },
+  {
+    "nombre": "Elevación lateral con mancuernas",
+    "descripcion": "Eleva las mancuernas hacia los lados hasta la altura del hombro con codos semiflexionados. Controla el movimiento sin balanceo.",
+    "imagenUrl": "images/exercises/deltoide_lateral/elevacion_lateral_con_mancuernas",
+    "tipoEjercicio": "DELTOIDE_LATERAL"
+  },
+  {
+    "nombre": "Elevación frontal con mancuernas",
+    "descripcion": "Eleva las mancuernas al frente hasta la altura del hombro con un movimiento controlado.",
+    "imagenUrl": "images/exercises/deltoide_anterior/elevacion_frontal_con_mancuernas",
+    "tipoEjercicio": "DELTOIDE_ANTERIOR"
+  },
+  {
+    "nombre": "Cruces inversos en polea alta",
+    "descripcion": "Toma las manijas cruzadas y llévalas hacia atrás y arriba para activar la parte posterior del hombro.",
+    "imagenUrl": "images/exercises/deltoide_posterior/cruces_inversos_en_polea_alta",
+    "tipoEjercicio": "DELTOIDE_POSTERIOR"
+  },
+  {
+    "nombre": "Press de hombros en Máquina Smith",
+    "descripcion": "Ajusta el asiento y empuja la barra hacia arriba manteniendo trayectoria controlada.",
+    "imagenUrl": "images/exercises/deltoide_anterior/press_de_hombros_en_maquina_smith",
+    "tipoEjercicio": "DELTOIDE_ANTERIOR"
+  },
+  {
+    "nombre": "Remo alto con barra",
+    "descripcion": "Tira de la barra hacia el mentón manteniendo los codos altos.",
+    "imagenUrl": "images/exercises/deltoide_lateral/remo_alto_con_barra",
+    "tipoEjercicio": "DELTOIDE_LATERAL"
+  },
+  {
+    "nombre": "Elevaciones posteriores para hombros Pájaro",
+    "descripcion": "Inclina el torso hacia adelante y eleva las mancuernas lateralmente para activar deltoides posteriores.",
+    "imagenUrl": "images/exercises/deltoide_posterior/elevaciones_posteriores_para_hombros_pajaro",
+    "tipoEjercicio": "DELTOIDE_POSTERIOR"
+  },
+  {
+    "nombre": "Elevación lateral con cable a una mano",
+    "descripcion": "De pie lateral a la polea, eleva el brazo hacia el lado con resistencia constante.",
+    "imagenUrl": "images/exercises/deltoide_lateral/elevacion_lateral_con_cable_a_una_mano",
+    "tipoEjercicio": "DELTOIDE_LATERAL"
+  },
+  {
+    "nombre": "Press Militar con mancuernas",
+    "descripcion": "Realiza una press vertical con mancuernas manteniendo control y estabilidad.",
+    "imagenUrl": "images/exercises/deltoide_anterior/press_militar_con_mancuernas",
+    "tipoEjercicio": "DELTOIDE_ANTERIOR"
+  },
+  {
+    "nombre": "Press Militar",
+    "descripcion": "Press vertical clásico con barra desde la altura de los hombros hasta la extensión completa.",
+    "imagenUrl": "images/exercises/deltoide_anterior/press_militar",
+    "tipoEjercicio": "DELTOIDE_ANTERIOR"
+  },
+  {
+    "nombre": "Elevaciones frontales con cable a una mano",
+    "descripcion": "Eleva el brazo al frente con polea baja manteniendo el torso estable.",
+    "imagenUrl": "images/exercises/deltoide_anterior/elevaciones_frontales_con_cable_a_una_mano",
+    "tipoEjercicio": "DELTOIDE_ANTERIOR"
+  },
+  {
+    "nombre": "Elevaciones frontales con barra",
+    "descripcion": "Eleva una barra al frente con brazos casi rectos hasta la altura del hombro.",
+    "imagenUrl": "images/exercises/deltoide_anterior/elevaciones_frontales_con_barra",
+    "tipoEjercicio": "DELTOIDE_ANTERIOR"
+  },
+  {
+    "nombre": "Press militar sentado con barra",
+    "descripcion": "Toma la barra a la altura de los hombros y empuja verticalmente.",
+    "imagenUrl": "images/exercises/deltoide_anterior/press_militar_sentado_con_barra",
+    "tipoEjercicio": "DELTOIDE_ANTERIOR"
+  },
+  {
+    "nombre": "Press tras nuca sentado",
+    "descripcion": "Baja la barra detrás de la cabeza y empuja hacia arriba.",
+    "imagenUrl": "images/exercises/deltoide_lateral/press_tras_nuca_sentado",
+    "tipoEjercicio": "DELTOIDE_LATERAL"
+  },
+  {
+    "nombre": "Press militar de pie",
+    "descripcion": "Press vertical de pie con barra, activando mayor estabilidad en core.",
+    "imagenUrl": "images/exercises/deltoide_anterior/press_militar_de_pie",
+    "tipoEjercicio": "DELTOIDE_ANTERIOR"
+  },
+  {
+    "nombre": "Press militar de pie tras nuca",
+    "descripcion": "Variación detrás de la cabeza que activa especialmente deltoide lateral.",
+    "imagenUrl": "images/exercises/deltoide_lateral/press_militar_de_pie_tras_nuca",
+    "tipoEjercicio": "DELTOIDE_LATERAL"
+  },
+  {
+    "nombre": "Elevación frontal con mancuernas alternas agarre neutro",
+    "descripcion": "Alterna elevaciones frontales con agarre neutro para menor tensión en muñeca.",
+    "imagenUrl": "images/exercises/deltoide_anterior/elevacion_frontal_con_mancuernas_alternas_agarre_neutro",
+    "tipoEjercicio": "DELTOIDE_ANTERIOR"
+  },
+  {
+    "nombre": "Elevación frontal con un brazo en polea baja agarre neutro",
+    "descripcion": "Eleva el brazo al frente con polea baja manteniendo control total.",
+    "imagenUrl": "images/exercises/deltoide_anterior/elevacion_frontal_con_un_brazo_en_polea_baja_agarre_neutro",
+    "tipoEjercicio": "DELTOIDE_ANTERIOR"
+  },
+  {
+    "nombre": "Elevación frontal con mancuerna a dos manos",
+    "descripcion": "Sujeta una mancuerna con ambas manos y elévala al frente.",
+    "imagenUrl": "images/exercises/deltoide_anterior/elevacion_frontal_con_mancuerna_a_dos_manos",
+    "tipoEjercicio": "DELTOIDE_ANTERIOR"
+  },
+  {
+    "nombre": "Curl con barra",
+    "descripcion": "De pie, toma la barra con agarre supinado y flexiona los codos manteniendo los brazos pegados al torso. Sube de forma controlada hasta contraer el bíceps y baja manteniendo tensión.",
+    "imagenUrl": "images/exercises/biceps/curl_con_barra",
+    "tipoEjercicio": "BICEPS"
+  },
+  {
+    "nombre": "Curl alterno con mancuernas",
+    "descripcion": "Sostén una mancuerna en cada mano y eleva una a la vez girando la muñeca hacia supinación al subir. Mantén el torso firme y evita balanceos.",
+    "imagenUrl": "images/exercises/biceps/curl_alterno_con_mancuernas",
+    "tipoEjercicio": "BICEPS"
+  },
+  {
+    "nombre": "Curl con cuerda en polea",
+    "descripcion": "Desde la polea baja, toma la cuerda y flexiona los codos llevando las manos hacia los hombros separando ligeramente al final para mayor contracción.",
+    "imagenUrl": "images/exercises/biceps/curl_con_cuerda_en_polea",
+    "tipoEjercicio": "BICEPS"
+  },
+  {
+    "nombre": "Curl con barra EZ",
+    "descripcion": "Toma la barra EZ con agarre supinado y realiza flexión de codo controlada manteniendo los brazos alineados al torso para activar ambas cabezas del bíceps.",
+    "imagenUrl": "images/exercises/biceps/curl_con_barra_ez",
+    "tipoEjercicio": "BICEPS"
+  },
+  {
+    "nombre": "Curl de predicador con barra EZ",
+    "descripcion": "Apoya los brazos en un banco predicador y eleva la barra con un movimiento estricto que evita impulso, enfocando la activación del bíceps.",
+    "imagenUrl": "images/exercises/biceps/curl_de_predicador_con_barra_ez",
+    "tipoEjercicio": "BICEPS"
+  },
+  {
+    "nombre": "Curl inclinado con mancuernas",
+    "descripcion": "Recuéstate en un banco inclinado y realiza el curl manteniendo los brazos extendidos ligeramente hacia atrás para mayor estiramiento del bíceps.",
+    "imagenUrl": "images/exercises/biceps/curl_inclinado_con_mancuernas",
+    "tipoEjercicio": "BICEPS"
+  },
+  {
+    "nombre": "Curl concentrado",
+    "descripcion": "Sentado, apoya el brazo en la parte interna del muslo y flexiona el codo elevando la mancuerna en un movimiento lento y controlado para máxima contracción.",
+    "imagenUrl": "images/exercises/biceps/curl_concentrado",
+    "tipoEjercicio": "BICEPS"
+  },
+  {
+    "nombre": "Curl en polea baja a una mano",
+    "descripcion": "Toma la manija de la polea baja y flexiona el codo manteniendo el brazo pegado al torso. Ideal para una tensión continua del bíceps.",
+    "imagenUrl": "images/exercises/biceps/curl_en_polea_baja_a_una_mano",
+    "tipoEjercicio": "BICEPS"
+  },
+  {
+    "nombre": "Curl en polea baja con barra recta",
+    "descripcion": "Desde polea baja, toma la barra recta y llévala hacia el pecho flexionando los codos para un estímulo uniforme del bíceps.",
+    "imagenUrl": "images/exercises/biceps/curl_en_polea_baja_con_barra_recta",
+    "tipoEjercicio": "BICEPS"
+  },
+  {
+    "nombre": "Curl de polea alta de pie",
+    "descripcion": "Con los brazos elevados a los lados, flexiona los codos llevando las manos hacia la cabeza manteniendo tensión constante.",
+    "imagenUrl": "images/exercises/biceps/curl_de_polea_alta_de_pie",
+    "tipoEjercicio": "BICEPS"
+  },
+  {
+    "nombre": "Curl martillo con mancuernas",
+    "descripcion": "Sostén las mancuernas con agarre neutro y flexiona los codos manteniendo las palmas enfrentadas para activar principalmente braquiorradial y antebrazo.",
+    "imagenUrl": "images/exercises/antebrazo/curl_martillo_con_mancuernas",
+    "tipoEjercicio": "ANTEBRAZO"
+  },
+  {
+    "nombre": "Curl con barra invertido",
+    "descripcion": "Toma la barra con agarre prono y flexiona los codos para trabajar intensamente el braquiorradial y extensores del antebrazo.",
+    "imagenUrl": "images/exercises/antebrazo/curl_con_barra_invertido",
+    "tipoEjercicio": "ANTEBRAZO"
+  },
+  {
+    "nombre": "Curl de muñeca con barra sentado",
+    "descripcion": "Con los antebrazos apoyados en los muslos y la barra en las manos, flexiona las muñecas hacia arriba para activar los flexores del antebrazo.",
+    "imagenUrl": "images/exercises/antebrazo/curl_de_muneca_con_barra_sentado",
+    "tipoEjercicio": "ANTEBRAZO"
+  },
+  {
+    "nombre": "Extensión de muñeca con barra sentado",
+    "descripcion": "Con los antebrazos apoyados y las palmas hacia abajo, extiende las muñecas elevando la barra para trabajar los extensores del antebrazo.",
+    "imagenUrl": "images/exercises/antebrazo/extension_de_muneca_con_barra_sentado",
+    "tipoEjercicio": "ANTEBRAZO"
+  },
+  {
+    "nombre": "Extensión de tríceps tumbado",
+    "descripcion": "Acostado en un banco, baja la barra o mancuernas hacia la frente o detrás de la cabeza y extiende los codos controlando todo el recorrido para activar la cabeza larga del tríceps.",
+    "imagenUrl": "images/exercises/triceps/extension_de_triceps_tumbado",
+    "tipoEjercicio": "TRICEPS"
+  },
+  {
+    "nombre": "Extensión de tríceps en polea",
+    "descripcion": "De pie frente a la polea alta, empuja la barra hacia abajo manteniendo los codos pegados al cuerpo para trabajar la cabeza lateral y medial del tríceps.",
+    "imagenUrl": "images/exercises/triceps/extension_de_triceps_en_polea",
+    "tipoEjercicio": "TRICEPS"
+  },
+  {
+    "nombre": "Extensión de tríceps en polea con cuerda",
+    "descripcion": "Toma la cuerda desde polea alta y extiende los codos separando ligeramente las puntas al final del movimiento para una contracción más completa.",
+    "imagenUrl": "images/exercises/triceps/extension_de_triceps_en_polea_con_cuerda",
+    "tipoEjercicio": "TRICEPS"
+  },
+  {
+    "nombre": "Extensión de tríceps con mancuernas por encima de la cabeza",
+    "descripcion": "Sostén una mancuerna con ambas manos por encima de la cabeza y extiende los codos manteniendo el tronco estable para trabajar la cabeza larga del tríceps.",
+    "imagenUrl": "images/exercises/triceps/extension_de_triceps_con_mancuernas_por_encima_de_la_cabeza",
+    "tipoEjercicio": "TRICEPS"
+  },
+  {
+    "nombre": "Press banca con agarre cerrado",
+    "descripcion": "Realiza un press en banco plano con las manos más juntas para enfatizar la extensión de codo y la activación del tríceps.",
+    "imagenUrl": "images/exercises/triceps/press_banca_con_agarre_cerrado",
+    "tipoEjercicio": "TRICEPS"
+  },
+  {
+    "nombre": "Patadas traseras",
+    "descripcion": "Inclina el torso, eleva el codo y extiende el brazo hacia atrás con mancuerna para aislar la cabeza lateral del tríceps.",
+    "imagenUrl": "images/exercises/triceps/patadas_traseras",
+    "tipoEjercicio": "TRICEPS"
+  },
+  {
+    "nombre": "Extensión de tríceps con cable de agarre inverso con barra",
+    "descripcion": "Toma la barra de polea con agarre supinado y empuja hacia abajo para enfatizar la activación de la cabeza medial del tríceps.",
+    "imagenUrl": "images/exercises/triceps/extension_de_triceps_con_cable_de_agarre_inverso_con_barra",
+    "tipoEjercicio": "TRICEPS"
+  },
+  {
+    "nombre": "Extensión de tríceps con cable a una mano",
+    "descripcion": "Realiza extensiones unilaterales desde polea alta para mantener tensión constante y corregir desequilibrios entre brazos.",
+    "imagenUrl": "images/exercises/triceps/extension_de_triceps_con_cable_a_una_mano",
+    "tipoEjercicio": "TRICEPS"
+  },
+  {
+    "nombre": "Extensión de tríceps a una mano con agarre supinado",
+    "descripcion": "Con agarre supinado, extiende el codo hacia abajo aislando la porción medial del tríceps.",
+    "imagenUrl": "images/exercises/triceps/extension_de_triceps_a_una_mano_con_agarre_supinado",
+    "tipoEjercicio": "TRICEPS"
+  },
+  {
+    "nombre": "Extensión de tríceps con mancuernas tumbado",
+    "descripcion": "Acostado en banco, baja las mancuernas hacia la cabeza y extiende los codos manteniendo los brazos alineados.",
+    "imagenUrl": "images/exercises/triceps/extension_de_triceps_con_mancuernas_tumbado",
+    "tipoEjercicio": "TRICEPS"
+  },
+  {
+    "nombre": "Press francés sentado con barra",
+    "descripcion": "Sentado con la espalda recta, baja la barra por detrás de la cabeza y extiende los codos para activar fuertemente la cabeza larga del tríceps.",
+    "imagenUrl": "images/exercises/triceps/press_frances_sentado_con_barra",
+    "tipoEjercicio": "TRICEPS"
+  },
+  {
+    "nombre": "Fondos en banco",
+    "descripcion": "Con las manos apoyadas en un banco y las piernas extendidas, baja flexionando los codos y empuja hacia arriba para trabajar tríceps.",
+    "imagenUrl": "images/exercises/triceps/fondos_en_banco",
+    "tipoEjercicio": "TRICEPS"
+  },
+  {
+    "nombre": "Fondos en barras paralelas",
+    "descripcion": "Suspéndete en barras paralelas, desciende controladamente y empuja hasta extender los codos para gran activación del tríceps.",
+    "imagenUrl": "images/exercises/triceps/fondos_en_barras_paralelas",
+    "tipoEjercicio": "TRICEPS"
+  },
+  {
+    "nombre": "Crunch",
+    "descripcion": "Acostado boca arriba con rodillas flexionadas, eleva el torso llevando las costillas hacia la pelvis manteniendo la zona lumbar en contacto con el suelo para activar el recto abdominal.",
+    "imagenUrl": "images/exercises/recto_abdominal/crunch",
+    "tipoEjercicio": "RECTO_ABDOMINAL"
+  },
+  {
+    "nombre": "Crunch oblicuo",
+    "descripcion": "Desde posición de crunch, rota ligeramente el torso acercando un hombro hacia la rodilla contraria para activar principalmente los oblicuos.",
+    "imagenUrl": "images/exercises/oblicuos/crunch_oblicuo",
+    "tipoEjercicio": "OBLICUOS"
+  },
+  {
+    "nombre": "Abdominales en máquina",
+    "descripcion": "Sentado en la máquina, flexiona el torso hacia adelante controlando el movimiento para trabajar intensamente el recto abdominal.",
+    "imagenUrl": "images/exercises/recto_abdominal/abdominales_en_maquina",
+    "tipoEjercicio": "RECTO_ABDOMINAL"
+  },
+  {
+    "nombre": "Abdominales con cuerda en polea alta",
+    "descripcion": "De rodillas frente a la polea, flexiona la columna llevando los codos hacia las rodillas manteniendo la cadera estable para aislar el abdomen.",
+    "imagenUrl": "images/exercises/recto_abdominal/abdominales_con_cuerda_en_polea_alta",
+    "tipoEjercicio": "RECTO_ABDOMINAL"
+  },
+  {
+    "nombre": "Plancha",
+    "descripcion": "Coloca antebrazos y puntas de los pies en el suelo manteniendo el cuerpo alineado y el abdomen contraído para fortalecer el core.",
+    "imagenUrl": "images/exercises/recto_abdominal/plancha",
+    "tipoEjercicio": "RECTO_ABDOMINAL"
+  },
+  {
+    "nombre": "Elevación de piernas",
+    "descripcion": "Acostado, eleva las piernas rectas sin despegar la zona lumbar para activar principalmente el abdomen inferior.",
+    "imagenUrl": "images/exercises/recto_abdominal/elevacion_de_piernas",
+    "tipoEjercicio": "RECTO_ABDOMINAL"
+  },
+  {
+    "nombre": "Encogimientos de rodillas para abdominales",
+    "descripcion": "Desde plancha alta o apoyado en paralelas, lleva ambas rodillas al pecho manteniendo estabilidad del torso.",
+    "imagenUrl": "images/exercises/recto_abdominal/encogimientos_de_rodillas_para_abdominales",
+    "tipoEjercicio": "RECTO_ABDOMINAL"
+  },
+  {
+    "nombre": "Abdominales con brazos estirados",
+    "descripcion": "Acostado boca arriba con brazos extendidos detrás de la cabeza, eleva el torso manteniendo los brazos alineados para aumentar la tensión sobre el abdomen.",
+    "imagenUrl": "images/exercises/recto_abdominal/abdominales_con_brazos_estirados",
+    "tipoEjercicio": "RECTO_ABDOMINAL"
+  },
+  {
+    "nombre": "Plancha con flexión",
+    "descripcion": "Desde plancha alta, flexiona los codos bajando hacia el suelo mientras mantienes el core firme, combinando estabilidad y fuerza del recto abdominal.",
+    "imagenUrl": "images/exercises/recto_abdominal/plancha_con_flexion",
+    "tipoEjercicio": "RECTO_ABDOMINAL"
+  },
+  {
+    "nombre": "Sentadilla",
+    "descripcion": "Flexiona rodillas y cadera manteniendo el torso estable para activar principalmente los cuádriceps.",
+    "imagenUrl": "images/exercises/cuadriceps/sentadilla",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "Prensa de piernas",
+    "descripcion": "Empuja la plataforma extendiendo las piernas sin bloquear rodillas para un trabajo dominante del cuádriceps.",
+    "imagenUrl": "images/exercises/cuadriceps/prensa_de_piernas",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "Extensión de piernas",
+    "descripcion": "Eleva la almohadilla extendiendo completamente las rodillas para aislar el cuádriceps.",
+    "imagenUrl": "images/exercises/cuadriceps/extension_de_piernas",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "Zancada",
+    "descripcion": "Da un paso grande hacia adelante y desciende flexionando rodillas para activar fuertemente el cuádriceps.",
+    "imagenUrl": "images/exercises/cuadriceps/zancada",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "Sentadilla Hack",
+    "descripcion": "Desciende por la guía de la máquina manteniendo la espalda apoyada; enfatiza cuádriceps.",
+    "imagenUrl": "images/exercises/cuadriceps/sentadilla_hack",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "Extensión a una pierna",
+    "descripcion": "Realiza extensión unilateral para aislar el cuádriceps y corregir desequilibrios.",
+    "imagenUrl": "images/exercises/cuadriceps/extension_a_una_pierna",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "Sentadilla frontal",
+    "descripcion": "Sostén la barra al frente y baja manteniendo el torso recto para mayor trabajo de cuádriceps.",
+    "imagenUrl": "images/exercises/cuadriceps/sentadilla_frontal",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "Sentadilla Goblet con mancuerna",
+    "descripcion": "Sostén una mancuerna al pecho y desciende en sentadilla vertical para enfocar cuádriceps.",
+    "imagenUrl": "images/exercises/cuadriceps/sentadilla_goblet_con_mancuerna",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "Salto Rodillas al Pecho",
+    "descripcion": "Realiza un salto explosivo elevando las rodillas para trabajar potencia y cuádriceps.",
+    "imagenUrl": "images/exercises/cuadriceps/salto_rodillas_al_pecho",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "Burpees",
+    "descripcion": "Combina sentadilla, salto y extensión de cadera; el movimiento explosivo involucra fuertemente cuádriceps.",
+    "imagenUrl": "images/exercises/cuadriceps/burpees",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "Sentadillas con propio peso",
+    "descripcion": "Ejecuta sentadilla con el propio peso manteniendo control y profundidad.",
+    "imagenUrl": "images/exercises/cuadriceps/sentadillas_con_propio_peso",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "1.5 repeticiones de sentadillas con propio peso",
+    "descripcion": "Realiza una repetición y media para aumentar el tiempo bajo tensión del cuádriceps.",
+    "imagenUrl": "images/exercises/cuadriceps/1_5_repeticiones_de_sentadillas_con_propio_peso",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "Sentadillas con balón medicinal",
+    "descripcion": "Sostén un balón y baja en sentadilla manteniendo el tronco erguido.",
+    "imagenUrl": "images/exercises/cuadriceps/sentadillas_con_balon_medicinal",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "Sentadilla búlgara con barra",
+    "descripcion": "Desciende en sentadilla unilateral con el pie trasero elevado, cargando fuertemente el cuádriceps.",
+    "imagenUrl": "images/exercises/cuadriceps/sentadilla_bulgara_con_barra",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "Sentadilla búlgara con propio peso",
+    "descripcion": "Realiza la sentadilla unilateral enfocada en cuádriceps sin carga adicional.",
+    "imagenUrl": "images/exercises/cuadriceps/sentadilla_bulgara_con_propio_peso",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "Sentadilla con mini banda",
+    "descripcion": "Realiza una sentadilla con banda alrededor de las rodillas para añadir estabilidad sin perder el trabajo principal de cuádriceps.",
+    "imagenUrl": "images/exercises/cuadriceps/sentadilla_con_mini_banda",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "Sentadilla con salto",
+    "descripcion": "Desciende y salta explosivamente para activar cuádriceps y mejorar potencia.",
+    "imagenUrl": "images/exercises/cuadriceps/sentadilla_con_salto",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "Sentadilla isométrica apoyado sobre la pared",
+    "descripcion": "Mantén la posición de sentado contra la pared para fatigar el cuádriceps.",
+    "imagenUrl": "images/exercises/cuadriceps/sentadilla_isometrica_apoyado_sobre_la_pared",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "Caminata de pato",
+    "descripcion": "Avanza en sentadilla profunda para mantener tensión constante sobre los cuádriceps.",
+    "imagenUrl": "images/exercises/cuadriceps/caminata_de_pato",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "Step Up con mancuernas",
+    "descripcion": "Súbete a un banco impulsándote con una pierna para activar principalmente cuádriceps.",
+    "imagenUrl": "images/exercises/cuadriceps/step_up_con_mancuernas",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "Sentadilla Posturas funcionales",
+    "descripcion": "Cambia la posición de los pies en cada repetición para activar distintas porciones del cuádriceps.",
+    "imagenUrl": "images/exercises/cuadriceps/sentadilla_posturas_funcionales",
+    "tipoEjercicio": "CUADRICEPS"
+  },
+  {
+    "nombre": "Curl de pierna tumbado en máquina de femoral",
+    "descripcion": "Acostado boca abajo, flexiona las rodillas llevando los talones hacia los glúteos para activar los isquiotibiales.",
+    "imagenUrl": "images/exercises/isquiotibiales/curl_de_pierna_tumbado_en_maquina_de_femoral",
+    "tipoEjercicio": "ISQUIOTIBIALES"
+  },
+  {
+    "nombre": "Curl de piernas sentado",
+    "descripcion": "Desde posición sentada, flexiona las rodillas contra la resistencia de la máquina para trabajar los femorales.",
+    "imagenUrl": "images/exercises/isquiotibiales/curl_de_piernas_sentado",
+    "tipoEjercicio": "ISQUIOTIBIALES"
+  },
+  {
+    "nombre": "Peso muerto rumano con mancuernas",
+    "descripcion": "Inclina el torso manteniendo piernas casi rectas para estirar y contraer los isquiotibiales.",
+    "imagenUrl": "images/exercises/isquiotibiales/peso_muerto_rumano_con_mancuernas",
+    "tipoEjercicio": "ISQUIOTIBIALES"
+  },
+  {
+    "nombre": "Peso muerto rumano con barra",
+    "descripcion": "Desciende la barra manteniendo ligera flexión de rodilla para enfatizar isquiotibiales y glúteos.",
+    "imagenUrl": "images/exercises/isquiotibiales/peso_muerto_rumano_con_barra",
+    "tipoEjercicio": "ISQUIOTIBIALES"
+  },
+  {
+    "nombre": "Peso muerto con balón medicinal",
+    "descripcion": "Sostén el balón y baja manteniendo piernas casi rectas para activar los isquiotibiales.",
+    "imagenUrl": "images/exercises/isquiotibiales/peso_muerto_con_balon_medicinal",
+    "tipoEjercicio": "ISQUIOTIBIALES"
+  },
+  {
+    "nombre": "Peso muerto a una pierna",
+    "descripcion": "Inclina el torso apoyando el peso en una sola pierna para trabajar femorales y equilibrio.",
+    "imagenUrl": "images/exercises/isquiotibiales/peso_muerto_a_una_pierna",
+    "tipoEjercicio": "ISQUIOTIBIALES"
+  },
+  {
+    "nombre": "Ejercicio “buenos días” con barra",
+    "descripcion": "Inclina el torso desde la cadera manteniendo la espalda recta para activar la cadena posterior, especialmente isquiotibiales.",
+    "imagenUrl": "images/exercises/isquiotibiales/ejercicio_buenos_dias_con_barra",
+    "tipoEjercicio": "ISQUIOTIBIALES"
+  },
+  {
+    "nombre": "Elevaciones de bíceps femoral con máquina GHD",
+    "descripcion": "Realiza extensión de cadera y flexión de rodillas simultánea con la máquina GHD para un trabajo completo de los femorales.",
+    "imagenUrl": "images/exercises/isquiotibiales/elevaciones_de_biceps_femoral_con_maquina_ghd",
+    "tipoEjercicio": "ISQUIOTIBIALES"
+  },
+  {
+    "nombre": "Puente con propio peso",
+    "descripcion": "Acostado boca arriba, eleva la cadera apretando los glúteos para activar el glúteo mayor.",
+    "imagenUrl": "images/exercises/gluteos/puente_con_propio_peso",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Puentes a una pierna",
+    "descripcion": "Con una pierna extendida, eleva la cadera para trabajar intensamente el glúteo mayor de forma unilateral.",
+    "imagenUrl": "images/exercises/gluteos/puentes_a_una_pierna",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Puente con bandas",
+    "descripcion": "Realiza elevaciones de cadera con banda en las rodillas para aumentar la activación del glúteo mayor y medio.",
+    "imagenUrl": "images/exercises/gluteos/puente_con_bandas",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Elevaciones de cadera con maquina Smith",
+    "descripcion": "Eleva la cadera con la barra guiada de la Smith para sobrecargar el glúteo mayor.",
+    "imagenUrl": "images/exercises/gluteos/elevaciones_de_cadera_con_maquina_smith",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Elevaciones de cadera con barra",
+    "descripcion": "Realiza hip thrust con barra para máxima activación del glúteo mayor.",
+    "imagenUrl": "images/exercises/gluteos/elevaciones_de_cadera_con_barra",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Peso muerto con balón medicinal",
+    "descripcion": "Desciende manteniendo piernas casi rectas para activar los glúteos durante la extensión.",
+    "imagenUrl": "images/exercises/gluteos/peso_muerto_con_balon_medicinal",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Peso muerto a una pierna",
+    "descripcion": "Inclina el torso apoyado en una pierna para trabajar glúteo mayor y estabilidad.",
+    "imagenUrl": "images/exercises/gluteos/peso_muerto_a_una_pierna",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Columpios con kettlebell",
+    "descripcion": "Genera un impulso desde la cadera para activación explosiva del glúteo mayor.",
+    "imagenUrl": "images/exercises/gluteos/columpios_con_kettlebell",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Patadas de burro",
+    "descripcion": "Desde cuadrupedia, eleva la pierna hacia atrás para activar de forma aislada el glúteo mayor.",
+    "imagenUrl": "images/exercises/gluteos/patadas_de_burro",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Elevaciones de cadera acostado lateralmente",
+    "descripcion": "Desde posición lateral, eleva la cadera contrayendo glúteos y abductores.",
+    "imagenUrl": "images/exercises/gluteos/elevaciones_de_cadera_acostado_lateralmente",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Caminata lateral con minibanda",
+    "descripcion": "Da pasos laterales con banda en las rodillas para activar el glúteo medio.",
+    "imagenUrl": "images/exercises/gluteos/caminata_lateral_con_minibanda",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Caminata de pato",
+    "descripcion": "Desplázate en sentadilla profunda para activar glúteos y abductores.",
+    "imagenUrl": "images/exercises/gluteos/caminata_de_pato",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Hidrantes",
+    "descripcion": "Eleva la pierna lateralmente en cuadrupedia para trabajar específicamente el glúteo medio.",
+    "imagenUrl": "images/exercises/gluteos/hidrantes",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Abducciones de cadera sentado con banda",
+    "descripcion": "Separa las rodillas contra la resistencia de la banda para activar abductores y glúteo medio.",
+    "imagenUrl": "images/exercises/gluteos/abducciones_de_cadera_sentado_con_banda",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Abducción de cadera con máquina de abducción de cadera",
+    "descripcion": "Separa las piernas empujando hacia afuera para activar el glúteo medio.",
+    "imagenUrl": "images/exercises/gluteos/abduccion_de_cadera_con_maquina_de_abduccion_de_cadera",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Abducción con polea",
+    "descripcion": "Realiza abducción de cadera en polea para trabajar glúteo medio y menor.",
+    "imagenUrl": "images/exercises/gluteos/abduccion_con_polea",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Elevaciones en posición de rana con propio peso",
+    "descripcion": "Con plantas de los pies unidas, eleva la cadera para activar los glúteos manteniendo rotación externa.",
+    "imagenUrl": "images/exercises/gluteos/elevaciones_en_posicion_de_rana_con_propio_peso",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Elevaciones cortas en posición de rana con maquina Smith",
+    "descripcion": "Realiza elevaciones pequeñas en posición de rana bajo carga en la Smith para máxima tensión en glúteos.",
+    "imagenUrl": "images/exercises/gluteos/elevaciones_cortas_en_posicion_de_rana_con_maquina_smith",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Almejas laterales con banda",
+    "descripcion": "Abre la rodilla superior manteniendo pies juntos para activar el glúteo medio.",
+    "imagenUrl": "images/exercises/gluteos/almejas_laterales_con_banda",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Levantamiento de pierna acostado de lado",
+    "descripcion": "Eleva la pierna recta lateralmente para aislar el glúteo medio.",
+    "imagenUrl": "images/exercises/gluteos/levantamiento_de_pierna_acostado_de_lado",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Contragolpe con cable",
+    "descripcion": "Extiende la pierna hacia atrás con cable para trabajar el glúteo mayor.",
+    "imagenUrl": "images/exercises/gluteos/contragolpe_con_cable",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Los Groiners",
+    "descripcion": "Avanza con una pierna hacia adelante desde plancha para activar glúteos y movilidad de cadera.",
+    "imagenUrl": "images/exercises/gluteos/los_groiners",
+    "tipoEjercicio": "GLUTEOS"
+  },
+  {
+    "nombre": "Ejercicio Superman en cuadrupedia",
+    "descripcion": "Desde posición de cuadrupedia, extiende brazo y pierna contraria manteniendo la columna estable para activar los erectores espinales y mejorar la estabilidad del core posterior.",
+    "imagenUrl": "images/exercises/erectores_espinales/ejercicio_superman_en_cuadrupedia",
+    "tipoEjercicio": "ERECTORES_ESPINALES"
+  },
+  {
+    "nombre": "Elevación de gemelos sentado",
+    "descripcion": "Sentado en la máquina o con peso sobre las rodillas, eleva los talones para activar el sóleo y fortalecer los gemelos.",
+    "imagenUrl": "images/exercises/gemelos/elevacion_de_gemelos_sentado",
+    "tipoEjercicio": "GEMELOS"
+  }
+]
