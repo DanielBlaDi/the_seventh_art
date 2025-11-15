@@ -71,7 +71,7 @@ public class RegistroService {
             perfil.setImc(imc);
         }
 
-        perfil.setIdUsuario(usuario);
+        //perfil.setIdUsuario(usuario);
 
         perfil = perfilRepository.save(perfil);
 
@@ -79,7 +79,7 @@ public class RegistroService {
             Peso peso = new Peso();
             peso.setValor(dto.getPeso());
             peso.setFecha(LocalDateTime.now());
-            peso.setIdPerfil(perfil);
+            //peso.setIdPerfil(perfil);
             pesoRepository.save(peso);
         }
     }

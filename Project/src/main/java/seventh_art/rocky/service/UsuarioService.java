@@ -68,7 +68,7 @@ public class UsuarioService {
             Usuario usuario = new Usuario();
             usuario.setEmail(email);
             String randomPassword = UUID.randomUUID().toString();
-            usuario.setNombre(null); //Quitar cuando se cambie la base de datos
+            //usuario.setNombre(null); //Quitar cuando se cambie la base de datos
             usuario.setPassword(passwordEncoder.encode(randomPassword));  //Podría ser null si no se usa contraseña
             System.out.println("Registrando nuevo usuario Google con email: " + email);
             return repo.save(usuario);

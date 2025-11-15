@@ -75,11 +75,16 @@ public class AuthController {
         try {
             // usuarioService.crear(usuario); comentado provisionalmente para visualizar paso 2
             System.out.println("Usuario creado correctamente!");
-            return "redirect:/registro/paso2";
+            return "redirect:/registro/cuenta-creada";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
             return "/registro";
         }
+    }
+
+    @GetMapping("/registro/cuenta-creada")
+    public String mostrarCuentaCreada() {
+        return "register/cuenta-creada";
     }
 
     @GetMapping("/registro/paso2")
