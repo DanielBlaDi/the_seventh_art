@@ -38,8 +38,9 @@
             ¿Ya tienes una cuenta?
             <a th:href="@{/login}" class="link-inline">Inicia sesión</a>
         </p>
-
-        <p class="form-error" th:if="${error}" th:text="${error}"></p>
+        <ul class="error-list" th:if="${error}">
+            <li th:each="err : ${error}" th:text="${err}"></li>
+        </ul>
     </form>
 </main>
 

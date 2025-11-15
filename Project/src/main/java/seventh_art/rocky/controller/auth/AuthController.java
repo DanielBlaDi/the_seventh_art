@@ -55,7 +55,7 @@ public class AuthController {
             // Realizar un mensaje login exitoso
             // Mostrarlo en la vista de login por 2 segundos antes de redirigir al home
 
-            return "redirect:/prueba";   //Redirigir a la pagina del Home - Tiene el botón de logout
+            return "redirect:/principal_home";   //Redirigir a la pagina del Home - Tiene el botón de logout
         } catch (AuthenticationException ex) {
 
             //Mostrar mensaje de error en la verificación de credenciales

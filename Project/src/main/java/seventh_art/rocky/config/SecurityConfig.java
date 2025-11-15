@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .oauth2Login(oauth -> oauth
                     .loginPage("/login")                      // desde dónde se inicia el login
                     .userInfoEndpoint(ui -> ui.oidcUserService(googleOidcUserService)) // servicio para cargar el usuario desde Google
-                    .defaultSuccessUrl("/prueba", true) // la vista a donde se dirige tras login Google
+                    .defaultSuccessUrl("/principal_home", true) // la vista a donde se dirige tras login Google
                     .failureUrl("/login?error")             // FALTA CREAR LA VISTA DE ERROR
                 )
                 .logout(logout -> logout
