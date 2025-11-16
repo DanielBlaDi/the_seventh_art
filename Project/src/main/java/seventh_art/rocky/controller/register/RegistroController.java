@@ -103,6 +103,12 @@ public class RegistroController {
         session.removeAttribute("registroDTO");
 
         // Redirigir a donde quieras que llegue el usuario ya registrado
-        return "redirect:/principal_home";
+        return "redirect:/registro/registro-exitoso";
+
+    }
+
+    @GetMapping("/registro/registro-exitoso")
+    public String mostrarRegistroExitoso() {
+        return "register/registro-exitoso"; // tu vista de registro exitoso
     }
 }
