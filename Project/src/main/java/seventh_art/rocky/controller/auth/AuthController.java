@@ -70,14 +70,10 @@ public class AuthController {
                                    Model model,
                                    HttpSession session) {
         try {
-<<<<<<< Updated upstream
-            // usuarioService.crear(usuario); comentado provisionalmente para visualizar paso 2
             System.out.println("Usuario creado correctamente!");
-=======
             Usuario creado = usuarioService.crear(usuario);
             session.setAttribute("usuarioRegistroId", creado.getId());
 
->>>>>>> Stashed changes
             return "redirect:/registro/cuenta-creada";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());

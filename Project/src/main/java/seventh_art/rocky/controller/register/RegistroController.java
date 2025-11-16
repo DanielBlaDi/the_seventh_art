@@ -21,11 +21,13 @@ public class RegistroController {
     // ---- PANTALLA "CUENTA CREADA" ---- //
     @GetMapping("/registro/cuenta-creada")
     public String mostrarCuentaCreada(HttpSession session) {
-        // Si alguien intenta llegar aquí sin tener usuario en sesión, lo regresamos al paso 1
+       // Seguridad básica: debe existir un usuario en proceso de registro
         if (session.getAttribute("usuarioRegistroId") == null) {
             return "redirect:/registro";
         }
-        return "register/cuenta-creada"; // tu vista cuenta-creada.html
+
+        // Mostrar la vista de cuenta creada
+        return "register/cuenta-creada";
     }
 
     // ---- PASO 2: DATOS PERSONALES ---- //
