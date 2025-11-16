@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{home/layout :: head('Registro - Paso 3')}"></head>
+
+<body class="bg-auth">
+<main class="card card--narrow">
+
+  <div class="logo-circle">
+    <img src="/img/dumbbell.svg" alt="Logo Rocky">
+  </div>
+
+  <h1 class="title">Crear Cuenta</h1>
+  <p class="subtitle">Paso 3 de 3</p>
+
+  <!-- barra de pasos -->
+  <div class="steps">
+    <span class="step is-active"></span>
+    <span class="step is-active"></span>
+    <span class="step is-active"></span>
+  </div>
+
+  <form class="form" th:action="@{/registro/paso3}" method="post">
+
+    <!-- Objetivo -->
+    <p class="form-help">¿Cuál es tu objetivo?</p>
+
+    <div class="objective-group">
+      <div class="objective-option">
+        <input type="radio" id="obj-subir" name="objetivo" value="SUBIR" required>
+        <label for="obj-subir">Subir de peso</label>
+      </div>
+      <div class="objective-option">
+        <input type="radio" id="obj-bajar" name="objetivo" value="BAJAR">
+        <label for="obj-bajar">Bajar de peso</label>
+      </div>
+      <div class="objective-option">
+        <input type="radio" id="obj-mantener" name="objetivo" value="MANTENER">
+        <label for="obj-mantener">Mantener peso actual</label>
+      </div>
+    </div>
+
+    <!-- Meta semanal -->
+    <p class="form-help" style="margin-top:18px;">Meta semanal de entrenamientos</p>
+    <p class="form-help">Selecciona cuántos días por semana planeas entrenar</p>
+
+    <div class="days-grid">
+      <div class="day-option">
+        <input type="radio" id="dias-2" name="diasSemana" value="2" required>
+        <label for="dias-2">
+          <span class="day-number">2</span>
+          <span class="day-text">días</span>
+        </label>
+      </div>
+      <div class="day-option">
+        <input type="radio" id="dias-3" name="diasSemana" value="3">
+        <label for="dias-3">
+          <span class="day-number">3</span>
+          <span class="day-text">días</span>
+        </label>
+      </div>
+      <div class="day-option">
+        <input type="radio" id="dias-4" name="diasSemana" value="4">
+        <label for="dias-4">
+          <span class="day-number">4</span>
+          <span class="day-text">días</span>
+        </label>
+      </div>
+      <div class="day-option">
+        <input type="radio" id="dias-5" name="diasSemana" value="5">
+        <label for="dias-5">
+          <span class="day-number">5</span>
+          <span class="day-text">días</span>
+        </label>
+      </div>
+      <div class="day-option">
+        <input type="radio" id="dias-6" name="diasSemana" value="6">
+        <label for="dias-6">
+          <span class="day-number">6</span>
+          <span class="day-text">días</span>
+        </label>
+      </div>
+      <div class="day-option">
+        <input type="radio" id="dias-7" name="diasSemana" value="7">
+        <label for="dias-7">
+          <span class="day-number">7</span>
+          <span class="day-text">días</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="form-buttons">
+      <a class="btn btn-outline" th:href="@{/registro/paso2}">Atrás</a>
+      <button class="btn btn-primary" type="submit">Finalizar</button>
+    </div>
+
+    <p class="auth-foot">
+      ¿Ya tienes una cuenta?
+      <a th:href="@{/login}" class="link-inline">Inicia sesión</a>
+    </p>
+
+  </form>
+</main>
+
+<footer th:replace="~{home/layout :: footer}"></footer>
+</body>
+</html>
