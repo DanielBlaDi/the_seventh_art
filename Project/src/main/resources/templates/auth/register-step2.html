@@ -61,8 +61,12 @@
         <input class="form-input"
                id="edad"
                type="number"
+               min="15"
+               max="120"
                placeholder="25"
                th:field="*{edad}" />
+
+        <p class="form-hint">La edad debe estar entre 15 y 120 años.</p>
 
         <p class="form-error"
            th:if="${#fields.hasErrors('edad')}"
@@ -93,8 +97,12 @@
                step="0.1"
                placeholder="70.5"
                th:field="*{peso}" />
-        <p class="form-error" th:if="${#fields.hasErrors('peso')}"
-        th:errors="*{peso}">
+
+        <p class="form-hint">El peso debe estar entre 10 y 350 kg.</p>
+
+        <p class="form-error"
+           th:if="${#fields.hasErrors('peso')}"
+           th:errors="*{peso}">
         </p>
 
         <!-- Estatura en metros -->
@@ -107,11 +115,13 @@
                step="0.01"
                placeholder="1.70"
                th:field="*{estatura}" />
+
+        <p class="form-hint">La estatura debe estar entre 1.00 y 2.50 m.</p>
+
         <p class="form-error"
            th:if="${#fields.hasErrors('estatura')}"
            th:errors="*{estatura}">
         </p>
-
 
         <!-- Botones -->
         <div class="form-buttons">
