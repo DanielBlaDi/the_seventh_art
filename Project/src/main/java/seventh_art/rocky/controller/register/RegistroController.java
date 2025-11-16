@@ -1,6 +1,7 @@
 package seventh_art.rocky.controller.register;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,41 +33,39 @@ public class RegistroController {
 
     // ---- PASO 2: DATOS PERSONALES ---- //
     @GetMapping("/registro/paso2")
-    public String mostrarPaso2(HttpSession session) {
-        // Seguridad básica: debe existir un usuario en proceso de registro
+    public String mostrarPaso2(HttpSession session, Model model) {
+
         if (session.getAttribute("usuarioRegistroId") == null) {
             return "redirect:/registro";
         }
-        return "auth/register-step2"; // tu vista de paso 2
+
+        // Si no hay DTO en sesión, crear uno vacío
+        if (!model.containsAttribute("registroDTO")) {
+            RegistroDTO dto = (RegistroDTO) session.getAttribute("registroDTO");
+            if (dto == null) dto = new RegistroDTO();
+            model.addAttribute("registroDTO", dto);
+        }
+
+        return "auth/register-step2";
     }
 
     @PostMapping("/registro/paso2")
-    public String procesarPaso2(@RequestParam String nombre,
-                                @RequestParam String apellido,
-                                @RequestParam Integer edad,
-                                @RequestParam String sexo,
-                                @RequestParam Float peso,
-                                @RequestParam Float estatura,
-                                HttpSession session) {
+    public String procesarPaso2(
+            @Valid @ModelAttribute("registroDTO") RegistroDTO dto,
+            org.springframework.validation.BindingResult result,
+            HttpSession session) {
 
-        // Recuperar DTO de sesión o crearlo nuevo
-        RegistroDTO dto = (RegistroDTO) session.getAttribute("registroDTO");
-        if (dto == null) {
-            dto = new RegistroDTO();
+        // Si hay errores de validación, volvemos al formulario del paso 2
+        if (result.hasErrors()) {
+            return "auth/register-step2";
         }
 
-        dto.setNombre(nombre);
-        dto.setApellido(apellido);
-        dto.setEdad(edad);
-        dto.setSexo(Sexo.valueOf(sexo));  // "M" / "F" según tu enum
-        dto.setPeso(peso);
-        dto.setEstatura(estatura);        // viene en metros desde el form
-
-        // Guardar en sesión
+        // Si todo es válido, guardamos el DTO en la sesión
         session.setAttribute("registroDTO", dto);
 
         return "redirect:/registro/paso3";
     }
+
 
     // ---- PASO 3: OBJETIVO Y DÍAS POR SEMANA ---- //
     @GetMapping("/registro/paso3")
