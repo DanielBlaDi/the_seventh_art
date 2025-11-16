@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -65,7 +66,7 @@ public class Perfil {
     private Integer rachaDeseada;       // En dias (semanalmente)
 
     @NotNull
-    @Positive 
+    @Min(0)
     @Column(nullable = false)
     private Integer rachaActual;
 
