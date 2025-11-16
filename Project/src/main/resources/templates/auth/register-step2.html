@@ -93,8 +93,7 @@
                step="0.1"
                placeholder="70.5"
                th:field="*{peso}" />
-        <p class="form-error
-        th:if="${#fields.hasErrors('peso')}"
+        <p class="form-error" th:if="${#fields.hasErrors('peso')}"
         th:errors="*{peso}">
         </p>
 
