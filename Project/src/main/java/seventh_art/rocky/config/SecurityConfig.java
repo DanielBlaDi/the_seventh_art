@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import seventh_art.rocky.repository.UsuarioRepository;
+import seventh_art.rocky.service.auth.CustomLoginSuccessHandler;
 //import seventh_art.rocky.service.auth.GoogleOAuth2UserService;
 import seventh_art.rocky.service.auth.GoogleOidcUserService;
 
@@ -22,9 +23,12 @@ public class SecurityConfig {
 
     //private final GoogleOAuth2UserService googleOAuth2UserService;
     private final GoogleOidcUserService googleOidcUserService;
+    private final CustomLoginSuccessHandler customLoginSuccessHandler;
 
-    public SecurityConfig(GoogleOidcUserService googleOidcUserService) {
+    public SecurityConfig(GoogleOidcUserService googleOidcUserService,
+                          CustomLoginSuccessHandler customLoginSuccessHandler) {
         this.googleOidcUserService = googleOidcUserService;
+        this.customLoginSuccessHandler = customLoginSuccessHandler;
     }
 
     @Bean
@@ -42,7 +46,8 @@ public class SecurityConfig {
                 .oauth2Login(oauth -> oauth
                     .loginPage("/login")                      // desde dónde se inicia el login
                     .userInfoEndpoint(ui -> ui.oidcUserService(googleOidcUserService)) // servicio para cargar el usuario desde Google
-                    .defaultSuccessUrl("/principal_home", true) // la vista a donde se dirige tras login Google
+                    //.defaultSuccessUrl("/principal_home", true) // la vista a donde se dirige tras login Google
+                    .successHandler(customLoginSuccessHandler)
                     .failureUrl("/login?error")             // FALTA CREAR LA VISTA DE ERROR
                 )
                 .logout(logout -> logout

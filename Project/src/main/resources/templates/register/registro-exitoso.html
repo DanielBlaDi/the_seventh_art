@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{home/layout :: head('Registro Exitoso')}"></head>
+
+<body class="bg-auth">
+
+<div class="page-wrapper">
+    <div class="card card--narrow">
+
+        <!-- Icono de check -->
+        <div class="icon-wrapper" style="margin-bottom: 10px;">
+            <div class="icon-circle">
+                <svg viewBox="0 0 24 24" class="check-icon">
+                    <circle cx="12" cy="12" r="11" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <path d="M7 12.5l3 3.2 6-7.2"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+
+        <h1 class="title">¡Tu cuenta fue creada con éxito!</h1>
+
+        <p class="subtitle" style="margin-bottom: 20px;">
+            El registro ha finalizado correctamente.
+            Ahora puedes iniciar sesión para acceder a tu cuenta y comenzar a personalizar tu experiencia.
+        </p>
+
+        <a th:href="@{/login}" class="btn btn-primary" style="width: 100%;">Iniciar Sesión</a>
+
+    </div>
+</div>
+
+<footer th:replace="~{home/layout :: footer}"></footer>
+</body>
+</html>
