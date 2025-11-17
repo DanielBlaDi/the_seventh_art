@@ -20,7 +20,11 @@
         <span class="step"></span>
     </div>
 
-    <form class="form" th:action="@{/registro/paso2}" method="post">
+    <!-- Importante: enlazamos el formulario con RegistroDTO -->
+    <form class="form"
+          th:action="@{/registro/paso2}"
+          th:object="${registroDTO}"
+          method="post">
 
         <p class="form-help">
             Ingresa tus datos personales para personalizar tu experiencia
@@ -30,56 +34,94 @@
         <label class="form-label" for="nombre">Nombre</label>
         <input class="form-input"
                id="nombre"
-               name="nombre"
                type="text"
                placeholder="Juan"
-               required>
+               th:field="*{nombre}" />
+        <p class="form-error"
+           th:if="${#fields.hasErrors('nombre')}"
+           th:errors="*{nombre}">
+        </p>
 
         <!-- Apellido -->
         <label class="form-label" for="apellido">Apellido</label>
         <input class="form-input"
                id="apellido"
-               name="apellido"
                type="text"
                placeholder="Pérez"
-               required>
+               th:field="*{apellido}" />
+
+        <p class="form-error"
+           th:if="${#fields.hasErrors('apellido')}"
+           th:errors="*{apellido}">
+        </p>
+
 
         <!-- Edad -->
         <label class="form-label" for="edad">Edad</label>
         <input class="form-input"
                id="edad"
-               name="edad"
                type="number"
+               min="15"
+               max="120"
                placeholder="25"
-               required>
+               th:field="*{edad}" />
+
+        <p class="form-hint">La edad debe estar entre 15 y 120 años.</p>
+
+        <p class="form-error"
+           th:if="${#fields.hasErrors('edad')}"
+           th:errors="*{edad}">
+        </p>
 
         <!-- Sexo -->
         <label class="form-label" for="sexo">Sexo</label>
-        <select class="form-input" id="sexo" name="sexo" required>
+        <select class="form-input"
+                id="sexo"
+                th:field="*{sexo}">
             <option value="" disabled selected hidden>Selecciona tu sexo</option>
             <option value="MASCULINO">Masculino</option>
             <option value="FEMENINO">Femenino</option>
         </select>
+        <p class="form-error"
+           th:if="${#fields.hasErrors('sexo')}"
+           th:errors="*{sexo}">
+        </p>
 
         <!-- Peso -->
         <label class="form-label" for="peso">Peso (kg)</label>
         <input class="form-input"
                id="peso"
-               name="peso"
                type="number"
+               min="10"
+               max="350"
                step="0.1"
-               placeholder="70"
-               required>
+               placeholder="70.5"
+               th:field="*{peso}" />
+
+        <p class="form-hint">El peso debe estar entre 10 y 350 kg.</p>
+
+        <p class="form-error"
+           th:if="${#fields.hasErrors('peso')}"
+           th:errors="*{peso}">
+        </p>
 
         <!-- Estatura en metros -->
         <label class="form-label" for="estatura">Estatura (m)</label>
         <input class="form-input"
                id="estatura"
-               name="estatura"
                type="number"
+               min="1"
+               max="2.5"
                step="0.01"
                placeholder="1.70"
-               required>
+               th:field="*{estatura}" />
+
+        <p class="form-hint">La estatura debe estar entre 1.00 y 2.50 m.</p>
+
+        <p class="form-error"
+           th:if="${#fields.hasErrors('estatura')}"
+           th:errors="*{estatura}">
+        </p>
 
         <!-- Botones -->
         <div class="form-buttons">
