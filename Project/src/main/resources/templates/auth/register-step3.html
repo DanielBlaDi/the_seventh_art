@@ -21,25 +21,28 @@
 
   <form class="form" th:action="@{/registro/paso3}" method="post">
 
-    <!-- Objetivo -->
-    <p class="form-help">¿Cuál es tu objetivo?</p>
+      <!-- Objetivo -->
+      <p class="form-help">¿Cuál es tu objetivo?</p>
 
-    <div class="objective-group">
-      <div class="objective-option">
-        <input type="radio" id="obj-subir" name="objetivo" value="SUBIR" required>
-        <label for="obj-subir">Subir de peso</label>
+      <div class="objective-group">
+          <div class="objective-option">
+              <input type="radio" id="obj-subir" name="objetivo" value="GANAR_MASA_MUSCULAR" required>
+              <label for="obj-subir">Subir de peso</label>
+          </div>
+          <div class="objective-option">
+              <input type="radio" id="obj-bajar" name="objetivo" value="PERDER_PESO">
+              <label for="obj-bajar">Bajar de peso</label>
+          </div>
+          <div class="objective-option">
+              <input type="radio" id="obj-mantener" name="objetivo" value="MANTENERSE_EN_FORMA">
+              <label for="obj-mantener">Mantener peso actual</label>
+          </div>
       </div>
-      <div class="objective-option">
-        <input type="radio" id="obj-bajar" name="objetivo" value="BAJAR">
-        <label for="obj-bajar">Bajar de peso</label>
-      </div>
-      <div class="objective-option">
-        <input type="radio" id="obj-mantener" name="objetivo" value="MANTENER">
-        <label for="obj-mantener">Mantener peso actual</label>
-      </div>
-    </div>
 
-    <!-- Meta semanal -->
+
+
+
+      <!-- Meta semanal -->
     <p class="form-help" style="margin-top:18px;">Meta semanal de entrenamientos</p>
     <p class="form-help">Selecciona cuántos días por semana planeas entrenar</p>
 

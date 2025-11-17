@@ -27,25 +27,18 @@ public class RegistroService {
         this.pesoRepository = pesoRepository;
     }
 
+    /**
+     * Crea el Perfil y el primer registro de Peso
+     * para un usuario que ya está registrado.
+     */
     @Transactional
-    public void registrarNuevoUsuario(RegistroDTO dto) {
+    public void registrarPerfilYPrimerPeso(Long usuarioId, RegistroDTO dto) {
 
-        // 1. Validaciones de negocio
-        if (usuarioRepository.existsByEmailIgnoreCase(dto.getEmail())) {
-            throw new IllegalArgumentException("El correo ya está registrado.");
-        }
+        // 1. Buscar usuario
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado."));
 
-        if (!dto.getPassword().equals(dto.getPassword2())) {
-            throw new IllegalArgumentException("Las contraseñas no coinciden.");
-        }
-
-        // 2. Crear y guardar Usuario
-        Usuario usuario = new Usuario();
-        usuario.setEmail(dto.getEmail().toLowerCase().trim());
-        usuario.setPassword(dto.getPassword());
-
-        usuario = usuarioRepository.save(usuario);
-
+        // 2. Crear y guardar Perfil
         Perfil perfil = new Perfil();
         perfil.setNombre(dto.getNombre());
         perfil.setApellido(dto.getApellido());
@@ -53,34 +46,50 @@ public class RegistroService {
         perfil.setSexo(dto.getSexo());
         perfil.setObjetivo(dto.getObjetivo());
 
-        // !!!!!
-        if (dto.getRachaDeseada() != null && !dto.getRachaDeseada().isBlank()) {
-            perfil.setRachaDeseada(Integer.parseInt(dto.getRachaDeseada()));
+        if (dto.getRachaDeseada() != null) {
+            perfil.setRachaDeseada(dto.getRachaDeseada());
         } else {
             perfil.setRachaDeseada(1); // valor por defecto
         }
 
-        perfil.setRachaActual(0);           // se arranca con 0
+        perfil.setRachaActual(0);
         perfil.setEstatura(dto.getEstatura());
 
-        // Calcular IMC si hay peso y estatura
+        // IMPORTANTE: aquí asocio el perfil al usuario (ajusta al nombre real del campo)
+        perfil.setUsuario(usuario);
+
+        // Calcular IMC si hay peso y estatura (en METROS)
         if (dto.getPeso() != null && dto.getEstatura() != null && dto.getEstatura() > 0) {
-            // si estatura está en cm (ej: 170), convertimos a metros
-            float estaturaM = dto.getEstatura() / 100f;
+            float estaturaM = dto.getEstatura(); // ya viene en metros desde el form
             float imc = dto.getPeso() / (estaturaM * estaturaM);
             perfil.setImc(imc);
         }
 
-        //perfil.setIdUsuario(usuario);
-
         perfil = perfilRepository.save(perfil);
 
+        // 3. Registrar el primer peso asociado al perfil
         if (dto.getPeso() != null) {
             Peso peso = new Peso();
             peso.setValor(dto.getPeso());
             peso.setFecha(LocalDateTime.now());
-            //peso.setIdPerfil(perfil);
+
+            // Asocia el peso al perfil (ajusta al nombre del campo)
+            peso.setPerfil(perfil);
+
             pesoRepository.save(peso);
         }
+    
+    }
+
+    public boolean esPerfilCompleto(Usuario usuario) {
+        Perfil perfil = perfilRepository.findByUsuarioId(usuario.getId()).orElse(null);
+        return perfil != null
+                && perfil.getNombre() != null && !perfil.getNombre().isEmpty()
+                && perfil.getApellido() != null && !perfil.getApellido().isEmpty()
+                && perfil.getEdad() != null
+                && perfil.getSexo() != null
+                && perfil.getEstatura() != null
+                && perfil.getObjetivo() != null
+                && perfil.getRachaDeseada() != null;
     }
 }

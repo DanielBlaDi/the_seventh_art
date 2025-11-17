@@ -7,18 +7,27 @@ import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import seventh_art.rocky.entity.Usuario;
+import seventh_art.rocky.service.RegistroService;
 import seventh_art.rocky.service.UsuarioService;
 
 @Service
 public class GoogleOidcUserService extends OidcUserService {
 
     private final UsuarioService usuarioService;
+    private final RegistroService registroService;
+    private final HttpSession session;
 
-    public GoogleOidcUserService(UsuarioService usuarioService) {
+    public GoogleOidcUserService(UsuarioService usuarioService, RegistroService registroService, HttpSession session) {
         this.usuarioService = usuarioService;
+        this.registroService = registroService;
+        this.session = session;
     }
 
     @Override
@@ -33,8 +42,16 @@ public class GoogleOidcUserService extends OidcUserService {
         System.out.println(">>> EMAIL: " + email + " <<<");
 
         // Registrar el usuario en la base de datos si no existe
-        usuarioService.registrarGoogleUsuarioSiNoExiste(email);
+        Usuario usuario = usuarioService.registrarGoogleUsuarioSiNoExiste(email);
+        
+        // Guardar en sesión para detectar perfil incompleto
+        if (!registroService.esPerfilCompleto(usuario)) {
+            session.setAttribute("usuarioRegistroId", usuario.getId());
+        }
+        
+        
         System.out.println("Usuario Google registrado: " + email);
+        System.out.println(">>> usuarioRegistroId guardado en sesión: " + usuario.getId());
 
         // Crear un usuario con rol ROLE_USER
         return new DefaultOidcUser(
