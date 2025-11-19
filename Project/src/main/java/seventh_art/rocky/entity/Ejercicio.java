@@ -33,10 +33,10 @@ public class Ejercicio {
     private String nombre;
 
     @NotBlank
-    @Column(nullable = false, length = 200)
+    @Column(nullable = false, length = 1000)
     private String descripcion;
 
-    @Column(unique = true, length = 500)
+    @Column(unique = true, length = 200)
     private String imagenUrl;
 
     @Enumerated(EnumType.STRING)
