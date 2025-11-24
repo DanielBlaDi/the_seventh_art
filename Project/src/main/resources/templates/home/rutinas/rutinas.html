@@ -269,6 +269,29 @@
     </div>
 </div>
 
+<!-- ================= MODAL DESCRIPCIÓN RUTINA ================= -->
+<div id="modalDescripcionRutina" class="modal hidden" aria-hidden="true">
+    <div class="modal-box confirm-box" role="dialog" aria-modal="true" aria-labelledby="descripcionTitulo">
+        <div class="modal-header">
+            <h3 id="descripcionTitulo" class="font-bold">Descripción de la rutina</h3>
+            <button id="cerrarDescripcion" class="close-btn" title="Cerrar">×</button>
+        </div>
+        <div class="modal-body">
+            <p class="text-sm text-muted-foreground">
+                Agrega una breve descripción para tu rutina (opcional).
+            </p>
+            <textarea id="descripcionRutina" rows="4"
+                      style="width:100%; margin-top:.75rem; border-radius:8px; border:1px solid var(--color-border); padding:.6rem; resize:vertical;"
+                      placeholder="Ej: Rutina enfocada en fuerza para tren superior..."></textarea>
+        </div>
+        <div class="modal-footer" style="justify-content:flex-end;">
+            <button id="cancelarDescripcion" class="btn cancelar">Cancelar</button>
+            <button id="hechoDescripcion" class="btn crear">Hecho</button>
+        </div>
+    </div>
+</div>
+
+
 <script>
     // Para que el botón del estado vacío reutilice la misma lógica que el botón principal
     document.addEventListener('DOMContentLoaded', function () {

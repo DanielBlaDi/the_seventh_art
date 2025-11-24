@@ -459,3 +459,33 @@ body {
         height:220px;
     }
 }
+
+.pagination{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:.35rem;
+    margin-top:.6rem;
+}
+
+.pagination button{
+    min-width:32px;
+    height:28px;
+    border-radius:999px;
+    border:1px solid var(--color-border);
+    background:#fff;
+    font-size:.8rem;
+    cursor:pointer;
+    padding:0 .6rem;
+}
+
+.pagination button.active{
+    background:var(--color-indigo-600);
+    color:#fff;
+    border-color:var(--color-indigo-600);
+}
+
+.pagination button:disabled{
+    opacity:.4;
+    cursor:default;
+}
