@@ -1,12 +1,86 @@
-/* ---------- Datos de ejemplo (reemplaza por fetch si quieres) ---------- */
-const ejercicios = [
-  { id:1, nombre:"Sentadillas", categoria:"Piernas", imagen:"https://images.unsplash.com/photo-1554285306-1971a3a8b6f9?w=800&q=60", descripcion:"Ejercicio para piernas.", instrucciones:["Coloca los pies al ancho de hombros.","Baja con control.","Sube empujando con talones."] },
-  { id:2, nombre:"Press de banca", categoria:"Pectorales", imagen:"https://images.unsplash.com/photo-1554284126-6f14f4b62b7f?w=800&q=60", descripcion:"Ejercicio para pecho.", instrucciones:["Acuéstate en el banco.","Baja la barra hasta el pecho.","Empuja hacia arriba."] },
-  { id:3, nombre:"Dominada", categoria:"Espalda", imagen:"https://images.unsplash.com/photo-1526403224742-3da2f3b8e8f7?w=800&q=60", descripcion:"Ejercicio de tracción.", instrucciones:["Agarra la barra.","Tira hasta pasar la barbilla.","Baja controlado."] },
-  { id:4, nombre:"Curl de bíceps", categoria:"Bíceps", imagen:"https://images.unsplash.com/photo-1594737625785-45c66f5ad6a8?w=800&q=60", descripcion:"Aislamiento de bíceps.", instrucciones:["Sujeta mancuerna.","Flexiona el codo.","Baja controlado."] },
-  { id:5, nombre:"Fondos en paralelas", categoria:"Tríceps", imagen:"https://images.unsplash.com/photo-1546484959-fb9b7c2f5b16?w=800&q=60", descripcion:"Trabaja tríceps.", instrucciones:["Apóyate en paralelas.","Baja hasta 90°.","Empuja hasta extender."] }
-];
+/* =========================================================
+   rutinas.js  –  Versión integrada con backend
+   - Carga ejercicios desde /api/ejercicios
+   - Mantiene la lógica de selección, modales y creación
+   ========================================================= */
 
+/* ---------- Datos desde backend ---------- */
+// NOTA: antes tenías un array "const ejercicios = [...]" mock.
+// Ahora usamos este arreglo que se llena llamando a la API.
+let ejercicios = [];
+
+/**
+ * Mapea el enum TipoEjercicio a un texto legible.
+ */
+function formatearTipoEjercicio(tipo) {
+    const map = {
+        PECHO_SUPERIOR: 'Pecho superior',
+        PECHO_MEDIO: 'Pecho medio',
+        PECHO_INFERIOR: 'Pecho inferior',
+        DELTOIDE_ANTERIOR: 'Deltoide anterior',
+        DELTOIDE_LATERAL: 'Deltoide lateral',
+        DELTOIDE_POSTERIOR: 'Deltoide posterior',
+        DORSALES: 'Dorsales',
+        TRAPECIO_SUPERIOR: 'Trapecio superior',
+        TRAPECIO_MEDIO: 'Trapecio medio',
+        TRAPECIO_INFERIOR: 'Trapecio inferior',
+        ROMBOIDES: 'Romboides',
+        ERECTORES_ESPINALES: 'Erectores espinales',
+        BICEPS: 'Bíceps',
+        TRICEPS: 'Tríceps',
+        ANTEBRAZO: 'Antebrazo',
+        GLUTEOS: 'Glúteos',
+        CUADRICEPS: 'Cuádriceps',
+        ISQUIOTIBIALES: 'Isquiotibiales',
+        ADUCTORES: 'Aductores',
+        ABDUCTORES: 'Abductores',
+        GEMELOS: 'Gemelos',
+        SOLEO: 'Sóleo',
+        TIBIAL_ANTERIOR: 'Tibial anterior',
+        RECTO_ABDOMINAL: 'Recto abdominal',
+        OBLICUOS: 'Oblicuos',
+        TRANSVERSO_ABDOMINAL: 'Transverso abdominal',
+        CUELLO: 'Cuello',
+        FULL_BODY: 'Full body',
+        OTRO: 'Otro'
+    };
+    return map[tipo] || tipo || '';
+}
+
+/**
+ * Llama al backend y actualiza el array global "ejercicios".
+ * - Respeta el filtro por grupo muscular (select #filtroGrupo).
+ * - Normaliza los datos al formato que tu UI ya usaba:
+ *   { id, nombre, descripcion, categoria, imagen, instrucciones, tipoEjercicio }
+ */
+async function cargarEjerciciosDesdeBackend() {
+    const filtroGrupo = document.getElementById("filtroGrupo");
+    const tipo = filtroGrupo ? filtroGrupo.value : "TODOS";
+
+    const params = (tipo && tipo !== "TODOS") ? ('?tipo=' + encodeURIComponent(tipo)) : '';
+    const resp = await fetch('/api/ejercicios' + params);
+
+    if (!resp.ok) {
+        console.error('Error al cargar ejercicios:', resp.status);
+        ejercicios = [];
+        return;
+    }
+
+    const data = await resp.json();
+
+    // Normalizamos los campos al formato que usa el frontend
+    ejercicios = data.map(e => ({
+        id: e.id,
+        nombre: e.nombre,
+        descripcion: e.descripcion,
+        categoria: formatearTipoEjercicio(e.tipoEjercicio),
+        tipoEjercicio: e.tipoEjercicio,
+        imagen: e.imagenUrl || "",
+        instrucciones: []  // por ahora vacío; podrías llenarlo en el futuro
+    }));
+}
+
+/* ---------- Seleccionados ---------- */
 let seleccionados = [];
 
 /* ---------- DOM refs ---------- */
@@ -15,7 +89,8 @@ const btnAbrir = document.getElementById("btnAbrirModal");
 const cerrarModal = document.getElementById("cerrarModal");
 const cancelar = document.getElementById("cancelar");
 const listaEjercicios = document.getElementById("listaEjercicios");
-const filtros = document.getElementById("filtros");
+const filtros = document.getElementById("filtros"); // contenedor general
+const filtroGrupo = document.getElementById("filtroGrupo"); // <select>
 const buscarInput = document.getElementById("buscarEjercicio");
 const seleccionadosCont = document.getElementById("seleccionados");
 const contadorSel = document.getElementById("contadorSel");
@@ -37,60 +112,84 @@ const cerrarConfirm = document.getElementById("cerrarConfirm");
 const confirmOk = document.getElementById("confirmOk");
 const confirmText = document.getElementById("confirmText");
 
-/* abrir/cerrar modal crear */
-btnAbrir.addEventListener("click", () => {
-  modal.classList.remove("hidden");
-  modal.setAttribute("aria-hidden","false");
-  renderEjercicios();
-  renderSeleccionados();
-});
-cerrarModal.addEventListener("click", closeModal);
-cancelar.addEventListener("click", closeModal);
-function closeModal(){
-  modal.classList.add("hidden");
-  modal.setAttribute("aria-hidden","true");
+/* =========================================================
+   Abrir / cerrar modal CREAR RUTINA
+   ========================================================= */
+if (btnAbrir) {
+    btnAbrir.addEventListener("click", async () => {
+        modal.classList.remove("hidden");
+        modal.setAttribute("aria-hidden", "false");
+
+        // Cargamos ejercicios del backend y renderizamos
+        await cargarEjerciciosDesdeBackend();
+        renderEjercicios();
+        renderSeleccionados();
+    });
 }
 
-/* cerrar clicking fuera */
-modal.addEventListener("click",(e)=>{ if(e.target===modal) closeModal(); });
+if (cerrarModal) cerrarModal.addEventListener("click", closeModal);
+if (cancelar) cancelar.addEventListener("click", closeModal);
 
-/* abrir/cerrar view modal */
-if(cerrarVer) cerrarVer.addEventListener("click", ()=> modalVer.classList.add("hidden"));
-if(cerrarVerFooter) cerrarVerFooter.addEventListener("click", ()=> modalVer.classList.add("hidden"));
-modalVer.addEventListener("click",(e)=>{ if(e.target===modalVer) modalVer.classList.add("hidden"); });
+function closeModal() {
+    modal.classList.add("hidden");
+    modal.setAttribute("aria-hidden", "true");
+}
 
-/* abrir/cerrar confirm modal */
-if(cerrarConfirm) cerrarConfirm.addEventListener("click", ()=> modalConfirm.classList.add("hidden"));
-if(confirmOk) confirmOk.addEventListener("click", ()=> {
-  modalConfirm.classList.add("hidden");
-  // limpiar y cerrar modal main
-  seleccionados = [];
-  renderSeleccionados();
-  document.getElementById("nombreRutina").value = "";
-  closeModal();
+/* cerrar haciendo click fuera */
+if (modal) {
+    modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+}
+
+/* =========================================================
+   Abrir / cerrar modal VER EJERCICIO
+   ========================================================= */
+if (cerrarVer) cerrarVer.addEventListener("click", () => modalVer.classList.add("hidden"));
+if (cerrarVerFooter) cerrarVerFooter.addEventListener("click", () => modalVer.classList.add("hidden"));
+if (modalVer) {
+    modalVer.addEventListener("click", (e) => { if (e.target === modalVer) modalVer.classList.add("hidden"); });
+}
+
+/* =========================================================
+   Abrir / cerrar modal CONFIRMACIÓN
+   ========================================================= */
+if (cerrarConfirm) cerrarConfirm.addEventListener("click", () => modalConfirm.classList.add("hidden"));
+if (confirmOk) confirmOk.addEventListener("click", () => {
+    modalConfirm.classList.add("hidden");
+    // limpiar y cerrar modal main
+    seleccionados = [];
+    renderSeleccionados();
+    const nombreRutinaInput = document.getElementById("nombreRutina");
+    if (nombreRutinaInput) nombreRutinaInput.value = "";
+    closeModal();
 });
-modalConfirm.addEventListener("click",(e)=>{ if(e.target===modalConfirm) modalConfirm.classList.add("hidden"); });
+if (modalConfirm) {
+    modalConfirm.addEventListener("click", (e) => { if (e.target === modalConfirm) modalConfirm.classList.add("hidden"); });
+}
 
-/* render lista izquierda */
-function renderEjercicios(){
-  const active = document.querySelector(".filter.active");
-  const cat = active ? active.dataset.cat : "Todos";
-  const q = (buscarInput.value || "").toLowerCase().trim();
+/* =========================================================
+   Renderizar lista de ejercicios (panel izquierdo)
+   ========================================================= */
+function renderEjercicios() {
+    const q = (buscarInput.value || "").toLowerCase().trim();
 
-  listaEjercicios.innerHTML = "";
-  const filtrados = ejercicios.filter(e => (cat === "Todos" || e.categoria === cat) && e.nombre.toLowerCase().includes(q));
+    listaEjercicios.innerHTML = "";
+    const filtrados = ejercicios.filter(e =>
+        e.nombre.toLowerCase().includes(q)
+    );
 
-  if(filtrados.length === 0){
-    listaEjercicios.innerHTML = `<div class="ejercicio">No se encontraron ejercicios</div>`;
-    return;
-  }
+    if (filtrados.length === 0) {
+        listaEjercicios.innerHTML = `<div class="ejercicio">No se encontraron ejercicios</div>`;
+        return;
+    }
 
-  filtrados.forEach(e => {
-    const item = document.createElement("div");
-    item.className = "ejercicio";
-    item.innerHTML = `
+    filtrados.forEach(e => {
+        const item = document.createElement("div");
+        item.className = "ejercicio";
+        const imagenBg = e.imagen ? `background-image:url('${e.imagen}')` : '';
+
+        item.innerHTML = `
       <div style="display:flex; align-items:center;">
-        <div style="width:76px; height:56px; border-radius:8px; background-image:url('${e.imagen}'); background-size:cover; background-position:center; border:1px solid var(--color-border);"></div>
+        <div style="width:76px; height:56px; border-radius:8px; ${imagenBg}; background-size:cover; background-position:center; border:1px solid var(--color-border);"></div>
         <div style="margin-left:.8rem">
           <div style="font-weight:700">${e.nombre}</div>
           <div class="meta">${e.categoria}</div>
@@ -108,59 +207,95 @@ function renderEjercicios(){
         </button>
       </div>
     `;
-    listaEjercicios.appendChild(item);
-  });
+        listaEjercicios.appendChild(item);
+    });
 
-  // event listeners delegados
-  listaEjercicios.querySelectorAll(".btn-add").forEach(b => b.addEventListener("click", e => {
-    const id = Number(e.currentTarget.dataset.id);
-    agregarEjercicio(id);
-  }));
+    // event listeners para agregar / ver
+    listaEjercicios.querySelectorAll(".btn-add").forEach(b => b.addEventListener("click", e => {
+        const id = Number(e.currentTarget.dataset.id);
+        agregarEjercicio(id);
+    }));
 
-  listaEjercicios.querySelectorAll(".btn-ver").forEach(b => b.addEventListener("click", e => {
-    const id = Number(e.currentTarget.dataset.id);
-    abrirVerEjercicio(id);
-  }));
+    listaEjercicios.querySelectorAll(".btn-ver").forEach(b => b.addEventListener("click", e => {
+        const id = Number(e.currentTarget.dataset.id);
+        abrirVerEjercicio(id);
+    }));
 }
 
-/* filtros */
-filtros.querySelectorAll(".filter").forEach(btn => {
-  btn.addEventListener("click", () => {
-    filtros.querySelectorAll(".filter").forEach(x => x.classList.remove("active"));
-    btn.classList.add("active");
-    renderEjercicios();
-  });
-});
-
-/* búsqueda */
-buscarInput.addEventListener("input", renderEjercicios);
-
-/* agregar ejercicio (evita duplicados) */
-function agregarEjercicio(id){
-  if(seleccionados.some(s => s.id === id)) return;
-  const e = ejercicios.find(x => x.id === id);
-  if(!e) return;
-  // añadimos campos por defecto (series, reps, peso)
-  seleccionados.push({ ...e, series: 3, repeticiones: 10, peso: "" });
-  renderSeleccionados();
+/* =========================================================
+   Filtro por grupo muscular (select) y búsqueda
+   ========================================================= */
+if (filtroGrupo) {
+    filtroGrupo.addEventListener("change", async () => {
+        await cargarEjerciciosDesdeBackend();
+        renderEjercicios();
+    });
 }
 
-/* render seleccionados (incluye inputs para series/reps/peso y botón eliminar) */
-function renderSeleccionados(){
-  seleccionadosCont.innerHTML = "";
-  contadorSel.textContent = `(${seleccionados.length})`;
+// Los botones .filter (antiguos) siguen funcionando si existen.
+// No te estorban con el select.
+if (filtros) {
+    filtros.querySelectorAll(".filter").forEach(btn => {
+        btn.addEventListener("click", async () => {
+            filtros.querySelectorAll(".filter").forEach(x => x.classList.remove("active"));
+            btn.classList.add("active");
+            await cargarEjerciciosDesdeBackend();
+            renderEjercicios();
+        });
+    });
+}
 
-  if(seleccionados.length === 0){
-    seleccionadosCont.innerHTML = `<div class="ejercicio">No has agregado ejercicios<br><span class="text-muted-foreground">Selecciona al menos uno</span></div>`;
-    return;
-  }
+/* búsqueda por nombre (filtra sobre el array ya cargado) */
+if (buscarInput) {
+    buscarInput.addEventListener("input", () => {
+        renderEjercicios();
+    });
+}
 
-  seleccionados.forEach(s => {
-    const div = document.createElement("div");
-    div.className = "sel-item";
-    div.innerHTML = `
+/* =========================================================
+   Agregar ejercicio a la selección
+   ========================================================= */
+function agregarEjercicio(id) {
+    if (seleccionados.some(s => s.id === id)) return;
+    const e = ejercicios.find(x => x.id === id);
+    if (!e) return;
+
+    // añadimos campos por defecto (series, reps, peso)
+    seleccionados.push({
+        id: e.id,
+        nombre: e.nombre,
+        categoria: e.categoria,
+        imagen: e.imagen,
+        descripcion: e.descripcion,
+        instrucciones: e.instrucciones,
+        series: 3,
+        repeticiones: 10,
+        peso: ""
+    });
+
+    renderSeleccionados();
+}
+
+/* =========================================================
+   Renderizar ejercicios seleccionados (panel derecho)
+   ========================================================= */
+function renderSeleccionados() {
+    seleccionadosCont.innerHTML = "";
+    contadorSel.textContent = `(${seleccionados.length})`;
+
+    if (seleccionados.length === 0) {
+        seleccionadosCont.innerHTML = `<div class="ejercicio">No has agregado ejercicios<br><span class="text-muted-foreground">Selecciona al menos uno</span></div>`;
+        return;
+    }
+
+    seleccionados.forEach(s => {
+        const div = document.createElement("div");
+        div.className = "sel-item";
+        const imagenBg = s.imagen ? `background-image:url('${s.imagen}')` : '';
+
+        div.innerHTML = `
       <div class="sel-left">
-        <div style="width:96px; height:66px; border-radius:8px; background-image:url('${s.imagen}'); background-size:cover; background-position:center; border:1px solid var(--color-border);"></div>
+        <div style="width:96px; height:66px; border-radius:8px; ${imagenBg}; background-size:cover; background-position:center; border:1px solid var(--color-border);"></div>
         <div>
           <div class="sel-name">${s.nombre}</div>
           <div class="sel-small">${s.categoria}</div>
@@ -172,70 +307,95 @@ function renderSeleccionados(){
         </div>
       </div>
       <div>
-        <!-- trash SVG (eliminar) sin borde -->
+        <!-- trash SVG (eliminar) -->
         <button class="btn-eliminar" data-id="${s.id}" title="Quitar">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
         </button>
       </div>
     `;
-    seleccionadosCont.appendChild(div);
-  });
-
-  // listeners eliminar
-  seleccionadosCont.querySelectorAll(".btn-eliminar").forEach(b => b.addEventListener("click", (e) => {
-    const id = Number(e.currentTarget.dataset.id);
-    seleccionados = seleccionados.filter(x => x.id !== id);
-    renderSeleccionados();
-  }));
-
-  // listeners inputs (series/reps/peso)
-  seleccionadosCont.querySelectorAll(".ctrl-number").forEach(inp => {
-    inp.addEventListener("input", (ev) => {
-      const id = Number(ev.currentTarget.dataset.id);
-      const prop = ev.currentTarget.dataset.prop;
-      let val = ev.currentTarget.value;
-      if(prop === "peso" && val === "") { val = ""; } else { val = Number(val) || 0; }
-      seleccionados = seleccionados.map(s => s.id === id ? { ...s, [prop]: val } : s);
+        seleccionadosCont.appendChild(div);
     });
-  });
+
+    // listeners eliminar
+    seleccionadosCont.querySelectorAll(".btn-eliminar").forEach(b => b.addEventListener("click", (e) => {
+        const id = Number(e.currentTarget.dataset.id);
+        seleccionados = seleccionados.filter(x => x.id !== id);
+        renderSeleccionados();
+    }));
+
+    // listeners inputs (series/reps/peso)
+    seleccionadosCont.querySelectorAll(".ctrl-number").forEach(inp => {
+        inp.addEventListener("input", (ev) => {
+            const id = Number(ev.currentTarget.dataset.id);
+            const prop = ev.currentTarget.dataset.prop;
+            let val = ev.currentTarget.value;
+            if (prop === "peso" && val === "") {
+                val = "";
+            } else {
+                val = Number(val) || 0;
+            }
+            seleccionados = seleccionados.map(s => s.id === id ? { ...s, [prop]: val } : s);
+        });
+    });
 }
 
-/* abrir modal ver ejercicio */
-function abrirVerEjercicio(id){
-  const e = ejercicios.find(x => x.id === Number(id));
-  if(!e) return;
-  verNombre.textContent = e.nombre;
-  verImagen.style.backgroundImage = `url('${e.imagen}')`;
-  verDescripcion.textContent = e.descripcion;
-  verInstrucciones.innerHTML = e.instrucciones.map(i => `<li>${i}</li>`).join("");
-  verCategorias.innerHTML = `<span class="pill">${e.categoria}</span>`;
-  modalVer.classList.remove("hidden");
+/* =========================================================
+   Abrir modal VER EJERCICIO (usa datos cargados del backend)
+   ========================================================= */
+function abrirVerEjercicio(id) {
+    const e = ejercicios.find(x => x.id === Number(id));
+    if (!e) return;
+
+    verNombre.textContent = e.nombre;
+    verImagen.style.backgroundImage = e.imagen ? `url('${e.imagen}')` : 'none';
+    verDescripcion.textContent = e.descripcion || '';
+
+    if (e.instrucciones && e.instrucciones.length > 0) {
+        verInstrucciones.innerHTML = e.instrucciones.map(i => `<li>${i}</li>`).join("");
+    } else {
+        verInstrucciones.innerHTML = "";
+    }
+
+    verCategorias.innerHTML = `<span class="pill">${e.categoria}</span>`;
+    modalVer.classList.remove("hidden");
 }
 
-/* crear rutina (muestra modal de confirmación en lugar de alert) */
-crearRutinaBtn.addEventListener("click", () => {
-  const nombre = document.getElementById("nombreRutina").value.trim() || "Rutina sin nombre";
-  if(seleccionados.length === 0){
-    // si no hay ejercicios, mostramos confirm pequeño con mensaje de error
-    confirmText.textContent = "Agrega al menos un ejercicio antes de crear la rutina.";
-    // cambiar estilo para error (opcional)
-    modalConfirm.classList.remove("hidden");
-    return;
-  }
-  // construir payload
-  const payload = {
-    nombre,
-    ejercicios: seleccionados.map(s => ({ id:s.id, nombre:s.nombre, categoria:s.categoria, series:s.series, repeticiones:s.repeticiones, peso:s.peso }))
-  };
-  console.log("Payload crear rutina:", payload);
+/* =========================================================
+   Crear rutina (a futuro se conectará al backend)
+   ========================================================= */
+if (crearRutinaBtn) {
+    crearRutinaBtn.addEventListener("click", () => {
+        const nombre = (document.getElementById("nombreRutina").value || "").trim() || "Rutina sin nombre";
 
-  // mostrar modal de confirmación con resumen
-  confirmText.innerHTML = `<strong>${nombre}</strong><br/>Rutina creada con ${seleccionados.length} ejercicio(s).`;
-  modalConfirm.classList.remove("hidden");
+        if (seleccionados.length === 0) {
+            confirmText.textContent = "Agrega al menos un ejercicio antes de crear la rutina.";
+            modalConfirm.classList.remove("hidden");
+            return;
+        }
 
-  // aquí podrías enviar payload al backend con fetch()
-});
+        const payload = {
+            nombre,
+            ejercicios: seleccionados.map(s => ({
+                id: s.id,
+                nombre: s.nombre,
+                categoria: s.categoria,
+                series: s.series,
+                repeticiones: s.repeticiones,
+                peso: s.peso
+            }))
+        };
+        console.log("Payload crear rutina:", payload);
 
-/* inicializa */
-renderEjercicios();
+        confirmText.innerHTML = `<strong>${nombre}</strong><br/>Rutina creada con ${seleccionados.length} ejercicio(s).`;
+        modalConfirm.classList.remove("hidden");
+
+        // Aquí, en el futuro, podrías hacer:
+        // fetch('/api/rutinas', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) })
+    });
+}
+
+/* =========================================================
+   Inicialización
+   (cargamos seleccionados vacíos; los ejercicios se cargan al abrir modal)
+   ========================================================= */
 renderSeleccionados();

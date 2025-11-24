@@ -13,6 +13,6 @@ public class RutinasController {
     @GetMapping("/rutinas")
     public String mostrarRutinas() {
         // Retorna "home/rutinas" siguiendo la convención de PrincipalHomeController
-        return "home/rutinas"; 
+        return "home/rutinas/rutinas";
     }
 }
