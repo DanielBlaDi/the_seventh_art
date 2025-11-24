@@ -476,7 +476,7 @@ if (crearRutinaBtn) {
 
 
 if (hechoDescripcion) {
-    hechoDescripcion.addEventListener("click", () => {
+    hechoDescripcion.addEventListener("click", async () => {
         if (!borradorRutina) {
             modalDescripcion.classList.add("hidden");
             return;
@@ -494,31 +494,58 @@ if (hechoDescripcion) {
 
         console.log("Payload final para backend (rutina):", payload);
 
-        // Cerramos el modal de descripción
-        modalDescripcion.classList.add("hidden");
+        try {
+            const resp = await fetch("/api/rutinas", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                    // aquí luego podemos añadir CSRF si lo tienes activo
+                },
+                body: JSON.stringify(payload)
+            });
 
-        // IMPORTANTE: Cerrar el modal de creación COMPLETO
-        closeModal();  //  <<<<<<<<<<<< AQUÍ ESTÁ LA SOLUCIÓN
+            if (!resp.ok) {
+                console.error("Error al crear rutina:", resp.status);
+                confirmTitulo.textContent = "Error al crear rutina";
+                confirmText.textContent = "Ocurrió un error al guardar la rutina. Inténtalo de nuevo.";
+                ultimoTipoConfirm = "error";
+                modalDescripcion.classList.add("hidden");
+                modalConfirm.classList.remove("hidden");
+                return;
+            }
 
-        // Mostrar modal de confirmación como ÉXITO
-        confirmTitulo.textContent = "Rutina creada";
-        confirmText.innerHTML =
-            `<strong>${borradorRutina.nombre}</strong><br/>Rutina creada con ${borradorRutina.ejercicios.length} ejercicio(s).`;
-        ultimoTipoConfirm = "success";
-        modalConfirm.classList.remove("hidden");
+            // Si tu controller devuelve solo el id:
+            const rutinaId = await resp.json();
+            console.log("Rutina creada en backend con id:", rutinaId);
 
-        // Limpiar todo
-        seleccionados = [];
-        renderSeleccionados();
+            // Cerramos modal de descripción y el de creación
+            modalDescripcion.classList.add("hidden");
+            closeModal();
 
-        const nombreInput = document.getElementById("nombreRutina");
-        if (nombreInput) nombreInput.value = "";
-        if (descripcionRutinaInput) descripcionRutinaInput.value = "";
+            // Mostramos confirmación de éxito
+            confirmTitulo.textContent = "Rutina creada";
+            confirmText.innerHTML =
+                `<strong>${borradorRutina.nombre}</strong><br/>Rutina creada con ${borradorRutina.ejercicios.length} ejercicio(s).`;
+            ultimoTipoConfirm = "success";
+            modalConfirm.classList.remove("hidden");
+
+            // limpiamos estado en front
+            seleccionados = [];
+            renderSeleccionados();
+            const nombreInput = document.getElementById("nombreRutina");
+            if (nombreInput) nombreInput.value = "";
+            if (descripcionRutinaInput) descripcionRutinaInput.value = "";
+
+        } catch (err) {
+            console.error("Error de red al crear rutina:", err);
+            confirmTitulo.textContent = "Error de conexión";
+            confirmText.textContent = "No se pudo conectar con el servidor. Revisa tu conexión.";
+            ultimoTipoConfirm = "error";
+            modalDescripcion.classList.add("hidden");
+            modalConfirm.classList.remove("hidden");
+        }
     });
 }
-
-
-
 
 if (cerrarDescripcion) {
     cerrarDescripcion.addEventListener("click", () => {

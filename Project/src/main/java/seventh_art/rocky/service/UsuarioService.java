@@ -75,4 +75,9 @@ public class UsuarioService {
         }
     }
 
+    public Usuario findByEmail(String email) {
+        return repo.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found: " + email));
+    }
+
 }

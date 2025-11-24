@@ -27,7 +27,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Set {
+public class SetEjercicio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
