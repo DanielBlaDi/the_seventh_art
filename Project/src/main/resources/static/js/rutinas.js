@@ -111,6 +111,8 @@ const modalConfirm = document.getElementById("modalConfirm");
 const cerrarConfirm = document.getElementById("cerrarConfirm");
 const confirmOk = document.getElementById("confirmOk");
 const confirmText = document.getElementById("confirmText");
+const confirmTitulo = document.getElementById("confirmTitulo");
+let ultimoTipoConfirm = "info";
 
 // Modal descripción rutina
 const modalDescripcion = document.getElementById("modalDescripcionRutina");
@@ -161,15 +163,25 @@ if (modalVer) {
    Abrir / cerrar modal CONFIRMACIÓN
    ========================================================= */
 if (cerrarConfirm) cerrarConfirm.addEventListener("click", () => modalConfirm.classList.add("hidden"));
-if (confirmOk) confirmOk.addEventListener("click", () => {
-    modalConfirm.classList.add("hidden");
-    // limpiar y cerrar modal main
-    seleccionados = [];
-    renderSeleccionados();
-    const nombreRutinaInput = document.getElementById("nombreRutina");
-    if (nombreRutinaInput) nombreRutinaInput.value = "";
-    closeModal();
-});
+if (confirmOk) {
+    confirmOk.addEventListener("click", () => {
+        modalConfirm.classList.add("hidden");
+
+        if (ultimoTipoConfirm === "success") {
+            // Si fue un éxito, limpiamos campos pero NO cerramos la ventana de creación
+            seleccionados = [];
+            renderSeleccionados();
+
+            const nombreInput = document.getElementById("nombreRutina");
+            if (nombreInput) nombreInput.value = "";
+
+            if (descripcionRutinaInput) descripcionRutinaInput.value = "";
+            // IMPORTANTE: no llamamos a closeModal(), así la ventana de creación sigue abierta
+        }
+        // Si fue error, simplemente cerramos el aviso y dejamos todo como estaba
+    });
+}
+
 if (modalConfirm) {
     modalConfirm.addEventListener("click", (e) => { if (e.target === modalConfirm) modalConfirm.classList.add("hidden"); });
 }
@@ -435,34 +447,37 @@ if (crearRutinaBtn) {
 
         // 1) Validar nombre vacío
         if (!nombre) {
+            confirmTitulo.textContent = "Nombre requerido";   // 👈 título acorde
             confirmText.textContent = "Ingresa un nombre para la rutina antes de crearla.";
+            ultimoTipoConfirm = "error";
             modalConfirm.classList.remove("hidden");
             return;
         }
 
         // 2) Validar que haya al menos un ejercicio
         if (seleccionados.length === 0) {
+            confirmTitulo.textContent = "Ejercicios requeridos";  // 👈 otro título
             confirmText.textContent = "Agrega al menos un ejercicio antes de crear la rutina.";
+            ultimoTipoConfirm = "error";
             modalConfirm.classList.remove("hidden");
             return;
         }
 
-        // 3) Guardar borrador (nombre + ejercicios) y abrir modal de descripción
+        // 3) Si pasa validaciones, guardamos borrador y abrimos modal de descripción
         borradorRutina = {
             nombre,
-            ejercicios: [...seleccionados] // copia superficial
+            ejercicios: [...seleccionados]
         };
 
-        // limpiar descripción anterior y mostrar modal
         if (descripcionRutinaInput) descripcionRutinaInput.value = "";
         modalDescripcion.classList.remove("hidden");
     });
 }
 
+
 if (hechoDescripcion) {
     hechoDescripcion.addEventListener("click", () => {
         if (!borradorRutina) {
-            // algo raro, por si se abre sin datos
             modalDescripcion.classList.add("hidden");
             return;
         }
@@ -471,7 +486,7 @@ if (hechoDescripcion) {
 
         const payload = {
             nombre: borradorRutina.nombre,
-            descripcion, // puede ser vacío, no pasa nada
+            descripcion,
             ejercicios: borradorRutina.ejercicios.map(s => ({
                 id: s.id
             }))
@@ -479,17 +494,30 @@ if (hechoDescripcion) {
 
         console.log("Payload final para backend (rutina):", payload);
 
-        // Aquí más adelante harías:
-        // fetch('/api/rutinas', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) })
-
+        // Cerramos el modal de descripción
         modalDescripcion.classList.add("hidden");
 
-        // Mostrar confirmación de éxito
+        // IMPORTANTE: Cerrar el modal de creación COMPLETO
+        closeModal();  //  <<<<<<<<<<<< AQUÍ ESTÁ LA SOLUCIÓN
+
+        // Mostrar modal de confirmación como ÉXITO
+        confirmTitulo.textContent = "Rutina creada";
         confirmText.innerHTML =
             `<strong>${borradorRutina.nombre}</strong><br/>Rutina creada con ${borradorRutina.ejercicios.length} ejercicio(s).`;
+        ultimoTipoConfirm = "success";
         modalConfirm.classList.remove("hidden");
+
+        // Limpiar todo
+        seleccionados = [];
+        renderSeleccionados();
+
+        const nombreInput = document.getElementById("nombreRutina");
+        if (nombreInput) nombreInput.value = "";
+        if (descripcionRutinaInput) descripcionRutinaInput.value = "";
     });
 }
+
+
 
 
 if (cerrarDescripcion) {
