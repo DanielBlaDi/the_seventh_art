@@ -3,6 +3,7 @@ package seventh_art.rocky.service.routines;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import seventh_art.rocky.dto.RutinaDTO;
+import seventh_art.rocky.dto.RutinaVistaDTO;
 import seventh_art.rocky.entity.Ejercicio;
 import seventh_art.rocky.entity.Perfil;
 import seventh_art.rocky.entity.Rutina;
@@ -38,4 +39,20 @@ public class RutinaService {
 
         return rutinaRepository.save(rutina);
     }
+
+    public List<RutinaVistaDTO> listarRutinasPerfilActual() {
+        Perfil perfil = perfilActualService.getCurrentPerfil();
+
+        List<Rutina> rutinas = rutinaRepository.findByPerfilOrderByIdDesc(perfil);
+
+        return rutinas.stream()
+                .map(r -> new RutinaVistaDTO(
+                        r.getId(),
+                        r.getNombre(),
+                        r.getDescripcion(),
+                        r.getEjercicios() != null ? r.getEjercicios().size() : 0
+                ))
+                .toList();
+    }
+
 }

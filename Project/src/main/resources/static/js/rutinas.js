@@ -567,8 +567,158 @@ if (modalDescripcion) {
 
 
 
+
 /* =========================================================
    Inicialización
    (cargamos seleccionados vacíos; los ejercicios se cargan al abrir modal)
    ========================================================= */
 renderSeleccionados();
+
+const contenedorRutinas = document.getElementById("rutinasExistentes");
+
+async function cargarRutinasExistentes() {
+    if (!contenedorRutinas) return;
+
+    contenedorRutinas.innerHTML = `
+      <div class="ejercicio">Cargando tus rutinas...</div>
+    `;
+
+    try {
+        const resp = await fetch("/api/rutinas/mias");
+        if (!resp.ok) {
+            console.error("Error al cargar rutinas:", resp.status);
+            contenedorRutinas.innerHTML = `
+              <div class="ejercicio">No se pudieron cargar tus rutinas.</div>
+            `;
+            return;
+        }
+
+        const rutinas = await resp.json();
+
+        if (!rutinas || rutinas.length === 0) {
+            contenedorRutinas.innerHTML = `
+              <div class="ejercicio">
+                Aún no tienes rutinas creadas.<br/>
+                <span class="text-muted-foreground">Usa el botón "Crear" para empezar.</span>
+              </div>
+            `;
+            return;
+        }
+
+        contenedorRutinas.innerHTML = "";
+
+        rutinas.forEach(r => {
+            const card = document.createElement("div");
+            card.className = "card rutina-card";
+
+            card.innerHTML = `
+      <div class="rutina-header">
+        <div>
+          <h2 class="rutina-title">${r.nombre}</h2>
+          <p class="rutina-subtitle">
+            ${r.numeroEjercicios} ejercicio${r.numeroEjercicios === 1 ? "" : "s"}
+          </p>
+        </div>
+        <div class="rutina-icons">
+          <button class="icon-btn btn-edit-rutina" data-id="${r.id}" title="Editar rutina">
+            ✏️
+          </button>
+          <button class="icon-btn btn-delete-rutina" data-id="${r.id}" data-nombre="${r.nombre}" title="Eliminar rutina">
+            🗑
+          </button>
+        </div>
+      </div>
+
+      <div class="rutina-body">
+        <p class="rutina-description">${r.descripcion}</p>
+      </div>
+
+      <div class="rutina-footer">
+        <button class="btn btn-primary btn-full" data-id="${r.id}">
+          Empezar Rutina
+        </button>
+      </div>
+    `;
+
+            contenedorRutinas.appendChild(card);
+        });
+
+
+        // Aquí luego podrás enganchar el botón "Empezar Rutina"
+        contenedorRutinas.querySelectorAll(".btn-full").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const idRutina = e.currentTarget.dataset.id;
+                console.log("Empezar rutina id:", idRutina);
+                // Aquí más adelante abrimos la vista de ejecución de rutina
+            });
+        });
+
+        contenedorRutinas.querySelectorAll(".btn-delete-rutina").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const id = e.currentTarget.dataset.id;
+                const nombre = e.currentTarget.dataset.nombre;
+                abrirModalEliminarRutina(id, nombre);
+            });
+        });
+
+    } catch (err) {
+        console.error("Error de red al cargar rutinas:", err);
+        contenedorRutinas.innerHTML = `
+          <div class="ejercicio">Error de conexión al cargar tus rutinas.</div>
+        `;
+    }
+}
+
+// Llamar al cargar la página
+cargarRutinasExistentes();
+
+// ======= ELIMINAR RUTINA (front) =======
+let rutinaIdAEliminar = null;
+
+const modalEliminarRutina = document.getElementById("modalEliminarRutina");
+const nombreRutinaEliminar = document.getElementById("nombreRutinaEliminar");
+const cerrarEliminarRutina = document.getElementById("cerrarEliminarRutina");
+const cancelarEliminarRutina = document.getElementById("cancelarEliminarRutina");
+const confirmarEliminarRutina = document.getElementById("confirmarEliminarRutina");
+
+function abrirModalEliminarRutina(id, nombre) {
+    rutinaIdAEliminar = id;
+    if (nombreRutinaEliminar) {
+        nombreRutinaEliminar.textContent = nombre;
+    }
+    if (modalEliminarRutina) {
+        modalEliminarRutina.classList.remove("hidden");
+        modalEliminarRutina.setAttribute("aria-hidden", "false");
+    }
+}
+
+function cerrarModalEliminar() {
+    rutinaIdAEliminar = null;
+    if (modalEliminarRutina) {
+        modalEliminarRutina.classList.add("hidden");
+        modalEliminarRutina.setAttribute("aria-hidden", "true");
+    }
+}
+
+if (cerrarEliminarRutina) {
+    cerrarEliminarRutina.addEventListener("click", cerrarModalEliminar);
+}
+if (cancelarEliminarRutina) {
+    cancelarEliminarRutina.addEventListener("click", cerrarModalEliminar);
+}
+if (modalEliminarRutina) {
+    modalEliminarRutina.addEventListener("click", (e) => {
+        if (e.target === modalEliminarRutina) {
+            cerrarModalEliminar();
+        }
+    });
+}
+
+// Por ahora, solo mostramos por consola. Más adelante aquí haremos el DELETE al backend.
+if (confirmarEliminarRutina) {
+    confirmarEliminarRutina.addEventListener("click", () => {
+        console.log("Rutina a eliminar (solo front por ahora):", rutinaIdAEliminar);
+        // aquí luego llamaremos a fetch DELETE /api/rutinas/{id}
+        cerrarModalEliminar();
+    });
+}

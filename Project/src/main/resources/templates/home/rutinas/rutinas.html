@@ -291,6 +291,28 @@
     </div>
 </div>
 
+<!-- ================= MODAL ELIMINAR RUTINA ================= -->
+<div id="modalEliminarRutina" class="modal hidden" aria-hidden="true">
+    <div class="modal-box confirm-box" role="dialog" aria-modal="true" aria-labelledby="tituloEliminarRutina">
+        <div class="modal-header">
+            <h3 id="tituloEliminarRutina" class="font-bold">Eliminar rutina</h3>
+            <button id="cerrarEliminarRutina" class="close-btn" title="Cerrar">×</button>
+        </div>
+        <div class="modal-body">
+            <p>
+                ¿Estás seguro de que quieres eliminar la rutina
+                <strong id="nombreRutinaEliminar"></strong>?
+                <br/>
+                Esta acción eliminará la rutina completamente.
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button id="cancelarEliminarRutina" class="btn cancelar">Cancelar</button>
+            <button id="confirmarEliminarRutina" class="btn eliminar">Eliminar</button>
+        </div>
+    </div>
+</div>
+
 
 <script>
     // Para que el botón del estado vacío reutilice la misma lógica que el botón principal
