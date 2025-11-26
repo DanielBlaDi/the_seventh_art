@@ -121,6 +121,10 @@ const cancelarDescripcion = document.getElementById("cancelarDescripcion");
 const hechoDescripcion = document.getElementById("hechoDescripcion");
 const descripcionRutinaInput = document.getElementById("descripcionRutina");
 
+// ====== CSRF (Spring Security) ======
+const csrfToken = document.querySelector('meta[name="_csrf"]')?.getAttribute('content');
+const csrfHeaderName = document.querySelector('meta[name="_csrf_header"]')?.getAttribute('content');
+
 // ====== EDICIÓN DE RUTINA ======
 let rutinaEditData = null;
 
@@ -676,6 +680,14 @@ async function cargarRutinasExistentes() {
           <div class="ejercicio">Error de conexión al cargar tus rutinas.</div>
         `;
     }
+
+    contenedorRutinas.querySelectorAll(".btn-edit-rutina").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const idRutina = e.currentTarget.dataset.id;
+            abrirModalEditarRutinaDesdeCard(idRutina);
+        });
+    });
+
 }
 
 // Llamar al cargar la página
@@ -724,9 +736,195 @@ if (modalEliminarRutina) {
 }
 
 if (confirmarEliminarRutina) {
-    confirmarEliminarRutina.addEventListener("click", () => {
-        console.log("Rutina a eliminar (solo front por ahora):", rutinaIdAEliminar);
-        // aquí luego llamaremos a fetch DELETE /api/rutinas/{id}
-        cerrarModalEliminar();
+    confirmarEliminarRutina.addEventListener("click", async () => {
+        if (!rutinaIdAEliminar) {
+            cerrarModalEliminar();
+            return;
+        }
+
+        try {
+            // 1) Construimos las cabeceras
+            const headers = {};
+            if (csrfToken && csrfHeaderName) {
+                headers[csrfHeaderName] = csrfToken;   // ej: headers["X-CSRF-TOKEN"] = "abc123..."
+            }
+
+            console.log("Eliminando rutina id:", rutinaIdAEliminar);
+
+            // 2) Usamos headers dentro del fetch
+            const resp = await fetch(`/api/rutinas/${rutinaIdAEliminar}`, {
+                method: "DELETE",
+                headers
+            });
+
+            console.log("Respuesta DELETE:", resp.status);
+
+            if (!resp.ok && resp.status !== 204) {
+                console.error("Error al eliminar rutina:", resp.status);
+            }
+
+            cerrarModalEliminar();
+            await cargarRutinasExistentes();
+
+        } catch (err) {
+            console.error("Error de red al eliminar rutina:", err);
+            cerrarModalEliminar();
+        }
     });
 }
+
+function abrirModalEditarRutinaDesdeCard(idRutina) {
+    // Aquí pedimos al backend los datos de la rutina
+    cargarDetalleRutina(idRutina);
+}
+
+function mostrarModalEditar() {
+    if (!modalEditarRutina) return;
+    modalEditarRutina.classList.remove("hidden");
+    modalEditarRutina.setAttribute("aria-hidden", "false");
+}
+
+function cerrarModalEditar() {
+    rutinaEditData = null;
+    if (modalEditarRutina) {
+        modalEditarRutina.classList.add("hidden");
+        modalEditarRutina.setAttribute("aria-hidden", "true");
+    }
+}
+
+// listeners de cerrar
+if (cerrarEditarRutina) cerrarEditarRutina.addEventListener("click", cerrarModalEditar);
+if (cancelarEditarRutina) cancelarEditarRutina.addEventListener("click", cerrarModalEditar);
+if (modalEditarRutina) {
+    modalEditarRutina.addEventListener("click", (e) => {
+        if (e.target === modalEditarRutina) cerrarModalEditar();
+    });
+}
+
+async function cargarDetalleRutina(idRutina) {
+    try {
+        const resp = await fetch(`/api/rutinas/${idRutina}`);
+        if (!resp.ok) {
+            console.error("Error al cargar detalle de rutina:", resp.status);
+            return;
+        }
+
+        const data = await resp.json();
+
+        // 🔹 EXPECTATIVA DE RESPUESTA DEL BACKEND:
+        // {
+        //   id: number,
+        //   nombre: string,
+        //   descripcion: string,
+        //   ejercicios: [
+        //     { id, nombre, categoria, imagen, ... }
+        //   ]
+        // }
+
+        rutinaEditData = {
+            id: data.id,
+            nombre: data.nombre,
+            descripcion: data.descripcion,
+            ejercicios: data.ejercicios || []
+        };
+
+        // Rellenar campos de la UI
+        if (editarNombreRutinaInput) {
+            editarNombreRutinaInput.value = rutinaEditData.nombre || "";
+        }
+
+        if (editarResumenRutina) {
+            const n = rutinaEditData.ejercicios.length;
+            editarResumenRutina.textContent = `${n} ejercicio${n === 1 ? "" : "s"} • 45-60 min`;
+            // luego puedes cambiar "45-60 min" por un valor real
+        }
+
+        renderEjerciciosEditar();
+
+        mostrarModalEditar();
+
+    } catch (err) {
+        console.error("Error de red al cargar detalle de rutina:", err);
+    }
+}
+
+function renderEjerciciosEditar() {
+    if (!listaEjerciciosEditar) return;
+
+    listaEjerciciosEditar.innerHTML = "";
+
+    if (!rutinaEditData || !rutinaEditData.ejercicios || rutinaEditData.ejercicios.length === 0) {
+        listaEjerciciosEditar.innerHTML = `
+          <div class="ejercicio">
+            Esta rutina no tiene ejercicios aún.<br/>
+            <span class="text-muted-foreground">Usa "Agregar Ejercicio" para añadir alguno.</span>
+          </div>
+        `;
+        return;
+    }
+
+    rutinaEditData.ejercicios.forEach(ej => {
+        const div = document.createElement("div");
+        div.className = "edit-ej-item";
+
+        const imagenBg = ej.imagen ? `background-image:url('${ej.imagen}')` : "";
+
+        div.innerHTML = `
+          <div class="edit-ej-left">
+            <div style="width:76px; height:56px; border-radius:8px; ${imagenBg}; background-size:cover; background-position:center; border:1px solid var(--color-border);"></div>
+            <div>
+              <div class="edit-ej-name">${ej.nombre}</div>
+              <div class="edit-ej-meta">${ej.categoria || ""}</div>
+            </div>
+          </div>
+          <div class="edit-ej-actions">
+            <!-- Aquí podrías poner un botón "ver" si quieres -->
+            <button class="btn-eliminar-ej" data-id="${ej.id}" title="Quitar de la rutina">
+              🗑
+            </button>
+          </div>
+        `;
+
+        listaEjerciciosEditar.appendChild(div);
+    });
+
+    // manejar "quitar ejercicio de la rutina" en memoria (solo front)
+    listaEjerciciosEditar.querySelectorAll(".btn-eliminar-ej").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const idEj = Number(e.currentTarget.dataset.id);
+            if (!rutinaEditData) return;
+            rutinaEditData.ejercicios = rutinaEditData.ejercicios.filter(x => x.id !== idEj);
+            renderEjerciciosEditar();
+
+            // actualizar resumen
+            if (editarResumenRutina) {
+                const n = rutinaEditData.ejercicios.length;
+                editarResumenRutina.textContent = `${n} ejercicio${n === 1 ? "" : "s"} • 45-60 min`;
+            }
+        });
+    });
+}
+
+if (guardarEditarRutina) {
+    guardarEditarRutina.addEventListener("click", () => {
+        if (!rutinaEditData) return;
+
+        const nuevoNombre = (editarNombreRutinaInput?.value || "").trim();
+
+        const payloadEdicion = {
+            nombre: nuevoNombre || rutinaEditData.nombre,
+            descripcion: rutinaEditData.descripcion, // luego puedes editarla también
+            ejercicios: (rutinaEditData.ejercicios || []).map(e => ({ id: e.id }))
+        };
+
+        console.log("Payload edición rutina (listo para backend):", payloadEdicion);
+
+        // 🔜 Aquí tú implementarás:
+        // fetch(`/api/rutinas/${rutinaEditData.id}`, { method: "PUT", body: JSON.stringify(payloadEdicion), ... })
+
+        // Por ahora solo cerramos el modal y refrescamos la lista en pantalla
+        cerrarModalEditar();
+        cargarRutinasExistentes();
+    });
+}
+
