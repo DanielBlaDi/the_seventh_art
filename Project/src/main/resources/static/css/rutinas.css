@@ -523,7 +523,7 @@ body {
 .icon-btn {
     border: none;
     background: transparent;
-    cursor: pointer; 
+    cursor: pointer;
     font-size: 1rem;
     padding: 0.15rem;
 }
@@ -556,3 +556,43 @@ body {
 .btn.eliminar:hover{
     filter:brightness(0.95);
 }
+
+/* Tarjetas de ejercicios dentro del editor de rutina */
+.edit-ej-item{
+    display:flex;
+    justify-content:space-between;
+    gap:.8rem;
+    padding:.7rem;
+    border-radius:10px;
+    background:#fbfbff;
+    margin-bottom:.6rem;
+    align-items:flex-start;
+}
+
+.edit-ej-left{
+    display:flex;
+    gap:.6rem;
+}
+
+.edit-ej-name{
+    font-weight:700;
+}
+
+.edit-ej-meta{
+    font-size:.85rem;
+    color:var(--color-text-muted);
+}
+
+.edit-ej-actions{
+    display:flex;
+    flex-direction:column;
+    gap:.35rem;
+}
+
+.edit-ej-actions button{
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    padding:.2rem;
+}
+

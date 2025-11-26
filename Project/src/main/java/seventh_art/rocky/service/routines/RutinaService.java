@@ -1,5 +1,6 @@
 package seventh_art.rocky.service.routines;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import seventh_art.rocky.dto.RutinaDTO;
@@ -54,5 +55,20 @@ public class RutinaService {
                 ))
                 .toList();
     }
+
+    @Transactional
+    public void eliminar(Long rutinaId){
+        Perfil perfilActual = perfilActualService.getCurrentPerfil();
+
+        Rutina rutina = rutinaRepository.findById(rutinaId)
+                .orElseThrow(() -> new IllegalArgumentException("Rutina no encontrada: " + rutinaId));
+
+        if (!rutina.getPerfil().getId().equals(perfilActual.getId())) {
+            throw new SecurityException("No tienes permiso para eliminar esta rutina.");
+        }
+
+        rutinaRepository.delete(rutina);
+    }
+
 
 }

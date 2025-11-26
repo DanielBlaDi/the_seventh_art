@@ -121,6 +121,17 @@ const cancelarDescripcion = document.getElementById("cancelarDescripcion");
 const hechoDescripcion = document.getElementById("hechoDescripcion");
 const descripcionRutinaInput = document.getElementById("descripcionRutina");
 
+// ====== EDICIÓN DE RUTINA ======
+let rutinaEditData = null;
+
+const modalEditarRutina = document.getElementById("modalEditarRutina");
+const editarNombreRutinaInput = document.getElementById("editarNombreRutina");
+const editarResumenRutina = document.getElementById("editarResumenRutina");
+const listaEjerciciosEditar = document.getElementById("listaEjerciciosEditar");
+const cerrarEditarRutina = document.getElementById("cerrarEditarRutina");
+const cancelarEditarRutina = document.getElementById("cancelarEditarRutina");
+const guardarEditarRutina = document.getElementById("guardarEditarRutina");
+const btnAgregarEjercicioEditar = document.getElementById("btnAgregarEjercicioEditar");
 
 /* =========================================================
    Abrir / cerrar modal CREAR RUTINA
@@ -326,8 +337,6 @@ if (buscarInput) {
 }
 
 
-// Los botones .filter (antiguos) siguen funcionando si existen.
-// No te estorban con el select.
 if (filtros) {
     filtros.querySelectorAll(".filter").forEach(btn => {
         btn.addEventListener("click", async () => {
@@ -438,7 +447,7 @@ function abrirVerEjercicio(id) {
 }
 
 /* =========================================================
-   Crear rutina (a futuro se conectará al backend)
+   Crear rutina
    ========================================================= */
 if (crearRutinaBtn) {
     crearRutinaBtn.addEventListener("click", () => {
@@ -714,7 +723,6 @@ if (modalEliminarRutina) {
     });
 }
 
-// Por ahora, solo mostramos por consola. Más adelante aquí haremos el DELETE al backend.
 if (confirmarEliminarRutina) {
     confirmarEliminarRutina.addEventListener("click", () => {
         console.log("Rutina a eliminar (solo front por ahora):", rutinaIdAEliminar);

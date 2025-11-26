@@ -25,4 +25,10 @@ public class RutinaController {
     public ResponseEntity<?> listarMisRutinas() {
         return ResponseEntity.ok(rutinaService.listarRutinasPerfilActual());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarRutina(@PathVariable Long id) {
+        rutinaService.eliminar(id);
+        return ResponseEntity.noContent().build();
+    }
 }
