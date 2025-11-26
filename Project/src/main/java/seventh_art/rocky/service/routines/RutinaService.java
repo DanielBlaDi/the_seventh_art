@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import seventh_art.rocky.dto.RutinaDTO;
+import seventh_art.rocky.dto.RutinaDetalleDTO;
 import seventh_art.rocky.dto.RutinaVistaDTO;
 import seventh_art.rocky.entity.Ejercicio;
 import seventh_art.rocky.entity.Perfil;
@@ -57,7 +58,7 @@ public class RutinaService {
     }
 
     @Transactional
-    public void eliminar(Long rutinaId){
+    public void eliminar(Long rutinaId) {
         Perfil perfilActual = perfilActualService.getCurrentPerfil();
 
         Rutina rutina = rutinaRepository.findById(rutinaId)
@@ -70,5 +71,55 @@ public class RutinaService {
         rutinaRepository.delete(rutina);
     }
 
+    public RutinaDetalleDTO obtenerRutinaConDetalles(Long rutinaId) {
 
+        Perfil perfil = perfilActualService.getCurrentPerfil();
+
+        Rutina rutina = rutinaRepository.findById(rutinaId)
+                .orElseThrow(() -> new IllegalArgumentException("Rutina no encontrada: " + rutinaId));
+
+        if (!rutina.getPerfil().getId().equals(perfil.getId())) {
+            throw new SecurityException("No tienes permiso para ver esta rutina.");
+        }
+
+        List<RutinaDetalleDTO.EjercicioEnRutina> ejerciciosEnRutina =
+                rutina.getEjercicios().stream()
+                        .map(e -> new RutinaDetalleDTO.EjercicioEnRutina(
+                                e.getId(),
+                                e.getNombre(),
+                                e.getTipoEjercicio().name(), // tipoEjercicio
+                                e.getImagenUrl()             // url de imagen (puede ser null)
+                        ))
+                        .toList();
+
+        return new RutinaDetalleDTO(
+                rutina.getId(),
+                rutina.getNombre(),
+                rutina.getDescripcion(),
+                ejerciciosEnRutina
+        );
+    }
+
+    @Transactional
+    public void actualizarRutina(Long rutinaid, RutinaDTO dto) {
+        Perfil perfilActual = perfilActualService.getCurrentPerfil();
+        Rutina rutina = rutinaRepository.findById(rutinaid)
+                .orElseThrow(() -> new IllegalArgumentException("Rutina no encontrada: " + rutinaid));
+
+        if (!rutina.getPerfil().getId().equals(perfilActual.getId())) {
+            throw new SecurityException("No tienes permiso para actualizar esta rutina.");
+        }
+
+        rutina.setNombre(dto.getNombre());
+        rutina.setDescripcion(dto.getDescripcion());
+
+        List<Ejercicio> ejercicios = dto.getEjercicios().stream()
+                .map(e -> ejercicioRepository.findById(e.getId())
+                        .orElseThrow(() -> new IllegalArgumentException("Ejercicio no encontrado: " + e.getId())))
+                .toList();
+
+        rutina.setEjercicios(ejercicios);
+        rutinaRepository.save(rutina);
+
+    }
 }
