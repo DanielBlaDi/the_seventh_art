@@ -324,13 +324,26 @@
         <!-- Header: nombre + resumen -->
         <div class="modal-header">
             <div style="flex:1;">
-                <input id="editarNombreRutina" class="input-modal" placeholder="Nombre de la rutina">
-                <p id="editarResumenRutina" class="text-muted-foreground text-sm" style="margin-top:.25rem;">
-                    <!-- Ej: 5 ejercicios • 45-60 min -->
+                <input id="editarNombreRutina"
+                       class="input-modal"
+                       placeholder="Nombre de la rutina">
+
+                <!-- NUEVO: descripción editable -->
+                <textarea id="editarDescripcionRutina"
+                          class="input-modal"
+                          rows="2"
+                          style="margin-top:.5rem; resize:vertical;"
+                          placeholder="Descripción de la rutina"></textarea>
+
+                <p id="editarResumenRutina"
+                   class="text-muted-foreground text-sm"
+                   style="margin-top:.25rem;">
+                    <!-- Ej: 2 ejercicios • 45-60 min -->
                 </p>
             </div>
             <button id="cerrarEditarRutina" class="close-btn" title="Cerrar">×</button>
         </div>
+
 
         <!-- Body: botón agregar + lista ejercicios -->
         <div class="modal-body" style="flex-direction:column; max-height:70vh;">
@@ -348,7 +361,9 @@
         <!-- Footer: cancelar / guardar -->
         <div class="modal-footer">
             <button id="cancelarEditarRutina" class="btn cancelar">Cancelar</button>
-            <button id="guardarEditarRutina" class="btn crear">Guardar Cambios</button>
+            <button id="guardarEditarRutina" class="btn crear" type="button">
+                Guardar cambios
+            </button>
         </div>
 
     </div>

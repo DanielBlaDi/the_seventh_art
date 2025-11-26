@@ -83,6 +83,7 @@ const cerrarEditarRutina = document.getElementById("cerrarEditarRutina");
 const cancelarEditarRutina = document.getElementById("cancelarEditarRutina");
 const guardarEditarRutina = document.getElementById("guardarEditarRutina");
 const btnAgregarEjercicioEditar = document.getElementById("btnAgregarEjercicioEditar"); // futuro uso
+const editarDescripcionRutina = document.getElementById("editarDescripcionRutina");
 
 /* ---------- CSRF (Spring Security) ---------- */
 const csrfToken = document.querySelector('meta[name="_csrf"]')?.getAttribute('content');
@@ -829,6 +830,16 @@ if (modalEditarRutina) {
  *   ejercicios: [ { id, nombre, tipoEjercicio, url } ]
  * }
  */
+function actualizarEstadoBotonGuardar() {
+    if (!guardarEditarRutina) return;
+
+    const n = (rutinaEditData && Array.isArray(rutinaEditData.ejercicios))
+        ? rutinaEditData.ejercicios.length
+        : 0;
+
+    guardarEditarRutina.disabled = (n === 0);
+}
+
 async function cargarDetalleRutina(idRutina) {
     try {
         const resp = await fetch(`/api/rutinas/${idRutina}`);
@@ -859,6 +870,10 @@ async function cargarDetalleRutina(idRutina) {
             editarNombreRutinaInput.value = rutinaEditData.nombre || "";
         }
 
+        if (editarDescripcionRutina) {
+            editarDescripcionRutina.value = rutinaEditData.descripcion || "";   // 👈 aquí
+        }
+
         if (editarResumenRutina) {
             const n = rutinaEditData.ejercicios.length;
             editarResumenRutina.textContent =
@@ -866,6 +881,7 @@ async function cargarDetalleRutina(idRutina) {
         }
 
         renderEjerciciosEditar();
+        actualizarEstadoBotonGuardar();
         mostrarModalEditar();
 
     } catch (err) {
@@ -885,6 +901,7 @@ function renderEjerciciosEditar() {
             <span class="text-muted-foreground">Usa "Agregar Ejercicio" para añadir alguno.</span>
           </div>
         `;
+        actualizarEstadoBotonGuardar();   // 👈 IMPORTANTE
         return;
     }
 
@@ -928,6 +945,8 @@ function renderEjerciciosEditar() {
             }
         });
     });
+
+    actualizarEstadoBotonGuardar();   // 👈 también aquí al final
 }
 
 /**
@@ -939,12 +958,18 @@ if (guardarEditarRutina) {
         if (!rutinaEditData) return;
 
         const nuevoNombre = (editarNombreRutinaInput?.value || "").trim();
+        const nuevaDescripcion = (editarDescripcionRutina?.value || "").trim();
+
+        // Validación: al menos 1 ejercicio
+        const numEj = rutinaEditData.ejercicios ? rutinaEditData.ejercicios.length : 0;
+        if (numEj === 0) {
+            alert("La rutina debe tener al menos un ejercicio.");
+            return;
+        }
 
         const payloadEdicion = {
             nombre: nuevoNombre || rutinaEditData.nombre,
-            // de momento mantenemos la descripción tal cual;
-            // más adelante puedes hacer que también se edite
-            descripcion: rutinaEditData.descripcion,
+            descripcion: nuevaDescripcion || rutinaEditData.descripcion,  // 👈 nunca irá null
             ejercicios: (rutinaEditData.ejercicios || []).map(e => ({ id: e.id }))
         };
 
@@ -953,31 +978,27 @@ if (guardarEditarRutina) {
         try {
             const resp = await fetch(`/api/rutinas/${rutinaEditData.id}`, {
                 method: "PUT",
-                headers: buildHeaders(true),   // incluye JSON + CSRF
+                headers: buildHeaders(true),
                 body: JSON.stringify(payloadEdicion)
             });
 
             if (!resp.ok) {
                 console.error("Error al actualizar rutina:", resp.status);
-                // aquí podrías abrir tu modalConfirm en modo error si quieres
+                alert("Ocurrió un error al guardar la rutina.");
                 return;
             }
 
-            // Si todo salió bien:
             cerrarModalEditar();
-            await cargarRutinasExistentes();   // refresca las tarjetas
+            await cargarRutinasExistentes();
 
         } catch (err) {
             console.error("Error de red al actualizar rutina:", err);
-            // aquí también podrías mostrar mensaje de error
+            alert("Error de conexión al guardar la rutina.");
         }
     });
 }
-
-
 /* =========================================================
    Inicialización al cargar la página
    ========================================================= */
-
 renderSeleccionados();
 cargarRutinasExistentes();

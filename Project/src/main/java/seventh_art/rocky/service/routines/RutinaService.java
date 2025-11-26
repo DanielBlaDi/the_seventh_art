@@ -14,6 +14,7 @@ import seventh_art.rocky.repository.RutinaRepository;
 import seventh_art.rocky.service.PerfilActualService;
 
 import java.util.List;
+import java.util.stream.Collectors;  
 
 @Service
 @RequiredArgsConstructor
@@ -23,14 +24,21 @@ public class RutinaService {
     private final EjercicioRepository ejercicioRepository;
     private final PerfilActualService perfilActualService;
 
+    @Transactional
     public Rutina crear(RutinaDTO dto) {
 
         Perfil perfil = perfilActualService.getCurrentPerfil();
 
+        if (dto.getEjercicios() == null || dto.getEjercicios().isEmpty()) {
+            throw new IllegalArgumentException("La rutina debe tener al menos un ejercicio.");
+        }
+
         List<Ejercicio> ejercicios = dto.getEjercicios().stream()
                 .map(e -> ejercicioRepository.findById(e.getId())
-                        .orElseThrow(() -> new IllegalArgumentException("Ejercicio no encontrado: " + e.getId())))
-                .toList();
+                        .orElseThrow(() ->
+                                new IllegalArgumentException("Ejercicio no encontrado: " + e.getId())
+                        ))
+                .collect(Collectors.toList());
 
         Rutina rutina = Rutina.builder()
                 .nombre(dto.getNombre())
@@ -54,7 +62,7 @@ public class RutinaService {
                         r.getDescripcion(),
                         r.getEjercicios() != null ? r.getEjercicios().size() : 0
                 ))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -87,10 +95,10 @@ public class RutinaService {
                         .map(e -> new RutinaDetalleDTO.EjercicioEnRutina(
                                 e.getId(),
                                 e.getNombre(),
-                                e.getTipoEjercicio().name(), // tipoEjercicio
-                                e.getImagenUrl()             // url de imagen (puede ser null)
+                                e.getTipoEjercicio().name(),
+                                e.getImagenUrl()
                         ))
-                        .toList();
+                        .collect(Collectors.toList());
 
         return new RutinaDetalleDTO(
                 rutina.getId(),
@@ -101,25 +109,35 @@ public class RutinaService {
     }
 
     @Transactional
-    public void actualizarRutina(Long rutinaid, RutinaDTO dto) {
+    public void actualizarRutina(Long rutinaId, RutinaDTO dto) {
+
         Perfil perfilActual = perfilActualService.getCurrentPerfil();
-        Rutina rutina = rutinaRepository.findById(rutinaid)
-                .orElseThrow(() -> new IllegalArgumentException("Rutina no encontrada: " + rutinaid));
+
+        Rutina rutina = rutinaRepository.findById(rutinaId)
+                .orElseThrow(() -> new IllegalArgumentException("Rutina no encontrada: " + rutinaId));
 
         if (!rutina.getPerfil().getId().equals(perfilActual.getId())) {
             throw new SecurityException("No tienes permiso para actualizar esta rutina.");
         }
 
         rutina.setNombre(dto.getNombre());
+
         rutina.setDescripcion(dto.getDescripcion());
+
+        if (dto.getEjercicios() == null || dto.getEjercicios().isEmpty()) {
+            throw new IllegalArgumentException("La rutina debe tener al menos un ejercicio.");
+        }
 
         List<Ejercicio> ejercicios = dto.getEjercicios().stream()
                 .map(e -> ejercicioRepository.findById(e.getId())
-                        .orElseThrow(() -> new IllegalArgumentException("Ejercicio no encontrado: " + e.getId())))
-                .toList();
+                        .orElseThrow(() ->
+                                new IllegalArgumentException("Ejercicio no encontrado: " + e.getId())
+                        ))
+                .collect(Collectors.toList());
 
         rutina.setEjercicios(ejercicios);
-        rutinaRepository.save(rutina);
 
+        rutinaRepository.save(rutina);
     }
 }
+
