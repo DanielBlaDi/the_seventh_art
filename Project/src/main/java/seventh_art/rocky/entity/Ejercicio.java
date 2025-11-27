@@ -45,9 +45,4 @@ public class Ejercicio {
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_ejercicio", nullable = false, length = 50)
     private TipoEjercicio tipoEjercicio;
-
-    // ===== ManyToMany inverso con Rutina =====
-    @ManyToMany(mappedBy = "ejercicios")
-    @Builder.Default
-    private List<Rutina> rutinas = new ArrayList<>();
 }
