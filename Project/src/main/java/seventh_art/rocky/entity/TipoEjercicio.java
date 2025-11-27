@@ -1,6 +1,7 @@
 package seventh_art.rocky.entity;
 
 public enum TipoEjercicio {
+    // Pecho
     PECHO_SUPERIOR,
     PECHO_MEDIO,
     PECHO_INFERIOR,
