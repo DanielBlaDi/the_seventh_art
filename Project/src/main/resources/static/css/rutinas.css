@@ -596,3 +596,11 @@ body {
     padding:.2rem;
 }
 
+.btn-add.selected {
+    cursor: default;
+    opacity: 0.8;
+    border-radius: 999px;
+    padding-inline: 0.65rem;
+    font-weight: 600;
+}
+
