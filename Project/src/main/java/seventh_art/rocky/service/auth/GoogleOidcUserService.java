@@ -2,17 +2,15 @@ package seventh_art.rocky.service.auth;
 
 import java.util.Set;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
-
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
 import seventh_art.rocky.entity.Usuario;
 import seventh_art.rocky.service.RegistroService;
 import seventh_art.rocky.service.UsuarioService;

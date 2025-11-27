@@ -32,7 +32,7 @@ public class MensajeMotivacional {
     private Long id;
 
     @NotBlank
-    @Column(nullable = false, length = 500)
+    @Column(nullable = false, length = 255)
     private String descripcion;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

@@ -1,5 +1,8 @@
 package seventh_art.rocky.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,6 +11,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -46,4 +51,18 @@ public class Rutina {
             foreignKey = @ForeignKey(name = "fk_rutina_perfil")
     )
     private Perfil perfil;
+
+    @ManyToMany
+    @JoinTable(
+            name = "rutina_ejercicio",
+            joinColumns = @JoinColumn(name = "id_rutina",
+            foreignKey = @ForeignKey(name = "fk_rutina_ejercicio_rutina")
+            ),
+            inverseJoinColumns = @JoinColumn(name = "id_ejercicio",
+            foreignKey = @ForeignKey(name = "fk_rutina_ejercicio_ejercicio")
+            )
+    )
+    @Builder.Default
+    private List<Ejercicio> ejercicios = new ArrayList<>();
 }
+
