@@ -47,13 +47,25 @@ CREATE TABLE IF NOT EXISTS ejercicio (
 -- =========================================
 CREATE TABLE IF NOT EXISTS rutina (
     id BIGINT NOT NULL AUTO_INCREMENT,
-    nombre VARCHAR(50) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,  
     descripcion VARCHAR(500) NOT NULL,
     id_perfil BIGINT NOT NULL,
     CONSTRAINT pk_rutina PRIMARY KEY (id),
     CONSTRAINT fk_rutina_perfil
         FOREIGN KEY (id_perfil) REFERENCES perfil(id)
 );
+
+-- Tabla intermedia para la relación ManyToMany: RUTINA_EJERCICIO
+CREATE TABLE IF NOT EXISTS rutina_ejercicio (
+    id_rutina   BIGINT NOT NULL,
+    id_ejercicio BIGINT NOT NULL,
+    CONSTRAINT pk_rutina_ejercicio PRIMARY KEY (id_rutina, id_ejercicio),
+    CONSTRAINT fk_rutina_ejercicio_rutina
+        FOREIGN KEY (id_rutina) REFERENCES rutina(id),
+    CONSTRAINT fk_rutina_ejercicio_ejercicio
+        FOREIGN KEY (id_ejercicio) REFERENCES ejercicio(id)
+);
+
 
 -- =========================================
 -- HISTORIA
@@ -75,11 +87,20 @@ CREATE TABLE IF NOT EXISTS logro (
     id BIGINT NOT NULL AUTO_INCREMENT,
     nombre VARCHAR(50) NOT NULL,
     descripcion VARCHAR(100) NOT NULL,
+    CONSTRAINT pk_logro PRIMARY KEY (id)
+);
+
+-- Tabla intermedia para la relación ManyToMany: LOGRO_PERFIL
+CREATE TABLE IF NOT EXISTS logro_perfil (
+    id_logro BIGINT NOT NULL,
     id_perfil BIGINT NOT NULL,
-    CONSTRAINT pk_logro PRIMARY KEY (id),
-    CONSTRAINT fk_logro_perfil
+    CONSTRAINT pk_logro_perfil PRIMARY KEY (id_logro, id_perfil),
+    CONSTRAINT fk_logro_perfil_logro
+        FOREIGN KEY (id_logro) REFERENCES logro(id),
+    CONSTRAINT fk_logro_perfil_perfil
         FOREIGN KEY (id_perfil) REFERENCES perfil(id)
 );
+
 
 -- =========================================
 -- MENSAJE MOTIVACIONAL
@@ -114,7 +135,10 @@ CREATE TABLE IF NOT EXISTS sets (
     peso FLOAT NOT NULL,
     repeticiones INT NOT NULL,
     id_ejercicio BIGINT NOT NULL,
+    id_perfil BIGINT NOT NULL,
     CONSTRAINT pk_sets PRIMARY KEY (id),
     CONSTRAINT fk_set_ejercicio
-        FOREIGN KEY (id_ejercicio) REFERENCES ejercicio(id)
+        FOREIGN KEY (id_ejercicio) REFERENCES ejercicio(id),
+    CONSTRAINT fk_set_perfil
+        FOREIGN KEY (id_perfil) REFERENCES perfil(id)
 );

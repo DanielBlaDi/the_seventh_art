@@ -1,18 +1,20 @@
 package seventh_art.rocky.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
 import seventh_art.rocky.entity.Perfil;
 import seventh_art.rocky.entity.Usuario;
 import seventh_art.rocky.repository.PerfilRepository;
+import seventh_art.rocky.repository.UsuarioRepository;
 
 @Service
 @RequiredArgsConstructor
 public class PerfilActualService {
 
-    private final UsuarioService usuarioService;
+    private final UsuarioRepository usuarioRepository;
     private final PerfilRepository perfilRepository;
 
     public Perfil getCurrentPerfil() {
@@ -23,7 +25,8 @@ public class PerfilActualService {
         }
 
         String email = auth.getName();          // viene del login (UsernamePasswordAuthenticationToken)
-        Usuario usuario = usuarioService.findByEmail(email);
+        Usuario usuario = usuarioRepository.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new IllegalStateException("Usuario not found with email: " + email));
 
         return perfilRepository.findByUsuario(usuario)
                 .orElseThrow(() -> new IllegalStateException("Perfil not found for user: " + email));

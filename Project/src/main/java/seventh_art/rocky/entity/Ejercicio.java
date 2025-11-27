@@ -1,5 +1,8 @@
 package seventh_art.rocky.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,6 +10,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -21,7 +25,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class Ejercicio {
 
     @Id
@@ -42,4 +45,9 @@ public class Ejercicio {
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_ejercicio", nullable = false, length = 50)
     private TipoEjercicio tipoEjercicio;
+
+    // ===== ManyToMany inverso con Rutina =====
+    @ManyToMany(mappedBy = "ejercicios")
+    @Builder.Default
+    private List<Rutina> rutinas = new ArrayList<>();
 }
