@@ -3,6 +3,8 @@ package seventh_art.rocky.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -95,6 +97,7 @@ public class Perfil {
     // ===== ManyToMany con Logro (lado inverso) =====
     @ManyToMany(mappedBy = "perfiles")
     @Builder.Default
+    @JsonIgnore
     private Set<Logro> logros = new HashSet<>();
 
 }
