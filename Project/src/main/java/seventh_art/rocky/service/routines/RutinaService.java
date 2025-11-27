@@ -14,7 +14,7 @@ import seventh_art.rocky.repository.RutinaRepository;
 import seventh_art.rocky.service.PerfilActualService;
 
 import java.util.List;
-import java.util.stream.Collectors;  
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
