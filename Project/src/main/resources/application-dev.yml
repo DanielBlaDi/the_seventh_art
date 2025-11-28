@@ -45,6 +45,7 @@ spring:
 
 server:
   port: ${SERVER_PORT}
+  address: ${SERVER_INTERFACE}
   error:
     include-message: always
 

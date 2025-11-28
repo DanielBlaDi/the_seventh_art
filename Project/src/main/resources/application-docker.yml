@@ -35,10 +35,11 @@ spring:
               - openid
               - profile
               - email
-            redirect-uri: "http://localhost:8080/login/oauth2/code/{registrationId}"
+            redirect-uri: "http://${SERVER_IP}:${SERVER_PORT}/login/oauth2/code/{registrationId}"
 
 server:
   port: ${SERVER_PORT}
+  address: ${SERVER_INTERFACE}
   error:
     include-message: always
 
