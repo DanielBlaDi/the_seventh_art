@@ -94,6 +94,7 @@ public class Perfil {
             foreignKey = @ForeignKey(name = "fk_perfil_usuario")
     )
     private Usuario usuario;
+
     // ===== ManyToMany con Logro (lado inverso) =====
     @ManyToMany(mappedBy = "perfiles")
     @Builder.Default

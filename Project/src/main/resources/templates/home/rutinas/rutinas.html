@@ -476,6 +476,45 @@
     </div>
 </div>
 
+<!-- ================ MODAL VER RUTINA (EMPEZAR RUTINA) ================= -->
+<div id="modalVerRutina" class="modal hidden" aria-hidden="true">
+    <div class="modal-box modal-desktop" role="dialog" aria-modal="true" aria-labelledby="verRutinaNombre">
+
+        <!-- Header: nombre + resumen -->
+        <div class="modal-header">
+            <div>
+                <h3 id="verRutinaNombre" class="font-bold">Rutina</h3>
+                <p id="verRutinaResumen" class="text-muted-foreground text-sm">
+                    <!-- Ej: 5 ejercicios • 45-60 min -->
+                </p>
+            </div>
+            <button id="cerrarVerRutina" class="close-btn" title="Cerrar">×</button>
+        </div>
+
+        <!-- Body: descripción + lista de ejercicios -->
+        <div class="modal-body" style="flex-direction:column; max-height:70vh;">
+            <p id="verRutinaDescripcion"
+               class="text-muted-foreground text-sm"
+               style="margin-bottom:.75rem;"></p>
+
+            <div id="verRutinaListaEjercicios"
+                 class="ejercicios-seleccionados"
+                 style="height:auto; min-height:100px; max-height:55vh; overflow:auto;">
+                <!-- Aquí se muestran los ejercicios de la rutina -->
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="modal-footer">
+            <button id="cerrarVerRutinaFooter" class="btn cancelar">Cerrar</button>
+            <button id="verRutinaEmpezarBtn" class="btn crear">
+                Empezar Rutina
+            </button>
+        </div>
+
+    </div>
+</div>
+
 
 <script>
     // Para que el botón del estado vacío reutilice la misma lógica que el botón principal
@@ -489,5 +528,6 @@
 </script>
 
 <script src="js/rutinas.js"></script>
+<script src="js/rutina-en-curso.js"></script>
 </body>
 </html>

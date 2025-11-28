@@ -1,38 +1,37 @@
 /* =========================================================
-   rutinas.js  –  Versión integrada con backend
+   rutinas.js – Gestión de rutinas
    - Carga ejercicios desde /api/ejercicios
    - Crea / lista / elimina / edita rutinas
+   - Busca rutinas por nombre
+   - Muestra detalle de rutina (Empezar Rutina)
    ========================================================= */
 
 /* ---------- Estado global ---------- */
 
-// Ejercicios disponibles (para modales de crear / agregar)
+// Ejercicios disponibles (crear / agregar)
 let ejercicios = [];
 
-// Ejercicios seleccionados al crear rutina (panel derecho)
+// Ejercicios seleccionados al CREAR rutina (panel derecho)
 let seleccionados = [];
 
-// Borrador de rutina al crear (antes de enviar al backend)
+// Borrador cuando creamos una rutina (antes del POST)
 let borradorRutina = null;
 
-// Datos de rutina en modo edición
+// Datos de la rutina que se está editando
 let rutinaEditData = null;
+
+// Cache de rutinas del usuario (para buscador)
+let rutinasCache = [];
 
 // Id de rutina a eliminar
 let rutinaIdAEliminar = null;
 
-// Paginación (crear rutina)
+// Paginación
 const pageSize = 10;
-let currentPage = 1;
+let currentPage = 1;            // crear rutina
+let currentPageAgregar = 1;     // modal agregar ejercicios (editar)
 
-// Paginación (modal agregar ejercicios en edición)
-const pageSizeAgregar = 10;
-let currentPageAgregar = 1;
-
-// Selección dentro del modal "Agregar Ejercicios"
-let ejerciciosAgregarSeleccionados = new Set();
-
-// Tipo de último mensaje mostrado en modalConfirm (info | error | success)
+// Tipo de último mensaje mostrado en modalConfirm
 let ultimoTipoConfirm = "info";
 
 /* ---------- DOM refs generales ---------- */
@@ -49,6 +48,11 @@ const seleccionadosCont = document.getElementById("seleccionados");
 const contadorSel = document.getElementById("contadorSel");
 const crearRutinaBtn = document.getElementById("crearRutina");
 const contenedorRutinas = document.getElementById("rutinasExistentes");
+
+// Buscador de rutinas (input de arriba)
+const buscadorRutinas = document.querySelector(
+    'input.search-input[placeholder^="Buscar rutinas"]'
+);
 
 /* ---------- Modal VER EJERCICIO ---------- */
 const modalVer = document.getElementById("modalVerEjercicio");
@@ -84,23 +88,33 @@ const confirmarEliminarRutina = document.getElementById("confirmarEliminarRutina
 /* ---------- Modal EDITAR RUTINA ---------- */
 const modalEditarRutina = document.getElementById("modalEditarRutina");
 const editarNombreRutinaInput = document.getElementById("editarNombreRutina");
+const editarDescripcionRutina = document.getElementById("editarDescripcionRutina");
 const editarResumenRutina = document.getElementById("editarResumenRutina");
 const listaEjerciciosEditar = document.getElementById("listaEjerciciosEditar");
 const cerrarEditarRutina = document.getElementById("cerrarEditarRutina");
 const cancelarEditarRutina = document.getElementById("cancelarEditarRutina");
 const guardarEditarRutina = document.getElementById("guardarEditarRutina");
 const btnAgregarEjercicioEditar = document.getElementById("btnAgregarEjercicioEditar");
-const editarDescripcionRutina = document.getElementById("editarDescripcionRutina");
 
-/* ---------- Modal AGREGAR EJERCICIOS (dentro de EDITAR) ---------- */
+/* ---------- Modal AGREGAR EJERCICIOS (desde EDITAR) ---------- */
 const modalAgregarEjercicios = document.getElementById("modalAgregarEjercicios");
 const cerrarAgregarEjercicios = document.getElementById("cerrarAgregarEjercicios");
 const cancelarAgregarEjercicios = document.getElementById("cancelarAgregarEjercicios");
-const guardarAgregarEjercicios = document.getElementById("guardarAgregarEjercicios");
+const guardarAgregarEjerciciosBtn = document.getElementById("guardarAgregarEjercicios");
 
 const listaEjerciciosAgregar = document.getElementById("listaEjerciciosAgregar");
 const buscarEjercicioAgregar = document.getElementById("buscarEjercicioAgregar");
 const filtroGrupoAgregar = document.getElementById("filtroGrupoAgregar");
+
+/* ---------- Modal VER RUTINA (Empezar Rutina) ---------- */
+const modalVerRutina = document.getElementById("modalVerRutina");
+const cerrarVerRutina = document.getElementById("cerrarVerRutina");
+const cerrarVerRutinaFooter = document.getElementById("cerrarVerRutinaFooter");
+const verRutinaNombre = document.getElementById("verRutinaNombre");
+const verRutinaResumen = document.getElementById("verRutinaResumen");
+const verRutinaDescripcion = document.getElementById("verRutinaDescripcion");
+const verRutinaListaEjercicios = document.getElementById("verRutinaListaEjercicios");
+const verRutinaEmpezarBtn = document.getElementById("verRutinaEmpezarBtn");
 
 /* ---------- CSRF (Spring Security) ---------- */
 const csrfToken = document.querySelector('meta[name="_csrf"]')?.getAttribute('content');
@@ -108,8 +122,12 @@ const csrfHeaderName = document.querySelector('meta[name="_csrf_header"]')?.getA
 
 function buildHeaders(json = false) {
     const headers = {};
-    if (json) headers["Content-Type"] = "application/json";
-    if (csrfToken && csrfHeaderName) headers[csrfHeaderName] = csrfToken;
+    if (json) {
+        headers["Content-Type"] = "application/json";
+    }
+    if (csrfToken && csrfHeaderName) {
+        headers[csrfHeaderName] = csrfToken;
+    }
     return headers;
 }
 
@@ -156,22 +174,24 @@ function formatearTipoEjercicio(tipo) {
    Carga de ejercicios desde backend
    ========================================================= */
 
-// Si NO pasas nada => usa #filtroGrupo (modal CREAR)
-// Si pasas un string => usa ese tipo (modal AGREGAR)
+/**
+ * Carga ejercicios.
+ *  - Sin parámetro: usa el select #filtroGrupo (crear rutina)
+ *  - Con tipoOverride: usa ese tipo (modal agregar ejercicios)
+ */
 async function cargarEjerciciosDesdeBackend(tipoOverride) {
     const tipoBase = filtroGrupo ? filtroGrupo.value : "TODOS";
-
     const tipo = (typeof tipoOverride === "string" && tipoOverride.length > 0)
         ? tipoOverride
         : tipoBase;
 
     const params = (tipo && tipo !== "TODOS")
-        ? ("?tipo=" + encodeURIComponent(tipo))
-        : "";
+        ? ('?tipo=' + encodeURIComponent(tipo))
+        : '';
 
-    const resp = await fetch("/api/ejercicios" + params);
+    const resp = await fetch('/api/ejercicios' + params);
     if (!resp.ok) {
-        console.error("Error al cargar ejercicios:", resp.status);
+        console.error('Error al cargar ejercicios:', resp.status);
         ejercicios = [];
         return;
     }
@@ -185,7 +205,7 @@ async function cargarEjerciciosDesdeBackend(tipoOverride) {
         categoria: formatearTipoEjercicio(e.tipoEjercicio),
         tipoEjercicio: e.tipoEjercicio,
         imagen: e.imagenUrl || "",
-        instrucciones: [] // reservado
+        instrucciones: []  // reservado
     }));
 }
 
@@ -247,8 +267,8 @@ function abrirVerEjercicio(id) {
     if (!e) return;
 
     verNombre.textContent = e.nombre;
-    verImagen.style.backgroundImage = e.imagen ? `url('${e.imagen}')` : "none";
-    verDescripcion.textContent = e.descripcion || "";
+    verImagen.style.backgroundImage = e.imagen ? `url('${e.imagen}')` : 'none';
+    verDescripcion.textContent = e.descripcion || '';
 
     if (e.instrucciones && e.instrucciones.length > 0) {
         verInstrucciones.innerHTML = e.instrucciones.map(i => `<li>${i}</li>`).join("");
@@ -289,7 +309,7 @@ if (modalConfirm) {
 }
 
 /* =========================================================
-   LISTA DE EJERCICIOS – MODAL CREAR
+   Render lista de EJERCICIOS (crear rutina) + paginación
    ========================================================= */
 
 function renderEjercicios() {
@@ -318,7 +338,7 @@ function renderEjercicios() {
     pagina.forEach(e => {
         const item = document.createElement("div");
         item.className = "ejercicio";
-        const imagenBg = e.imagen ? `background-image:url('${e.imagen}')` : "";
+        const imagenBg = e.imagen ? `background-image:url('${e.imagen}')` : '';
 
         const yaSeleccionado = idsSeleccionados.has(e.id);
 
@@ -333,27 +353,24 @@ function renderEjercicios() {
             </div>
           </div>
           <div class="actions">
-            <button class="btn-ver" data-id="${e.id}" title="Ver ejercicio">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                   viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                   class="icon-svg" aria-hidden="true">
-                <path d="M2.062 12.348a1 1 0 0 1 0-.696
-                         10.75 10.75 0 0 1 19.876 0
-                         1 1 0 0 1 0 .696
-                         10.75 10.75 0 0 1-19.876 0"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
+            <button class="btn-ver" data-id="${e.id}" title="Ver">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="icon-svg" aria-hidden="true">
+                  <path d="M2.062 12.348a1 1 0 0 1 0-.696
+                           10.75 10.75 0 0 1 19.876 0
+                           1 1 0 0 1 0 .696
+                           10.75 10.75 0 0 1-19.876 0"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
             </button>
 
             <button class="btn-add ${yaSeleccionado ? "selected" : ""}"
                     data-id="${e.id}"
                     ${yaSeleccionado ? "disabled" : ""}
                     title="${yaSeleccionado ? "Ya agregado" : "Agregar"}">
-              ${
-            yaSeleccionado
-                ? "✓"
-                : `
+              ${yaSeleccionado ? "✓" : `
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                      viewBox="0 0 24 24" fill="none" stroke="currentColor"
                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -361,8 +378,7 @@ function renderEjercicios() {
                   <path d="M5 12h14"></path>
                   <path d="M12 5v14"></path>
                 </svg>
-              `
-        }
+              `}
             </button>
           </div>
         `;
@@ -373,7 +389,7 @@ function renderEjercicios() {
         b.addEventListener("click", e => {
             const id = Number(e.currentTarget.dataset.id);
             agregarEjercicio(id);
-            renderEjercicios(); // refresca para marcar como seleccionado
+            renderEjercicios(); // refresco para marcar como seleccionado
         });
     });
 
@@ -390,13 +406,13 @@ function renderEjercicios() {
 function renderPaginacion(totalPages) {
     if (totalPages <= 1) return;
 
-    const pag = document.createElement("div");
-    pag.className = "pagination";
+    const pag = document.createElement('div');
+    pag.className = 'pagination';
 
-    const prev = document.createElement("button");
-    prev.textContent = "‹";
+    const prev = document.createElement('button');
+    prev.textContent = '‹';
     prev.disabled = currentPage === 1;
-    prev.addEventListener("click", () => {
+    prev.addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
             renderEjercicios();
@@ -405,20 +421,20 @@ function renderPaginacion(totalPages) {
     pag.appendChild(prev);
 
     for (let p = 1; p <= totalPages; p++) {
-        const btn = document.createElement("button");
+        const btn = document.createElement('button');
         btn.textContent = p;
-        btn.className = "page-btn" + (p === currentPage ? " active" : "");
-        btn.addEventListener("click", () => {
+        btn.className = 'page-btn' + (p === currentPage ? ' active' : '');
+        btn.addEventListener('click', () => {
             currentPage = p;
             renderEjercicios();
         });
         pag.appendChild(btn);
     }
 
-    const next = document.createElement("button");
-    next.textContent = "›";
+    const next = document.createElement('button');
+    next.textContent = '›';
     next.disabled = currentPage === totalPages;
-    next.addEventListener("click", () => {
+    next.addEventListener('click', () => {
         if (currentPage < totalPages) {
             currentPage++;
             renderEjercicios();
@@ -429,7 +445,7 @@ function renderPaginacion(totalPages) {
     listaEjercicios.appendChild(pag);
 }
 
-/* ------- Filtros y búsqueda (CREAR) ------- */
+/* ------- Filtros y búsqueda de ejercicios (crear) ------- */
 
 if (filtroGrupo) {
     filtroGrupo.addEventListener("change", async () => {
@@ -446,21 +462,8 @@ if (buscarInput) {
     });
 }
 
-// El div #filtros ya no tiene botones .filter, este bloque es inofensivo pero opcional
-if (filtros) {
-    filtros.querySelectorAll(".filter").forEach(btn => {
-        btn.addEventListener("click", async () => {
-            filtros.querySelectorAll(".filter").forEach(x => x.classList.remove("active"));
-            btn.classList.add("active");
-            await cargarEjerciciosDesdeBackend();
-            currentPage = 1;
-            renderEjercicios();
-        });
-    });
-}
-
 /* =========================================================
-   Panel derecho: EJERCICIOS SELECCIONADOS (CREAR)
+   Panel derecho: EJERCICIOS SELECCIONADOS (crear)
    ========================================================= */
 
 function agregarEjercicio(id) {
@@ -496,7 +499,7 @@ function renderSeleccionados() {
     seleccionados.forEach(s => {
         const div = document.createElement("div");
         div.className = "sel-item";
-        const imagenBg = s.imagen ? `background-image:url('${s.imagen}')` : "";
+        const imagenBg = s.imagen ? `background-image:url('${s.imagen}')` : '';
 
         div.innerHTML = `
           <div class="sel-left">
@@ -531,7 +534,7 @@ function renderSeleccionados() {
             const id = Number(e.currentTarget.dataset.id);
             seleccionados = seleccionados.filter(x => x.id !== id);
             renderSeleccionados();
-            renderEjercicios(); // actualiza botones de la lista izquierda
+            renderEjercicios(); // refresco botones "+"
         });
     });
 }
@@ -623,8 +626,7 @@ if (hechoDescripcion) {
                 return;
             }
 
-            const rutinaId = await resp.json();
-            console.log("Rutina creada con id:", rutinaId);
+            await resp.json(); // id, si lo necesitas
 
             closeDescripcionModal();
             closeCrearRutinaModal();
@@ -659,7 +661,102 @@ if (hechoDescripcion) {
 
 /* =========================================================
    Listar RUTINAS existentes (/api/rutinas/mias)
+   + buscador por nombre
    ========================================================= */
+
+function renderRutinasLista(filtroNombre = "") {
+    if (!contenedorRutinas) return;
+
+    let lista = rutinasCache;
+
+    const q = filtroNombre.toLowerCase().trim();
+    if (q) {
+        lista = rutinasCache.filter(r =>
+            (r.nombre || "").toLowerCase().includes(q)
+        );
+    }
+
+    contenedorRutinas.innerHTML = "";
+
+    if (!lista || lista.length === 0) {
+        // Si no hay rutinas en absoluto
+        if (!rutinasCache || rutinasCache.length === 0) {
+            contenedorRutinas.innerHTML = `
+              <div class="ejercicio">
+                Aún no tienes rutinas creadas.<br/>
+                <span class="text-muted-foreground">Usa el botón "Crear" para empezar.</span>
+              </div>
+            `;
+        } else {
+            // Sí hay rutinas, pero el filtro no encontró nada
+            contenedorRutinas.innerHTML = `
+              <div class="ejercicio">
+                No se encontraron rutinas con ese nombre.
+              </div>
+            `;
+        }
+        return;
+    }
+
+    lista.forEach(r => {
+        const card = document.createElement("div");
+        card.className = "card rutina-card";
+
+        card.innerHTML = `
+          <div class="rutina-header">
+            <div>
+              <h2 class="rutina-title">${r.nombre}</h2>
+              <p class="rutina-subtitle">
+                ${r.numeroEjercicios} ejercicio${r.numeroEjercicios === 1 ? "" : "s"}
+              </p>
+            </div>
+            <div class="rutina-icons">
+              <button class="icon-btn btn-edit-rutina" data-id="${r.id}" title="Editar rutina">
+                ✏️
+              </button>
+              <button class="icon-btn btn-delete-rutina" data-id="${r.id}" data-nombre="${r.nombre}" title="Eliminar rutina">
+                🗑
+              </button>
+            </div>
+          </div>
+
+          <div class="rutina-body">
+            <p class="rutina-description">${r.descripcion || ""}</p>
+          </div>
+
+          <div class="rutina-footer">
+            <button class="btn btn-primary btn-full" data-id="${r.id}">
+              Empezar Rutina
+            </button>
+          </div>
+        `;
+
+        contenedorRutinas.appendChild(card);
+    });
+
+    // Listeners
+    contenedorRutinas.querySelectorAll(".btn-full").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const idRutina = e.currentTarget.dataset.id;
+            abrirRutinaEnVista(idRutina);
+        });
+    });
+
+    contenedorRutinas.querySelectorAll(".btn-delete-rutina").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const id = e.currentTarget.dataset.id;
+            const nombre = e.currentTarget.dataset.nombre;
+            abrirModalEliminarRutina(id, nombre);
+        });
+    });
+
+    contenedorRutinas.querySelectorAll(".btn-edit-rutina").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const idRutina = e.currentTarget.dataset.id;
+            abrirModalEditarRutinaDesdeCard(idRutina);
+        });
+    });
+}
 
 async function cargarRutinasExistentes() {
     if (!contenedorRutinas) return;
@@ -677,76 +774,8 @@ async function cargarRutinasExistentes() {
         }
 
         const rutinas = await resp.json();
-
-        if (!rutinas || rutinas.length === 0) {
-            contenedorRutinas.innerHTML = `
-              <div class="ejercicio">
-                Aún no tienes rutinas creadas.<br/>
-                <span class="text-muted-foreground">Usa el botón "Crear" para empezar.</span>
-              </div>
-            `;
-            return;
-        }
-
-        contenedorRutinas.innerHTML = "";
-
-        rutinas.forEach(r => {
-            const card = document.createElement("div");
-            card.className = "card rutina-card";
-
-            card.innerHTML = `
-              <div class="rutina-header">
-                <div>
-                  <h2 class="rutina-title">${r.nombre}</h2>
-                  <p class="rutina-subtitle">
-                    ${r.numeroEjercicios} ejercicio${r.numeroEjercicios === 1 ? "" : "s"}
-                  </p>
-                </div>
-                <div class="rutina-icons">
-                  <button class="icon-btn btn-edit-rutina" data-id="${r.id}" title="Editar rutina">
-                    ✏️
-                  </button>
-                  <button class="icon-btn btn-delete-rutina" data-id="${r.id}" data-nombre="${r.nombre}" title="Eliminar rutina">
-                    🗑
-                  </button>
-                </div>
-              </div>
-
-              <div class="rutina-body">
-                <p class="rutina-description">${r.descripcion || ""}</p>
-              </div>
-
-              <div class="rutina-footer">
-                <button class="btn btn-primary btn-full" data-id="${r.id}">
-                  Empezar Rutina
-                </button>
-              </div>
-            `;
-
-            contenedorRutinas.appendChild(card);
-        });
-
-        contenedorRutinas.querySelectorAll(".btn-full").forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                const idRutina = e.currentTarget.dataset.id;
-                console.log("Empezar rutina id:", idRutina);
-            });
-        });
-
-        contenedorRutinas.querySelectorAll(".btn-delete-rutina").forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                const id = e.currentTarget.dataset.id;
-                const nombre = e.currentTarget.dataset.nombre;
-                abrirModalEliminarRutina(id, nombre);
-            });
-        });
-
-        contenedorRutinas.querySelectorAll(".btn-edit-rutina").forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                const idRutina = e.currentTarget.dataset.id;
-                abrirModalEditarRutinaDesdeCard(idRutina);
-            });
-        });
+        rutinasCache = rutinas || [];
+        renderRutinasLista("");
 
     } catch (err) {
         console.error("Error de red al cargar rutinas:", err);
@@ -755,13 +784,22 @@ async function cargarRutinasExistentes() {
     }
 }
 
+// Buscador de rutinas por nombre
+if (buscadorRutinas) {
+    buscadorRutinas.addEventListener("input", () => {
+        renderRutinasLista(buscadorRutinas.value || "");
+    });
+}
+
 /* =========================================================
-   ELIMINAR RUTINA
+   ELIMINAR RUTINA (DELETE /api/rutinas/{id})
    ========================================================= */
 
 function abrirModalEliminarRutina(id, nombre) {
     rutinaIdAEliminar = id;
-    if (nombreRutinaEliminar) nombreRutinaEliminar.textContent = nombre;
+    if (nombreRutinaEliminar) {
+        nombreRutinaEliminar.textContent = nombre;
+    }
     if (modalEliminarRutina) {
         modalEliminarRutina.classList.remove("hidden");
         modalEliminarRutina.setAttribute("aria-hidden", "false");
@@ -843,9 +881,11 @@ if (modalEditarRutina) {
 
 function actualizarEstadoBotonGuardar() {
     if (!guardarEditarRutina) return;
+
     const n = (rutinaEditData && Array.isArray(rutinaEditData.ejercicios))
         ? rutinaEditData.ejercicios.length
         : 0;
+
     guardarEditarRutina.disabled = (n === 0);
 }
 
@@ -877,9 +917,11 @@ async function cargarDetalleRutina(idRutina) {
         if (editarNombreRutinaInput) {
             editarNombreRutinaInput.value = rutinaEditData.nombre || "";
         }
+
         if (editarDescripcionRutina) {
             editarDescripcionRutina.value = rutinaEditData.descripcion || "";
         }
+
         if (editarResumenRutina) {
             const n = rutinaEditData.ejercicios.length;
             editarResumenRutina.textContent =
@@ -955,6 +997,213 @@ function renderEjerciciosEditar() {
     actualizarEstadoBotonGuardar();
 }
 
+/* ====== AGREGAR EJERCICIOS a rutina en edición ====== */
+
+function agregarEjercicioARutinaEdit(idEjercicio) {
+    if (!rutinaEditData) return;
+
+    if (rutinaEditData.ejercicios.some(e => e.id === idEjercicio)) {
+        return;
+    }
+
+    const base = ejercicios.find(x => x.id === idEjercicio);
+    if (!base) return;
+
+    rutinaEditData.ejercicios.push({
+        id: base.id,
+        nombre: base.nombre,
+        tipoEjercicio: base.tipoEjercicio,
+        categoria: formatearTipoEjercicio(base.tipoEjercicio),
+        imagen: base.imagen
+    });
+
+    renderEjerciciosEditar();
+
+    if (editarResumenRutina) {
+        const n = rutinaEditData.ejercicios.length;
+        editarResumenRutina.textContent =
+            `${n} ejercicio${n === 1 ? "" : "s"} • 45-60 min`;
+    }
+}
+
+/* ================= MODAL AGREGAR EJERCICIOS ================= */
+
+function openModalAgregarEjercicios() {
+    if (!modalAgregarEjercicios) return;
+    modalAgregarEjercicios.classList.remove("hidden");
+    modalAgregarEjercicios.setAttribute("aria-hidden", "false");
+    if (guardarAgregarEjerciciosBtn) guardarAgregarEjerciciosBtn.disabled = false;
+}
+
+function closeModalAgregarEjercicios() {
+    if (!modalAgregarEjercicios) return;
+    modalAgregarEjercicios.classList.add("hidden");
+    modalAgregarEjercicios.setAttribute("aria-hidden", "true");
+}
+
+if (cerrarAgregarEjercicios) cerrarAgregarEjercicios.addEventListener("click", closeModalAgregarEjercicios);
+if (cancelarAgregarEjercicios) cancelarAgregarEjercicios.addEventListener("click", closeModalAgregarEjercicios);
+if (guardarAgregarEjerciciosBtn) {
+    // Solo cierra; los "+" ya fueron agregando ejercicios a la rutina
+    guardarAgregarEjerciciosBtn.addEventListener("click", closeModalAgregarEjercicios);
+}
+if (modalAgregarEjercicios) {
+    modalAgregarEjercicios.addEventListener("click", (e) => {
+        if (e.target === modalAgregarEjercicios) {
+            closeModalAgregarEjercicios();
+        }
+    });
+}
+
+if (btnAgregarEjercicioEditar) {
+    btnAgregarEjercicioEditar.addEventListener("click", async () => {
+        const tipo = filtroGrupoAgregar ? filtroGrupoAgregar.value : "TODOS";
+        await cargarEjerciciosDesdeBackend(tipo);
+        currentPageAgregar = 1;
+        renderEjerciciosAgregarEditar();
+        openModalAgregarEjercicios();
+    });
+}
+
+function renderEjerciciosAgregarEditar() {
+    if (!listaEjerciciosAgregar) return;
+
+    const q = (buscarEjercicioAgregar?.value || "").toLowerCase().trim();
+
+    const filtrados = ejercicios.filter(e =>
+        e.nombre.toLowerCase().includes(q)
+    );
+
+    listaEjerciciosAgregar.innerHTML = "";
+
+    if (filtrados.length === 0) {
+        listaEjerciciosAgregar.innerHTML =
+            `<div class="ejercicio">No se encontraron ejercicios</div>`;
+        return;
+    }
+
+    const totalPages = Math.max(1, Math.ceil(filtrados.length / pageSize));
+    if (currentPageAgregar > totalPages) currentPageAgregar = totalPages;
+
+    const start = (currentPageAgregar - 1) * pageSize;
+    const end = start + pageSize;
+    const pagina = filtrados.slice(start, end);
+
+    const idsEnRutina = new Set(
+        (rutinaEditData?.ejercicios || []).map(e => e.id)
+    );
+
+    pagina.forEach(e => {
+        const item = document.createElement("div");
+        item.className = "ejercicio";
+        const imagenBg = e.imagen ? `background-image:url('${e.imagen}')` : '';
+
+        const yaEnRutina = idsEnRutina.has(e.id);
+
+        item.innerHTML = `
+          <div style="display:flex; align-items:center;">
+            <div style="width:76px; height:56px; border-radius:8px; ${imagenBg};
+                        background-size:cover; background-position:center;
+                        border:1px solid var(--color-border);"></div>
+            <div style="margin-left:.8rem">
+              <div style="font-weight:700">${e.nombre}</div>
+              <div class="meta">${formatearTipoEjercicio(e.tipoEjercicio)}</div>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn-ver" data-id="${e.id}" title="Ver">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="icon-svg" aria-hidden="true">
+                  <path d="M2.062 12.348a1 1 0 0 1 0-.696
+                           10.75 10.75 0 0 1 19.876 0
+                           1 1 0 0 1 0 .696
+                           10.75 10.75 0 0 1-19.876 0"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+            </button>
+
+            <button class="btn-add-edit ${yaEnRutina ? "selected" : ""}"
+                    data-id="${e.id}"
+                    ${yaEnRutina ? "disabled" : ""}
+                    title="${yaEnRutina ? "Ya en la rutina" : "Agregar a la rutina"}">
+              ${yaEnRutina ? "✓" : `
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="icon-svg" aria-hidden="true">
+                  <path d="M5 12h14"></path>
+                  <path d="M12 5v14"></path>
+                </svg>
+              `}
+            </button>
+          </div>
+        `;
+
+        listaEjerciciosAgregar.appendChild(item);
+    });
+
+    listaEjerciciosAgregar.querySelectorAll(".btn-ver").forEach(b => {
+        b.addEventListener("click", e => {
+            const id = Number(e.currentTarget.dataset.id);
+            abrirVerEjercicio(id);
+        });
+    });
+
+    listaEjerciciosAgregar.querySelectorAll(".btn-add-edit:not(.selected)").forEach(b => {
+        b.addEventListener("click", e => {
+            const id = Number(e.currentTarget.dataset.id);
+            agregarEjercicioARutinaEdit(id);
+            renderEjerciciosAgregarEditar();
+        });
+    });
+
+    renderPaginacionAgregarEditar(totalPages);
+}
+
+function renderPaginacionAgregarEditar(totalPages) {
+    if (totalPages <= 1) return;
+
+    const pag = document.createElement('div');
+    pag.className = 'pagination';
+
+    const prev = document.createElement('button');
+    prev.textContent = '‹';
+    prev.disabled = currentPageAgregar === 1;
+    prev.addEventListener('click', () => {
+        if (currentPageAgregar > 1) {
+            currentPageAgregar--;
+            renderEjerciciosAgregarEditar();
+        }
+    });
+    pag.appendChild(prev);
+
+    for (let p = 1; p <= totalPages; p++) {
+        const btn = document.createElement('button');
+        btn.textContent = p;
+        btn.className = 'page-btn' + (p === currentPageAgregar ? ' active' : '');
+        btn.addEventListener('click', () => {
+            currentPageAgregar = p;
+            renderEjerciciosAgregarEditar();
+        });
+        pag.appendChild(btn);
+    }
+
+    const next = document.createElement('button');
+    next.textContent = '›';
+    next.disabled = currentPageAgregar === totalPages;
+    next.addEventListener('click', () => {
+        if (currentPageAgregar < totalPages) {
+            currentPageAgregar++;
+            renderEjerciciosAgregarEditar();
+        }
+    });
+    pag.appendChild(next);
+
+    listaEjerciciosAgregar.appendChild(pag);
+}
+
 /* ===== Guardar cambios de edición (PUT /api/rutinas/{id}) ===== */
 
 if (guardarEditarRutina) {
@@ -999,266 +1248,116 @@ if (guardarEditarRutina) {
     });
 }
 
-/* =========================================================
-   MODAL AGREGAR EJERCICIOS (EDICIÓN)
-   ========================================================= */
-
-function actualizarEstadoBotonAgregar() {
-    if (!guardarAgregarEjercicios) return;
-    guardarAgregarEjercicios.disabled = (ejerciciosAgregarSeleccionados.size === 0);
-}
-
-function openModalAgregarEjercicios() {
-    if (!modalAgregarEjercicios) return;
-    modalAgregarEjercicios.classList.remove("hidden");
-    modalAgregarEjercicios.setAttribute("aria-hidden", "false");
-}
-
-function closeModalAgregarEjercicios() {
-    if (!modalAgregarEjercicios) return;
-    modalAgregarEjercicios.classList.add("hidden");
-    modalAgregarEjercicios.setAttribute("aria-hidden", "true");
-    ejerciciosAgregarSeleccionados.clear();
-    currentPageAgregar = 1;
-    actualizarEstadoBotonAgregar();
-}
-
-if (cerrarAgregarEjercicios) cerrarAgregarEjercicios.addEventListener("click", closeModalAgregarEjercicios);
-if (cancelarAgregarEjercicios) cancelarAgregarEjercicios.addEventListener("click", closeModalAgregarEjercicios);
-if (modalAgregarEjercicios) {
-    modalAgregarEjercicios.addEventListener("click", (e) => {
-        if (e.target === modalAgregarEjercicios) closeModalAgregarEjercicios();
-    });
-}
-
-// abrir modal desde editar rutina
-if (btnAgregarEjercicioEditar) {
-    btnAgregarEjercicioEditar.addEventListener("click", async () => {
-        if (!rutinaEditData) return;
-        const tipoSeleccionado = filtroGrupoAgregar ? filtroGrupoAgregar.value : "TODOS";
-        await cargarEjerciciosDesdeBackend(tipoSeleccionado);
-        currentPageAgregar = 1;
-        ejerciciosAgregarSeleccionados.clear();
-        actualizarEstadoBotonAgregar();
-        renderEjerciciosAgregar();
-        openModalAgregarEjercicios();
-    });
-}
-
-// toggle selección en modal agregar
-function toggleSeleccionAgregar(id, btnEl) {
-    if (ejerciciosAgregarSeleccionados.has(id)) {
-        ejerciciosAgregarSeleccionados.delete(id);
-    } else {
-        ejerciciosAgregarSeleccionados.add(id);
-    }
-
-    const seleccionado = ejerciciosAgregarSeleccionados.has(id);
-    if (btnEl) {
-        btnEl.classList.toggle("selected", seleccionado);
-        btnEl.setAttribute("aria-pressed", seleccionado);
-        btnEl.textContent = seleccionado ? "✔" : "+";
-    }
-
-    actualizarEstadoBotonAgregar();
-}
-
-function renderEjerciciosAgregar() {
-    if (!listaEjerciciosAgregar) return;
-
-    const q = (buscarEjercicioAgregar?.value || "").toLowerCase().trim();
-
-    let filtrados = ejercicios;
-
-    if (q) {
-        filtrados = filtrados.filter(e =>
-            e.nombre.toLowerCase().includes(q)
-        );
-    }
-
-    listaEjerciciosAgregar.innerHTML = "";
-
-    if (filtrados.length === 0) {
-        listaEjerciciosAgregar.innerHTML =
-            `<div class="ejercicio">No se encontraron ejercicios</div>`;
-        return;
-    }
-
-    const totalPages = Math.max(1, Math.ceil(filtrados.length / pageSizeAgregar));
-    if (currentPageAgregar > totalPages) currentPageAgregar = totalPages;
-
-    const start = (currentPageAgregar - 1) * pageSizeAgregar;
-    const end = start + pageSizeAgregar;
-    const pagina = filtrados.slice(start, end);
-
-    const idsEnRutina = new Set((rutinaEditData?.ejercicios || []).map(e => e.id));
-
-    pagina.forEach(e => {
-        const div = document.createElement("div");
-        div.className = "ejercicio";
-
-        const imagenBg = e.imagen ? `background-image:url('${e.imagen}')` : "";
-        const yaEnRutina = idsEnRutina.has(e.id);
-        const seleccionado = ejerciciosAgregarSeleccionados.has(e.id);
-
-        div.innerHTML = `
-          <div style="display:flex; align-items:center;">
-            <div style="width:76px; height:56px; border-radius:8px; ${imagenBg};
-                        background-size:cover; background-position:center;
-                        border:1px solid var(--color-border);"></div>
-            <div style="margin-left:.8rem">
-              <div style="font-weight:700">${e.nombre}</div>
-              <div class="meta">${e.categoria}</div>
-            </div>
-          </div>
-
-          <div class="actions">
-            <button class="btn-ver-agregar" data-id="${e.id}" title="Ver ejercicio">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                   viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                   class="icon-svg" aria-hidden="true">
-                <path d="M2.062 12.348a1 1 0 0 1 0-.696
-                         10.75 10.75 0 0 1 19.876 0
-                         1 1 0 0 1 0 .696
-                         10.75 10.75 0 0 1-19.876 0"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
-            </button>
-
-            <button class="btn-add-agregar ${seleccionado ? "selected" : ""}"
-                    data-id="${e.id}"
-                    ${yaEnRutina ? "disabled" : ""}
-                    title="${yaEnRutina ? "Ya en la rutina" : "Agregar ejercicio"}"
-                    aria-pressed="${seleccionado}">
-              ${seleccionado ? "✔" : "+"}
-            </button>
-          </div>
-        `;
-
-        listaEjerciciosAgregar.appendChild(div);
-    });
-
-    // ver ejercicio
-    listaEjerciciosAgregar.querySelectorAll(".btn-ver-agregar").forEach(btn => {
-        btn.addEventListener("click", (ev) => {
-            const id = Number(ev.currentTarget.dataset.id);
-            abrirVerEjercicio(id);
-        });
-    });
-
-    // seleccionar / deseleccionar
-    listaEjerciciosAgregar.querySelectorAll(".btn-add-agregar").forEach(btn => {
-        btn.addEventListener("click", (ev) => {
-            const id = Number(ev.currentTarget.dataset.id);
-            if (btn.disabled) return;
-            toggleSeleccionAgregar(id, ev.currentTarget);
-        });
-    });
-
-    renderPaginacionAgregar(totalPages);
-}
-
-function renderPaginacionAgregar(totalPages) {
-    if (totalPages <= 1) return;
-
-    const pag = document.createElement("div");
-    pag.className = "pagination";
-
-    const prev = document.createElement("button");
-    prev.textContent = "‹";
-    prev.disabled = currentPageAgregar === 1;
-    prev.addEventListener("click", () => {
-        if (currentPageAgregar > 1) {
-            currentPageAgregar--;
-            renderEjerciciosAgregar();
-        }
-    });
-    pag.appendChild(prev);
-
-    for (let p = 1; p <= totalPages; p++) {
-        const btn = document.createElement("button");
-        btn.textContent = p;
-        btn.className = "page-btn" + (p === currentPageAgregar ? " active" : "");
-        btn.addEventListener("click", () => {
-            currentPageAgregar = p;
-            renderEjerciciosAgregar();
-        });
-        pag.appendChild(btn);
-    }
-
-    const next = document.createElement("button");
-    next.textContent = "›";
-    next.disabled = currentPageAgregar === totalPages;
-    next.addEventListener("click", () => {
-        if (currentPageAgregar < totalPages) {
-            currentPageAgregar++;
-            renderEjerciciosAgregar();
-        }
-    });
-    pag.appendChild(next);
-
-    listaEjerciciosAgregar.appendChild(pag);
-}
-
-// filtro grupo en modal AGREGAR
+// Filtros y búsqueda dentro de modal AGREGAR
 if (filtroGrupoAgregar) {
     filtroGrupoAgregar.addEventListener("change", async () => {
-        const tipo = filtroGrupoAgregar.value || "TODOS";
+        const tipo = filtroGrupoAgregar.value;
         await cargarEjerciciosDesdeBackend(tipo);
         currentPageAgregar = 1;
-        renderEjerciciosAgregar();
+        renderEjerciciosAgregarEditar();
     });
 }
 
-// búsqueda nombre en modal AGREGAR
 if (buscarEjercicioAgregar) {
     buscarEjercicioAgregar.addEventListener("input", () => {
         currentPageAgregar = 1;
-        renderEjerciciosAgregar();
+        renderEjerciciosAgregarEditar();
     });
 }
 
-// botón "Agregar Cambios"
-if (guardarAgregarEjercicios) {
-    guardarAgregarEjercicios.addEventListener("click", () => {
-        if (!rutinaEditData) {
-            closeModalAgregarEjercicios();
+/* =========================================================
+   VER RUTINA (Empezar Rutina)
+   ========================================================= */
+
+function openModalVerRutina() {
+    if (!modalVerRutina) return;
+    modalVerRutina.classList.remove("hidden");
+    modalVerRutina.setAttribute("aria-hidden", "false");
+}
+
+function closeModalVerRutina() {
+    if (!modalVerRutina) return;
+    modalVerRutina.classList.add("hidden");
+    modalVerRutina.setAttribute("aria-hidden", "true");
+}
+
+if (cerrarVerRutina) cerrarVerRutina.addEventListener("click", closeModalVerRutina);
+if (cerrarVerRutinaFooter) cerrarVerRutinaFooter.addEventListener("click", closeModalVerRutina);
+if (modalVerRutina) {
+    modalVerRutina.addEventListener("click", (e) => {
+        if (e.target === modalVerRutina) closeModalVerRutina();
+    });
+}
+
+if (verRutinaEmpezarBtn) {
+    verRutinaEmpezarBtn.addEventListener("click", () => {
+        // Aquí en el futuro puedes iniciar un flujo de "seguir la rutina"
+        console.log("Empezar rutina:", verRutinaNombre?.textContent || "");
+        closeModalVerRutina();
+    });
+}
+
+function renderEjerciciosVistaRutina(ejerciciosVista) {
+    if (!verRutinaListaEjercicios) return;
+
+    verRutinaListaEjercicios.innerHTML = "";
+
+    if (!ejerciciosVista || ejerciciosVista.length === 0) {
+        verRutinaListaEjercicios.innerHTML = `
+          <div class="ejercicio">
+            Esta rutina aún no tiene ejercicios.
+          </div>
+        `;
+        return;
+    }
+
+    ejerciciosVista.forEach(ej => {
+        const div = document.createElement("div");
+        div.className = "edit-ej-item";
+
+        const imagenBg = ej.url ? `background-image:url('${ej.url}')` : "";
+
+        div.innerHTML = `
+          <div class="edit-ej-left">
+            <div style="width:76px; height:56px; border-radius:8px; ${imagenBg};
+                        background-size:cover; background-position:center;
+                        border:1px solid var(--color-border);"></div>
+            <div>
+              <div class="edit-ej-name">${ej.nombre}</div>
+              <div class="edit-ej-meta">${formatearTipoEjercicio(ej.tipoEjercicio)}</div>
+            </div>
+          </div>
+        `;
+
+        verRutinaListaEjercicios.appendChild(div);
+    });
+}
+
+async function abrirRutinaEnVista(idRutina) {
+    try {
+        const resp = await fetch(`/api/rutinas/${idRutina}`);
+        if (!resp.ok) {
+            console.error("Error al cargar detalle de rutina:", resp.status);
             return;
         }
-        if (ejerciciosAgregarSeleccionados.size === 0) {
-            closeModalAgregarEjercicios();
-            return;
-        }
 
-        const idsAgregar = Array.from(ejerciciosAgregarSeleccionados);
-        const nuevos = idsAgregar
-            .map(id => ejercicios.find(e => e.id === id))
-            .filter(e => !!e);
+        const data = await resp.json();
 
-        nuevos.forEach(e => {
-            const yaExiste = rutinaEditData.ejercicios.some(x => x.id === e.id);
-            if (!yaExiste) {
-                rutinaEditData.ejercicios.push({
-                    id: e.id,
-                    nombre: e.nombre,
-                    tipoEjercicio: e.tipoEjercicio,
-                    categoria: e.categoria,
-                    imagen: e.imagen
-                });
-            }
-        });
+        const n = (data.ejercicios || []).length;
 
-        renderEjerciciosEditar();
-
-        if (editarResumenRutina) {
-            const n = rutinaEditData.ejercicios.length;
-            editarResumenRutina.textContent =
+        if (verRutinaNombre) verRutinaNombre.textContent = data.nombre || "";
+        if (verRutinaDescripcion) verRutinaDescripcion.textContent = data.descripcion || "";
+        if (verRutinaResumen) {
+            verRutinaResumen.textContent =
                 `${n} ejercicio${n === 1 ? "" : "s"} • 45-60 min`;
         }
 
-        closeModalAgregarEjercicios();
-    });
+        renderEjerciciosVistaRutina(data.ejercicios || []);
+        openModalVerRutina();
+
+    } catch (err) {
+        console.error("Error de red al cargar rutina para vista:", err);
+    }
 }
 
 /* =========================================================
