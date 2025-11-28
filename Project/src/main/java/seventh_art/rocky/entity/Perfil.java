@@ -15,6 +15,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -94,12 +95,24 @@ public class Perfil {
             foreignKey = @ForeignKey(name = "fk_perfil_usuario")
     )
     private Usuario usuario;
-
+    
     // ===== ManyToMany con Logro (lado inverso) =====
     @ManyToMany(mappedBy = "perfiles")
     @Builder.Default
     @JsonIgnore
     private Set<Logro> logros = new HashSet<>();
+
+
+    @ManyToMany
+    @JoinTable(
+        name = "perfil_mensaje_motivacional",
+        joinColumns = @JoinColumn(name = "id_perfil"),
+        inverseJoinColumns = @JoinColumn(name = "id_mensaje_motivacional")
+    )
+    @Builder.Default
+    private Set<MensajeMotivacional> mensajesMotivacionales = new HashSet<>();
+
+
 
 }
 
