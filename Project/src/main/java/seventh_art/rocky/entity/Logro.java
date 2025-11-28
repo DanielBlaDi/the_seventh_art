@@ -1,14 +1,17 @@
 package seventh_art.rocky.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -36,16 +39,21 @@ public class Logro {
     @NotBlank
     @Column(nullable = false, length = 50)
     private String nombre;
-
-    @Column(length = 100)
+    
+    @NotBlank
+    @Column(nullable = false, length = 100)
     private String descripcion;
-
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(
-            name = "id_perfil",
-            nullable = false,
-            foreignKey = @ForeignKey(name = "fk_logro_perfil")
-    )
-    private Perfil perfil;
+    
+    
+    @ManyToMany
+    @JoinTable(
+            name = "logro_perfil",
+            joinColumns = @JoinColumn(name = "id_logro", nullable = false,
+            foreignKey = @ForeignKey(name = "fk_logro_perfil_logro")),
+            inverseJoinColumns = @JoinColumn(name = "id_perfil", nullable = false,
+            foreignKey = @ForeignKey(name = "fk_logro_perfil_perfil"))
+)
+@Builder.Default
+private Set<Perfil> perfiles = new HashSet<>();
 
 }

@@ -1,7 +1,10 @@
 package seventh_art.rocky.entity;
 
 public enum TipoEjercicio {
-    PECHO,
+    // Pecho
+    PECHO_SUPERIOR,
+    PECHO_MEDIO,
+    PECHO_INFERIOR,
 
     // Hombro / Deltoides
     DELTOIDE_ANTERIOR,

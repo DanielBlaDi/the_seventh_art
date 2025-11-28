@@ -10,8 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,7 +27,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Set {
+public class SetEjercicio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +35,7 @@ public class Set {
 
     @NotNull
     @Positive
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     private Float peso;      // En kilogramos
 
     @NotNull
@@ -50,5 +50,13 @@ public class Set {
             foreignKey = @ForeignKey(name = "fk_set_ejercicio")
     )
     private Ejercicio ejercicio;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(
+            name = "id_perfil",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "fk_set_perfil")
+    )
+    private Perfil perfil;
 
 }
