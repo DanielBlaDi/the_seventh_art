@@ -38,6 +38,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
+    // ❗ NUEVO: leer si debemos abrir el modal automáticamente
+    const debeAbrirModal =
+        sessionStorage.getItem("rutinaEnCurso_abrirModal") === "1";
+
     // ---------- 2) Mostrar card con info básica ----------
     if (cardRutina) {
         cardRutina.style.display = "block";
@@ -47,8 +51,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (progresoCard) {
         const total = rutinaEnCurso.numeroEjercicios || 0;
-        // Progreso real lo manejaremos luego; por ahora 0/x
-        progresoCard.textContent = `0 de ${total} ejercicios completados`;
+        const completados = rutinaEnCurso.ejerciciosCompletados || 0;
+        progresoCard.textContent =
+            `${completados} de ${total} ejercicios completados`;
     }
 
     // ---------- 3) Manejo de modal ----------
@@ -86,7 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Aquí, por ahora, solo hacemos console.log cuando se pulsa “Empezar”
     if (btnEmpezarDesdeModal) {
         btnEmpezarDesdeModal.addEventListener("click", () => {
             console.log("Aquí iría la lógica de cronómetro / marcar completados.");
@@ -130,29 +134,96 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         ejercicios.forEach((ej, index) => {
-            const item = document.createElement("div");
-            item.className = "ejercicio-run-item";
+            const card = document.createElement("div");
+            card.className = "ejercicio-card";
 
             const imagenBg = ej.url
                 ? `background-image:url('${ej.url}');`
                 : "";
 
-            item.innerHTML = `
-                <div class="ejercicio-run-main">
-                    <div class="ejercicio-run-img"
-                         style="${imagenBg} background-size:cover; background-position:center;"></div>
-                    <div>
-                        <p class="ejercicio-run-name">${ej.nombre}</p>
-                        <p class="ejercicio-run-meta">${ej.tipoEjercicio || ""}</p>
-                    </div>
-                </div>
-                <div class="ejercicio-run-extra">
-                    <span class="badge">Ejercicio ${index + 1}</span>
-                </div>
-            `;
+            card.innerHTML = `
+          <div class="ejercicio-header">
+            <div class="ejercicio-header-main">
+              <div class="ejercicio-run-img"
+                   style="${imagenBg} background-size:cover; background-position:center;"></div>
+              <div>
+                <p class="ejercicio-nombre">${ej.nombre}</p>
+                <p class="ejercicio-musculo">${ej.tipoEjercicio || ""}</p>
+              </div>
+            </div>
+            <span class="badge badge-ejercicio">
+              Ejercicio ${index + 1} / ${total}
+            </span>
+          </div>
 
-            listaEjerciciosModal.appendChild(item);
+          <div class="series-container" data-ejercicio-id="${ej.id || index}">
+            <!-- Aquí se insertan las filas de series -->
+          </div>
+
+          <button type="button" class="btn btn-outline btn-agregar-serie">
+            + Agregar serie
+          </button>
+        `;
+
+            const seriesContainer = card.querySelector(".series-container");
+
+            // Helper para crear una fila de serie
+            function crearFilaSerie(num) {
+                const row = document.createElement("div");
+                row.className = "serie-row";
+                row.innerHTML = `
+              <div class="serie-num">${num}</div>
+              <div class="serie-inputs">
+                <label>
+                  Repeticiones
+                  <input type="number" min="1" value="12" class="serie-input serie-reps">
+                </label>
+                <label>
+                  Peso (kg)
+                  <input type="number" min="0" step="0.5" value="0" class="serie-input serie-peso">
+                </label>
+              </div>
+              <button type="button" class="btn btn-ghost btn-borrar-serie" title="Eliminar serie">
+                🗑
+              </button>
+            `;
+                return row;
+            }
+
+            // Creamos 3 series por defecto (solo UI por ahora)
+            for (let i = 1; i <= 3; i++) {
+                seriesContainer.appendChild(crearFilaSerie(i));
+            }
+
+            // Botón "Agregar serie"
+            const btnAgregarSerie = card.querySelector(".btn-agregar-serie");
+            btnAgregarSerie.addEventListener("click", () => {
+                const numActual = seriesContainer.querySelectorAll(".serie-row").length;
+                seriesContainer.appendChild(crearFilaSerie(numActual + 1));
+            });
+
+            // Eliminar series (event delegation)
+            seriesContainer.addEventListener("click", (ev) => {
+                const btn = ev.target.closest(".btn-borrar-serie");
+                if (!btn) return;
+
+                const row = btn.closest(".serie-row");
+                if (row) {
+                    row.remove();
+                    // Re-enumerar las series
+                    seriesContainer.querySelectorAll(".serie-row").forEach((r, idx) => {
+                        const num = r.querySelector(".serie-num");
+                        if (num) num.textContent = idx + 1;
+                    });
+                }
+            });
+
+            listaEjerciciosModal.appendChild(card);
         });
     }
-});
 
+    if (debeAbrirModal) {
+        abrirModalRutina();
+        sessionStorage.removeItem("rutinaEnCurso_abrirModal");
+    }
+});
