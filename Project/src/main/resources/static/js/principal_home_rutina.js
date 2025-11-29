@@ -704,17 +704,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // Payload alineado con RutinaFinalizadaDTO
+            // El DTO en backend: Long tiempo; List<SetEjercicioDTO> sets;
             const payload = {
-                rutinaId: rutinaEstado.id,   // Long rutinaId
-                tiempo: tiempoSegundos,      // Long tiempo
-                sets: sets                   // List<SetEjercicioDTO>
+                tiempo: tiempoSegundos,
+                sets: sets
             };
 
             console.log("Payload que se envía al backend:", payload);
 
             try {
-                const resp = await fetch(`/api/rutinas/${rutinaEstado.id}/ejecucion`, {
+                const resp = await fetch(`/api/rutinas/${rutinaEstado.id}/finalizar`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
