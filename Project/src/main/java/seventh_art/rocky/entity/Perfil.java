@@ -102,16 +102,6 @@ public class Perfil {
     private Set<Logro> logros = new HashSet<>();
 
 
-    // @ManyToMany
-    // @JoinTable(
-    //     name = "perfil_mensaje_motivacional",
-    //     joinColumns = @JoinColumn(name = "id_perfil"),
-    //     inverseJoinColumns = @JoinColumn(name = "id_mensaje_motivacional")
-    // )
-    // @Builder.Default
-    // private Set<MensajeMotivacional> mensajesMotivacionales = new HashSet<>();
-
-
 
 }
 

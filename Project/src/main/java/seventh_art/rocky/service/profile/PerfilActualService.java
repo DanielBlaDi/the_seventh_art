@@ -1,4 +1,4 @@
-package seventh_art.rocky.service;
+package seventh_art.rocky.service.profile;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,6 +10,7 @@ import seventh_art.rocky.config.UsuarioPrincipal;
 import seventh_art.rocky.entity.Perfil;
 import seventh_art.rocky.entity.Usuario;
 import seventh_art.rocky.repository.PerfilRepository;
+import seventh_art.rocky.service.UsuarioService;
 
 @Service
 @RequiredArgsConstructor
