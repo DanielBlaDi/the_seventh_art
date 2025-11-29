@@ -38,7 +38,7 @@ public class RutinaEjecucionService {
 
         Long tiempo = dto.getTiempo();
 
-        if(tiempo == null || tiempo < 0){
+        if(tiempo == null || tiempo <= 0){
             throw new IllegalArgumentException("Tiempo invalido");
         }
 
