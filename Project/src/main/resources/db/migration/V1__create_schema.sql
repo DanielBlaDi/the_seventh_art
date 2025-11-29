@@ -11,14 +11,14 @@ CREATE TABLE IF NOT EXISTS usuario (
 );
 
 
--- =========================================
--- MENSAJE MOTIVACIONAL
--- =========================================
-CREATE TABLE IF NOT EXISTS mensaje_motivacional (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    descripcion VARCHAR(255) NOT NULL,
-    CONSTRAINT pk_mensaje_motivacional PRIMARY KEY (id)
-);
+-- -- =========================================
+-- -- MENSAJE MOTIVACIONAL
+-- -- =========================================
+-- CREATE TABLE IF NOT EXISTS mensaje_motivacional (
+--     id BIGINT NOT NULL AUTO_INCREMENT,
+--     descripcion VARCHAR(255) NOT NULL,
+--     CONSTRAINT pk_mensaje_motivacional PRIMARY KEY (id)
+-- );
 
 
 -- =========================================
@@ -42,16 +42,16 @@ CREATE TABLE IF NOT EXISTS perfil (
 );
 
 
--- Tabla intermedia para la relación ManyToMany: PERFIL_MENSAJE_MOTIVACIONAL
-CREATE TABLE perfil_mensaje_motivacional (
-    id_perfil BIGINT NOT NULL,
-    id_mensaje_motivacional BIGINT NOT NULL,
-    PRIMARY KEY (id_perfil, id_mensaje_motivacional),
-    CONSTRAINT fk_pmm_perfil
-        FOREIGN KEY (id_perfil) REFERENCES perfil(id),
-    CONSTRAINT fk_pmm_mensaje
-        FOREIGN KEY (id_mensaje_motivacional) REFERENCES mensaje_motivacional(id)
-);
+-- -- Tabla intermedia para la relación ManyToMany: PERFIL_MENSAJE_MOTIVACIONAL
+-- CREATE TABLE perfil_mensaje_motivacional (
+--     id_perfil BIGINT NOT NULL,
+--     id_mensaje_motivacional BIGINT NOT NULL,
+--     PRIMARY KEY (id_perfil, id_mensaje_motivacional),
+--     CONSTRAINT fk_pmm_perfil
+--         FOREIGN KEY (id_perfil) REFERENCES perfil(id),
+--     CONSTRAINT fk_pmm_mensaje
+--         FOREIGN KEY (id_mensaje_motivacional) REFERENCES mensaje_motivacional(id)
+-- );
 
 
 -- =========================================
