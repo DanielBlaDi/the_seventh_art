@@ -1,29 +1,37 @@
-/* Variables de color */
+/* =========================================
+   1. VARIABLES DE COLOR Y LAYOUT BASE
+   ========================================= */
 :root {
-    --color-bg-light: #f9fafb; /* gray-50 */
-    --color-text-dark: oklch(0.145 0 0); /* Usado para texto y barra de progreso oscuro */
+    --color-bg-light: #f9fafb;
+    --color-text-dark: oklch(0.145 0 0);
     --color-text-muted: oklch(0.45 0 0);
+
     --color-indigo-50: #eef2ff;
-    --color-indigo-200: #c7d2fe; 
+    --color-indigo-200: #c7d2fe;
     --color-indigo-500: #6366f1;
     --color-indigo-600: #4f46e5;
     --color-indigo-700: #4338ca;
+
+    --color-purple-100: #f3e8ff;
     --color-purple-600: #9333ea;
+    --color-purple-600-text: #9333ea;
+
     --color-green-100: #dcfce7;
     --color-green-600: #16a34a;
     --color-green-700: #047857;
+
     --color-blue-100: #dbeafe;
     --color-blue-600: #2563eb;
-    --color-purple-100: #f3e8ff;
-    --color-purple-600-text: #9333ea;
+
     --color-white: #ffffff;
     --color-border: #e5e7eb;
-    /* Variables para la barra de progreso */
-    --color-progress-indicator: var(--color-text-dark); /* Color oscuro para el progreso completado */
-    --color-progress-bg: #e0e0e0; /* Gris claro para el fondo de la barra */
+
+    /* Barra de progreso */
+    --color-progress-indicator: var(--color-text-dark);
+    --color-progress-bg: #e0e0e0;
 }
 
-/* Estilos de la aplicación y layout base */
+/* Layout base */
 .app-container {
     min-height: 100vh;
     background-color: var(--color-bg-light);
@@ -33,16 +41,14 @@
     color: var(--color-text-dark);
 }
 
-/* Contenedor de contenido scrollable */
 .content-wrapper {
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    padding-bottom: 80px; 
+    padding-bottom: 80px;
     box-sizing: border-box;
 }
 
-/* Contenido del dashboard */
 .dashboard-content {
     padding: 1rem;
     max-width: 1024px;
@@ -50,27 +56,58 @@
     margin-right: auto;
 }
 
-/* --- Tipografía y Utilitarios Generales --- */
+/* =========================================
+   2. TIPOGRAFÍA Y UTILITARIOS
+   ========================================= */
 .mb-6 { margin-bottom: 1.5rem; }
 .mb-4 { margin-bottom: 1rem; }
 .mb-3 { margin-bottom: 0.75rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+
+.mt-1 { margin-top: 0.25rem; }
+.mr-2 { margin-right: 0.5rem; }
+
 .text-muted-foreground { color: var(--color-text-muted); }
 .text-white { color: var(--color-white); }
 .text-white-90 { color: rgba(255, 255, 255, 0.9); }
 .text-sm { font-size: 0.875rem; }
 .text-xs { font-size: 0.75rem; }
-.text-lg { font-size: 1.125rem; } /* Asegurar que el tamaño de texto sea correcto */
+.text-lg { font-size: 1.125rem; }
+
 .font-bold { font-weight: 700; }
 .font-semibold { font-weight: 600; }
 .font-medium { font-weight: 500; }
-.space-y-4 > * + * { margin-top: 1rem; }
-.mr-2 { margin-right: 0.5rem; }
-.flex-shrink-0 { flex-shrink: 0; }
-.mt-1 { margin-top: 0.25rem; }
-.gap-1 { gap: 0.25rem; }
-.gap-1\.5 { gap: 0.375rem; } 
 
-/* --- Cartas (Cards) y Diseño de Flexbox --- */
+.space-y-4 > * + * { margin-top: 1rem; }
+
+.flex { display: flex; }
+.inline-flex { display: inline-flex; text-decoration: none; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.justify-between { justify-content: space-between; }
+.flex-shrink-0 { flex-shrink: 0; }
+
+.gap-1 { gap: 0.25rem; }
+.gap-1\.5 { gap: 0.375rem; }
+.gap-2 { gap: 0.5rem; }
+.gap-3 { gap: 0.75rem; }
+.gap-6 { gap: 1.5rem; }
+
+/* Helpers genéricos */
+.border { border: 1px solid var(--color-border); }
+.rounded-xl { border-radius: 0.75rem; }
+.p-6 { padding: 1.5rem; }
+.p-4 { padding: 1rem; }
+
+/* Ocultar genérico */
+.hidden {
+    display: none !important;
+}
+
+/* =========================================
+   3. CARDS Y ESTADÍSTICAS
+   ========================================= */
 .card {
     display: flex;
     flex-direction: column;
@@ -80,48 +117,39 @@
     padding: 1.5rem;
     background-color: var(--color-white);
 }
-.bg-card { background-color: var(--color-white); }
-.text-card-foreground { color: var(--color-text-dark); }
-.border { border: 1px solid var(--color-border); }
-.rounded-xl { border-radius: 0.75rem; }
-.p-6 { padding: 1.5rem; }
-.p-4 { padding: 1rem; } /* Nuevo padding para los pequeños bloques */
-.flex-col { flex-direction: column; }
-.items-start { align-items: flex-start; } /* Alineación para los pequeños bloques */
-.gap-6 { gap: 1.5rem; }
 
 .card-lg { padding: 1.5rem; }
-/* Ajustes para los nuevos bloques pequeños */
-.card-stat-small { 
-    padding: 1rem; /* Ya lo tenías, solo confirmando */
-    flex-grow: 1; /* Permitir que crezca para ocupar espacio en la cuadrícula */
+.bg-card { background-color: var(--color-white); }
+.text-card-foreground { color: var(--color-text-dark); }
+
+.card-stat-small {
+    padding: 1rem;
+    flex-grow: 1;
 }
+
 .card-message-of-day {
     background-image: linear-gradient(to right, var(--color-indigo-500), var(--color-purple-600));
     border: none;
     color: var(--color-white);
 }
+
 .card-routine-active {
     background-color: var(--color-indigo-50);
-    border-color: #c7d2fe;
+    border-color: var(--color-indigo-200);
     padding: 1rem;
     gap: 0;
 }
 
-.flex { display: flex; }
-.items-center { align-items: center; }
-.justify-between { justify-content: space-between; }
-.gap-3 { gap: 0.75rem; }
-.gap-2 { gap: 0.5rem; }
-
-/* NUEVO: Cuadrícula para los tres bloques pequeños */
+/* Grid de pequeños bloques */
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales */
-    gap: 1rem; /* Espacio entre los bloques */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
 }
 
-/* --- Botones (Buttons) y Enlaces como Botón --- */
+/* =========================================
+   4. BOTONES Y BADGES
+   ========================================= */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -135,29 +163,82 @@
     transition: all 0.1s ease-in-out;
     cursor: pointer;
     border: 1px solid transparent;
-    text-decoration: none; 
+    text-decoration: none;
 }
+
 .btn-primary {
     background-color: var(--color-indigo-600);
     color: var(--color-white);
 }
+
 .btn-primary:hover {
     background-color: var(--color-indigo-700);
 }
 
-/* Estilo del enlace "Bloque de estadísticas" */
+.btn.cancelar {
+    background-color: #e5e7eb;
+    color: var(--color-text-dark);
+}
+
+.btn.cancelar:hover {
+    background-color: #d4d4d8;
+}
+
+.btn.crear {
+    background-color: var(--color-indigo-600);
+    color: var(--color-white);
+}
+
+.btn.crear:hover {
+    background-color: var(--color-indigo-700);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px dashed var(--color-indigo-200);
+    color: var(--color-indigo-600);
+}
+
+.btn-outline:hover {
+    background-color: #eef2ff;
+}
+
+.btn-ghost {
+    background-color: transparent;
+    border: none;
+    color: var(--color-text-muted);
+}
+
+/* Botón pequeño de stats */
 .h-8 { height: 2rem; }
 .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
 .border-indigo-200 { border-color: var(--color-indigo-200); }
 .hover\:bg-indigo-50:hover { background-color: var(--color-indigo-50); }
 .bg-background { background-color: var(--color-white); }
-.rounded-md { border-radius: 0.375rem; } 
-.inline-flex { 
-    display: inline-flex; 
-    text-decoration: none; 
-} 
+.rounded-md { border-radius: 0.375rem; }
 
-/* --- Iconografía y Color de Texto/Fondo --- */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.75rem;
+    border-radius: 9999px;
+    background-color: var(--color-indigo-50);
+    color: var(--color-indigo-600);
+}
+
+.badge-ejercicio {
+    background: #eef2ff;
+    color: #4f46e5;
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+    font-size: 0.75rem;
+}
+
+/* =========================================
+   5. ICONOS, COLORES Y BARRA DE PROGRESO
+   ========================================= */
 .icon-circle {
     padding: 0.5rem;
     border-radius: 0.5rem;
@@ -166,10 +247,12 @@
     justify-content: center;
     flex-shrink: 0;
 }
+
 .icon-bg-indigo { background-color: var(--color-indigo-600); }
 .icon-bg-green-100 { background-color: var(--color-green-100); }
 .icon-bg-blue-100 { background-color: var(--color-blue-100); }
 .icon-bg-purple-100 { background-color: var(--color-purple-100); }
+
 .text-green-600 { color: var(--color-green-600); }
 .text-green-700 { color: var(--color-green-700); }
 .bg-green-100 { background-color: var(--color-green-100); }
@@ -177,28 +260,21 @@
 .text-purple-600 { color: var(--color-purple-600-text); }
 .text-indigo-600 { color: var(--color-indigo-600); }
 
-/* --- Barra de Progreso --- */
 .relative { position: relative; }
 .w-full { width: 100%; }
-.h-2 { height: 0.5rem; } /* 8px */
+.h-2 { height: 0.5rem; }
+.h-full { height: 100%; }
 .rounded-full { border-radius: 9999px; }
 .overflow-hidden { overflow: hidden; }
-
-.bg-progress-bg { 
-    background-color: var(--color-progress-bg); 
-} 
-.bg-progress-indicator { 
-    background-color: var(--color-progress-indicator); 
-}
-.h-full { height: 100%; }
 .transition-all { transition: all 0.15s ease-in-out; }
 
-/* Utilitarios de Badge y Padding */
+.bg-progress-bg { background-color: var(--color-progress-bg); }
+.bg-progress-indicator { background-color: var(--color-progress-indicator); }
+
 .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
 .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
-.mb-2 { margin-bottom: 0.5rem; }
 
-/* --- Lista de Actividad --- */
+/* Lista de actividad */
 .activity-list .border-b {
     border-bottom: 1px solid var(--color-border);
 }
@@ -206,7 +282,9 @@
     padding-bottom: 0.75rem;
 }
 
-/* --- Estilos de la Barra de Navegación Fija --- */
+/* =========================================
+   6. NAVEGACIÓN INFERIOR FIJA
+   ========================================= */
 .fixed-nav {
     position: fixed;
     bottom: 0;
@@ -214,7 +292,7 @@
     right: 0;
     background-color: var(--color-white);
     border-top: 1px solid var(--color-border);
-    height: 64px; 
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -253,51 +331,23 @@
     font-weight: 500;
 }
 
-/* --- RESPONSIVIDAD PARA MÓVILES --- */
-@media (max-width: 768px) {
-    .dashboard-content {
-        padding: 0.75rem;
-    }
-    .card {
-        padding: 1rem;
-    }
-    .card-message-of-day,
-    .card-routine-active,
-    .card-lg,
-    .bg-card { 
-        margin-bottom: 1rem;
-    }
-    /* Ajuste para los bloques pequeños en móvil: una columna */
-    .stats-grid {
-        grid-template-columns: 1fr; /* Una columna para móviles */
-    }
-}
-/* =======================
-   MODAL: Rutina en Curso
-   ======================= */
-
-/* Ocultar genérico */
-.hidden {
-    display: none !important;
-}
-
-/* Contenedor del overlay */
+/* =========================================
+   7. MODAL GENÉRICO
+   ========================================= */
 .modal {
     position: fixed;
-    inset: 0; /* top:0; right:0; bottom:0; left:0 */
+    inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(15, 23, 42, 0.45); /* fondo oscuro translúcido */
+    background-color: rgba(15, 23, 42, 0.45);
     z-index: 50;
 }
 
-/* Cuando tenga la clase .hidden, NO se muestra */
 .modal.hidden {
     display: none !important;
 }
 
-/* Caja del modal */
 .modal-box {
     background-color: var(--color-white);
     border-radius: 0.75rem;
@@ -309,12 +359,10 @@
     flex-direction: column;
 }
 
-/* Versión desktop (por si quieres diferenciarla) */
 .modal-desktop {
     max-height: 80vh;
 }
 
-/* Header / body / footer del modal */
 .modal-header {
     padding: 1rem 1.25rem;
     display: flex;
@@ -336,7 +384,6 @@
     border-top: 1px solid var(--color-border);
 }
 
-/* Botón de cerrar (X) */
 .close-btn {
     border: none;
     background: transparent;
@@ -345,217 +392,9 @@
     cursor: pointer;
 }
 
-/* Items de ejercicios dentro del modal */
-.ejercicio-run-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    background-color: var(--color-white);
-    border: 1px solid var(--color-border);
-}
-
-.ejercicio-run-main {
-    display: flex;
-    gap: 0.75rem;
-    align-items: center;
-}
-
-.ejercicio-run-img {
-    width: 76px;
-    height: 56px;
-    border-radius: 0.5rem;
-    background-color: #e5e7eb;
-    flex-shrink: 0;
-}
-
-.ejercicio-run-name {
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-}
-
-.ejercicio-run-meta {
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
-}
-
-.ejercicio-run-extra {
-    display: flex;
-    align-items: center;
-}
-
-.badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.15rem 0.5rem;
-    font-size: 0.75rem;
-    border-radius: 9999px;
-    background-color: var(--color-indigo-50);
-    color: var(--color-indigo-600);
-}
-
-/* Botones del footer del modal */
-.btn.cancelar {
-    background-color: #e5e7eb;
-    color: var(--color-text-dark);
-}
-
-.btn.cancelar:hover {
-    background-color: #d4d4d8;
-}
-
-.btn.crear {
-    background-color: var(--color-indigo-600);
-    color: var(--color-white);
-}
-
-.btn.crear:hover {
-    background-color: var(--color-indigo-700);
-}
-
-/* ====== Rutina en curso - tarjetas de ejercicio con series ====== */
-
-.ejercicio-card {
-    background-color: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: 0.75rem;
-    padding: 1rem 1.25rem;
-    margin-bottom: 1rem;
-}
-
-.ejercicio-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.75rem;
-    gap: 0.75rem;
-}
-
-.ejercicio-header-main {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.ejercicio-nombre {
-    font-weight: 600;
-    margin-bottom: 0.15rem;
-}
-
-.ejercicio-musculo {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    color: var(--color-text-muted);
-}
-
-.badge-ejercicio {
-    background-color: var(--color-indigo-50);
-    color: var(--color-indigo-600);
-    padding: 0.15rem 0.6rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    white-space: nowrap;
-}
-
-/* Reutilizamos la imagen ya definida pero un poco más compacta aquí */
-.ejercicio-card .ejercicio-run-img {
-    width: 72px;
-    height: 52px;
-    border-radius: 0.5rem;
-    background-color: #e5e7eb;
-    flex-shrink: 0;
-}
-
-.series-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-}
-
-.serie-row {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.5rem;
-    background-color: #f9fafb;
-    border: 1px solid var(--color-border);
-}
-
-.serie-num {
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 9999px;
-    border: 1px solid var(--color-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-
-.serie-inputs {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem;
-}
-
-.serie-inputs label {
-    display: flex;
-    flex-direction: column;
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
-}
-
-.serie-input {
-    margin-top: 0.15rem;
-    border-radius: 0.375rem;
-    border: 1px solid var(--color-border);
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
-}
-
-.btn-outline {
-    background-color: transparent;
-    border: 1px dashed var(--color-indigo-200);
-    color: var(--color-indigo-600);
-}
-
-.btn-outline:hover {
-    background-color: #eef2ff;
-}
-
-.btn-ghost {
-    background-color: transparent;
-    border: none;
-    color: var(--color-text-muted);
-}
-
-.btn-borrar-serie {
-    cursor: pointer;
-    padding: 0.25rem;
-}
-
-@media (max-width: 768px) {
-    .serie-row {
-        grid-template-columns: 1fr;
-        align-items: stretch;
-    }
-
-    .serie-num {
-        margin-bottom: 0.25rem;
-    }
-}
-
-/* =========================================================
-   CRONÓMETRO RUTINA Y DESCANSO
-   ========================================================= */
-
-/* Header del modal: alineación izquierda/derecha */
+/* =========================================
+   8. RUTINA EN CURSO: HEADER Y CRONÓMETRO
+   ========================================= */
 .modal-header-left {
     display: flex;
     flex-direction: column;
@@ -568,7 +407,6 @@
     gap: 0.75rem;
 }
 
-/* Bloque del cronómetro superior */
 .rutina-timer-header {
     display: inline-flex;
     align-items: center;
@@ -587,7 +425,6 @@
     font-weight: 600;
 }
 
-/* Botón de pausar/reanudar cronómetro */
 .rutina-timer-btn {
     border: none;
     background: rgba(15, 23, 42, 0.8);
@@ -602,65 +439,326 @@
     font-size: 0.75rem;
 }
 
-/* Badge de descanso por ejercicio */
+/* =========================================
+   9. RUTINA EN CURSO: EJERCICIOS Y SERIES
+   ========================================= */
+.ejercicio-card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    padding: 0.85rem 1rem 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.ejercicio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.ejercicio-header-main {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+}
+
+.ejercicio-run-img {
+    width: 72px;
+    height: 56px;
+    border-radius: 10px;
+    background-color: #e5e7eb;
+    flex-shrink: 0;
+}
+
+.ejercicio-nombre {
+    font-weight: 600;
+    margin: 0;
+}
+
+.ejercicio-musculo {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--color-text-muted);
+    margin-top: 0.2rem;
+}
+
+/* Lado derecho: descanso + badge Ejercicio X / N */
+.ejercicio-header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+}
+
+/* Descanso pequeño por ejercicio */
 .rest-timer {
-    border: none;
-    background: #e0ebff;
-    color: #1d4ed8;
-    border-radius: 999px;
-    padding: 0.1rem 0.55rem;
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    cursor: pointer;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    border: 1px solid #dbeafe;
+    background-color: #eff6ff;
+    color: #1d4ed8;
     font-size: 0.75rem;
+    cursor: pointer;
 }
 
 .rest-timer-icon {
     font-size: 0.8rem;
 }
 
-/* Contenedor del editor pequeño de descanso */
+/* Mini editor de descanso */
 .rest-editor {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    margin-top: 0.35rem;
-    background: #ffffff;
-    border-radius: 0.5rem;
-    border: 1px solid #e5e7eb;
-    padding: 0.5rem 0.6rem;
-    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
     display: flex;
     align-items: center;
-    gap: 0.35rem;
-    z-index: 2000;
+    gap: 0.25rem;
+    margin-top: 0.15rem;
 }
 
 .rest-editor-input {
-    width: 70px;
-    padding: 0.25rem 0.35rem;
-    border-radius: 0.35rem;
-    border: 1px solid #e5e7eb;
+    width: 64px;
+    padding: 0.2rem 0.4rem;
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
     font-size: 0.8rem;
 }
 
 .rest-editor-btn {
     border: none;
     background: #111827;
-    color: #fff;
-    border-radius: 999px;
-    padding: 0.25rem 0.5rem;
+    color: #ffffff;
+    border-radius: 6px;
+    padding: 0.2rem 0.45rem;
     font-size: 0.75rem;
     cursor: pointer;
 }
 
-/* Contenedor relativo para ubicar el popover de descanso */
-.ejercicio-run-extra {
-    position: relative;
+/* Barra de cuenta regresiva de descanso */
+.rest-countdown {
+    margin-top: 0.5rem;
+    margin-bottom: 0.4rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+    background: #eef2ff;
+    color: #1d4ed8;
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.rest-countdown-prefix {
+    font-weight: 500;
+}
+
+/* Botón "Omitir" integrado con el chip de descanso */
+.rest-skip-btn {
+    border: none;
+    background: transparent;
+    color: #1d4ed8;
+    cursor: pointer;
+    font-size: 0.75rem;
+    padding: 0.1rem 0.55rem;
+    border-radius: 999px;
+}
+
+.rest-skip-btn:hover {
+    background-color: rgba(37, 99, 235, 0.12);
+}
+
+/* Contenedor de series */
+.series-container {
+    border-radius: 10px;
+    background: #f9fafb;
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    margin-bottom: 0.4rem;
+}
+
+.serie-row {
     display: flex;
     align-items: center;
+    gap: 0.6rem;
+    padding: 0.45rem;
+    border-radius: 10px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 0.4rem;
+}
+
+.serie-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 999px;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+
+.serie-inputs {
+    display: flex;
+    flex: 1;
     gap: 0.5rem;
 }
+
+.serie-inputs label {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    flex: 1;
+}
+
+.serie-input {
+    margin-top: 0.15rem;
+    padding: 0.35rem 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+}
+
+.serie-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+/* Botón check verde de serie completada */
+.btn-check-serie {
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    border: 1px solid #d1d5db;
+    background: #f3f4f6;
+    color: #4b5563;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 0; /* sin relleno extra */
+}
+
+.btn-check-serie:not(.btn-check-serie--done):hover {
+    background: #e5e7eb;
+}
+
+.btn-check-serie--done,
+.btn-check-serie:disabled {
+    background: #111827;
+    border-color: #111827;
+    color: #ffffff;
+    cursor: default;
+    opacity: 0.95;
+}
+
+/* Botón borrar serie */
+.btn-borrar-serie {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+/* Serie marcada como completada */
+.serie-completada {
+    border-color: #d1fae5;
+    background: #f0fdf4;
+}
+
+/* Botón "+ Agregar serie" */
+.btn-agregar-serie {
+    width: 100%;
+    margin-top: 0.25rem;
+}
+
+/* =========================================
+   10. TOAST DE NOTIFICACIÓN
+   ========================================= */
+.toast-container {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 9999;
+}
+
+.toast {
+    min-width: 260px;
+    max-width: 340px;
+    background: #111827;
+    color: #f9fafb;
+    border-radius: 12px;
+    padding: 0.75rem 0.9rem;
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.4);
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast-icon {
+    margin-top: 0.1rem;
+}
+
+.toast-title {
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.toast-message {
+    margin: 0.15rem 0 0;
+    font-size: 0.8rem;
+    color: #e5e7eb;
+}
+
+/* =========================================
+   11. RESPONSIVE
+   ========================================= */
+@media (max-width: 768px) {
+    .dashboard-content {
+        padding: 0.75rem;
+    }
+
+    .card {
+        padding: 1rem;
+    }
+
+    .card-message-of-day,
+    .card-routine-active,
+    .card-lg,
+    .bg-card {
+        margin-bottom: 1rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .serie-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .serie-num {
+        margin-bottom: 0.25rem;
+    }
+}
+
 
 
