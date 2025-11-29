@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 public class RutinaFinalizadaDTO {
 
-    private Long id;
+    private Long rutinaId;
     private Long tiempo;
     private List<SetEjercicioDTO> sets;
 }

@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 public class SetEjercicioDTO {
 
-    private String id;
+    private Long ejercicioId;
     private Float peso;
     private Integer repeticiones;
 
