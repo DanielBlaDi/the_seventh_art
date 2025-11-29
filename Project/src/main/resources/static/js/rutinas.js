@@ -1320,7 +1320,6 @@ if (modalVerRutina) {
 }
 
 // >>> AQUÍ ES DONDE CAMBIA LA LÓGICA DEL BOTÓN EMPEZAR RUTINA (MODAL) <<<
-// >>> AQUÍ ES DONDE CAMBIA LA LÓGICA DEL BOTÓN EMPEZAR RUTINA (MODAL) <<<
 if (verRutinaEmpezarBtn) {
     verRutinaEmpezarBtn.addEventListener("click", () => {
         if (!rutinaVistaActual) {
@@ -1330,12 +1329,20 @@ if (verRutinaEmpezarBtn) {
 
         // Función que realmente inicia la rutina:
         function iniciarRutinaSeleccionada() {
+            const ahora = Date.now();
+
             const payload = {
                 id: rutinaVistaActual.id,
                 nombre: rutinaVistaActual.nombre,
                 descripcion: rutinaVistaActual.descripcion || "",
                 numeroEjercicios: rutinaVistaActual.numeroEjercicios || 0,
-                ejerciciosCompletados: 0
+                ejerciciosCompletados: 0,
+
+                startedAt: ahora,          // timestamp de inicio
+                elapsedWhilePaused: 0,     // segundos acumulados cuando está en pausa
+                isPaused: false,           // estado del cronómetro
+
+                defaultRestSeconds: 90
             };
 
             try {
@@ -1348,6 +1355,7 @@ if (verRutinaEmpezarBtn) {
             // Redirigimos a principal_home para que allí se active la card/modal
             window.location.href = "principal_home";
         }
+
 
         // 1) Revisar si ya hay una rutina en curso en sessionStorage
         const actualRaw = sessionStorage.getItem("rutinaEnCurso");

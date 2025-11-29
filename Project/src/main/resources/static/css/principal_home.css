@@ -551,4 +551,116 @@
     }
 }
 
+/* =========================================================
+   CRONÓMETRO RUTINA Y DESCANSO
+   ========================================================= */
+
+/* Header del modal: alineación izquierda/derecha */
+.modal-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.modal-header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Bloque del cronómetro superior */
+.rutina-timer-header {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background-color: rgba(15, 23, 42, 0.16);
+    font-size: 0.8rem;
+}
+
+.rutina-timer-label {
+    opacity: 0.8;
+}
+
+.rutina-timer-value {
+    font-weight: 600;
+}
+
+/* Botón de pausar/reanudar cronómetro */
+.rutina-timer-btn {
+    border: none;
+    background: rgba(15, 23, 42, 0.8);
+    color: #fff;
+    border-radius: 999px;
+    width: 1.6rem;
+    height: 1.6rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.75rem;
+}
+
+/* Badge de descanso por ejercicio */
+.rest-timer {
+    border: none;
+    background: #e0ebff;
+    color: #1d4ed8;
+    border-radius: 999px;
+    padding: 0.1rem 0.55rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    cursor: pointer;
+    font-size: 0.75rem;
+}
+
+.rest-timer-icon {
+    font-size: 0.8rem;
+}
+
+/* Contenedor del editor pequeño de descanso */
+.rest-editor {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 0.35rem;
+    background: #ffffff;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+    padding: 0.5rem 0.6rem;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    z-index: 2000;
+}
+
+.rest-editor-input {
+    width: 70px;
+    padding: 0.25rem 0.35rem;
+    border-radius: 0.35rem;
+    border: 1px solid #e5e7eb;
+    font-size: 0.8rem;
+}
+
+.rest-editor-btn {
+    border: none;
+    background: #111827;
+    color: #fff;
+    border-radius: 999px;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    cursor: pointer;
+}
+
+/* Contenedor relativo para ubicar el popover de descanso */
+.ejercicio-run-extra {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 

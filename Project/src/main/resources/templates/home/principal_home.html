@@ -252,11 +252,26 @@
 
             <!-- Header -->
             <div class="modal-header" style="background:#4F46E5; color:white;">
-                <div>
+                <div class="modal-header-left">
                     <h3 id="modalRutinaTitulo" class="font-bold">Rutina en Curso</h3>
                     <p id="modalRutinaSubtitulo" class="text-sm">0 de 0 ejercicios</p>
                 </div>
-                <button id="cerrarModalRutina" class="close-btn" title="Cerrar">×</button>
+
+                <div class="modal-header-right">
+                    <!-- Cronómetro total de la rutina -->
+                    <div class="rutina-timer-header">
+                        <span class="rutina-timer-label text-xs">Tiempo total:</span>
+                        <span id="rutinaTiempoTotal" class="rutina-timer-value text-sm">0:00</span>
+                        <button type="button"
+                                id="btnToggleTimerRutina"
+                                class="rutina-timer-btn"
+                                title="Pausar / Reanudar">
+                            ▌▌
+                        </button>
+                    </div>
+
+                    <button id="cerrarModalRutina" class="close-btn" title="Cerrar">×</button>
+                </div>
             </div>
 
             <!-- Body -->

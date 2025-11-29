@@ -1,5 +1,3 @@
-// js/principal_home_rutina.js
-
 document.addEventListener("DOMContentLoaded", () => {
     const cardRutina = document.getElementById("cardRutinaEnCurso");
     const nombreCard = document.getElementById("rutinaEnCursoNombre");
