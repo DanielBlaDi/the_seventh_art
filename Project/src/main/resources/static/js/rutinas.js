@@ -295,7 +295,7 @@ function abrirVerEjercicio(id) {
 function openConfirmModal(titulo, texto, callback) {
     if (!modalConfirm) return;
     if (confirmTitulo) confirmTitulo.textContent = titulo || "";
-    if (confirmText) confirmText.textContent = texto || "";
+    if (confirmText)  confirmText.textContent  = texto  || "";
     confirmCallback = (typeof callback === "function") ? callback : null;
 
     modalConfirm.classList.remove("hidden");
@@ -306,21 +306,26 @@ function closeConfirmModal() {
     if (!modalConfirm) return;
     modalConfirm.classList.add("hidden");
     modalConfirm.setAttribute("aria-hidden", "true");
-    // limpiar callback para que no se dispare por error en futuros usos
+    // limpiamos referencia para siguientes usos
     confirmCallback = null;
 }
 
-if (cerrarConfirm) cerrarConfirm.addEventListener("click", closeConfirmModal);
+if (cerrarConfirm) {
+    cerrarConfirm.addEventListener("click", () => {
+        closeConfirmModal();
+    });
+}
 
 if (confirmOk) {
     confirmOk.addEventListener("click", () => {
-        // Primero cierro el modal
+        // Guardamos el callback ANTES de cerrar
+        const cb = confirmCallback;
+
+        // Cerrar el modal (esto pone confirmCallback = null)
         closeConfirmModal();
 
-        // Luego ejecuto el callback, si existe
-        if (typeof confirmCallback === "function") {
-            const cb = confirmCallback;
-            confirmCallback = null; // limpiar antes de ejecutar
+        // Ejecutar el callback si existía
+        if (typeof cb === "function") {
             cb();
         }
     });
@@ -328,10 +333,11 @@ if (confirmOk) {
 
 if (modalConfirm) {
     modalConfirm.addEventListener("click", (e) => {
-        if (e.target === modalConfirm) closeConfirmModal();
+        if (e.target === modalConfirm) {
+            closeConfirmModal();
+        }
     });
 }
-
 /* =========================================================
    Render lista de EJERCICIOS (crear rutina) + paginación
    ========================================================= */
