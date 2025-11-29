@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const nombreCard           = document.getElementById("rutinaEnCursoNombre");
     const progresoCard         = document.getElementById("rutinaEnCursoProgreso");
     const btnContinuar         = document.getElementById("btnContinuarRutina");
+    const btnCancelarRutina    = document.getElementById("btnCancelarRutina");
 
     const modal                = document.getElementById("modalRutinaEnCurso");
     const cerrarModalBtn       = document.getElementById("cerrarModalRutina");
@@ -18,6 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const tiempoTotalSpan      = document.getElementById("rutinaTiempoTotal");
     const btnToggleTimer       = document.getElementById("btnToggleTimerRutina");
+
+    // Modal de confirmación para cancelar rutina
+    const modalConfirmCancelar         = document.getElementById("modalConfirmCancelarRutina");
+    const btnConfirmCancelarAceptar    = document.getElementById("btnConfirmCancelarRutinaAceptar");
+    const btnConfirmCancelarCancelar   = document.getElementById("btnConfirmCancelarRutinaCancelar");
 
     const DEFAULT_REST_SECONDS = 90;
 
@@ -303,7 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
     iniciarTimerTotalSiCorresponde();
 
     /* ==============================
-       4. MODAL: ABRIR / CERRAR
+       4. MODAL RUTINA: ABRIR / CERRAR
        ============================== */
     function abrirModalRutina() {
         if (!modal) return;
@@ -336,6 +342,87 @@ document.addEventListener("DOMContentLoaded", () => {
     if (modal) {
         modal.addEventListener("click", (e) => {
             if (e.target === modal) cerrarModalRutina();
+        });
+    }
+
+    /* ==============================
+       4.1 MODAL CONFIRMAR CANCELAR
+       ============================== */
+    function abrirModalConfirmCancelar() {
+        if (!modalConfirmCancelar) return;
+        modalConfirmCancelar.classList.remove("hidden");
+        modalConfirmCancelar.setAttribute("aria-hidden", "false");
+    }
+
+    function cerrarModalConfirmCancelar() {
+        if (!modalConfirmCancelar) return;
+        modalConfirmCancelar.classList.add("hidden");
+        modalConfirmCancelar.setAttribute("aria-hidden", "true");
+    }
+
+    function cancelarRutinaEnCurso() {
+        // Detener temporizador
+        detenerTimerTotal();
+
+        // Limpiar estado en memoria
+        rutinaEstado = null;
+
+        // Limpiar sessionStorage
+        sessionStorage.removeItem("rutinaEnCurso");
+        sessionStorage.removeItem("rutinaEnCurso_abrirModal");
+
+        // Ocultar tarjeta y modal principal
+        if (cardRutina) cardRutina.style.display = "none";
+        if (modal) {
+            modal.classList.add("hidden");
+            modal.setAttribute("aria-hidden", "true");
+        }
+
+        // Ocultar modal de confirmación
+        cerrarModalConfirmCancelar();
+
+        showToast("Rutina cancelada", "Se descartó el progreso actual.");
+    }
+
+    // Clic en la X de la tarjeta
+    if (btnCancelarRutina) {
+        btnCancelarRutina.addEventListener("click", () => {
+            if (!rutinaEstado) {
+                // Por si algo está raro: limpiamos sin preguntar
+                sessionStorage.removeItem("rutinaEnCurso");
+                sessionStorage.removeItem("rutinaEnCurso_abrirModal");
+                if (cardRutina) cardRutina.style.display = "none";
+                return;
+            }
+
+            // Abrir modal bonito de confirmación
+            abrirModalConfirmCancelar();
+        });
+    }
+
+    // Botones del modal de confirmación
+    if (btnConfirmCancelarCancelar) {
+        btnConfirmCancelarCancelar.addEventListener("click", () => {
+            cerrarModalConfirmCancelar();
+        });
+    }
+
+    if (btnConfirmCancelarAceptar) {
+        btnConfirmCancelarAceptar.addEventListener("click", () => {
+            if (!rutinaEstado) {
+                cerrarModalConfirmCancelar();
+                return;
+            }
+            cancelarRutinaEnCurso();
+        });
+    }
+
+    // Cerrar modal confirm al hacer clic fuera de la caja
+    if (modalConfirmCancelar) {
+        modalConfirmCancelar.addEventListener("click", (e) => {
+            if (e.target === modalConfirmCancelar) {
+                cerrarModalConfirmCancelar();
+            }
         });
     }
 
@@ -641,7 +728,9 @@ document.addEventListener("DOMContentLoaded", () => {
         sessionStorage.removeItem("rutinaEnCurso_abrirModal");
     }
 
-    // ==== Finalizar rutina: enviar payload al backend ====
+    /* ==============================
+       9. FINALIZAR RUTINA (POST backend)
+       ============================== */
     if (btnFinalizarModal) {
         btnFinalizarModal.addEventListener("click", async () => {
             if (!rutinaEstado || !rutinaEstado.id) {
