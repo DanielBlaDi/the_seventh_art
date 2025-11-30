@@ -10,6 +10,7 @@ import seventh_art.rocky.entity.Ejercicio;
 import seventh_art.rocky.entity.Perfil;
 import seventh_art.rocky.entity.Rutina;
 import seventh_art.rocky.repository.EjercicioRepository;
+import seventh_art.rocky.repository.HistoriaRepository;
 import seventh_art.rocky.repository.RutinaRepository;
 import seventh_art.rocky.service.PerfilActualService;
 
@@ -23,6 +24,7 @@ public class RutinaService {
     private final RutinaRepository rutinaRepository;
     private final EjercicioRepository ejercicioRepository;
     private final PerfilActualService perfilActualService;
+    private final HistoriaRepository historiaRepository;
 
     @Transactional
     public Rutina crear(RutinaDTO dto) {
@@ -55,7 +57,7 @@ public class RutinaService {
     public List<RutinaVistaDTO> listarRutinasPerfilActual() {
         Perfil perfil = perfilActualService.getCurrentPerfil();
 
-        List<Rutina> rutinas = rutinaRepository.findByPerfilOrderByIdDesc(perfil);
+        List<Rutina> rutinas = rutinaRepository.findByPerfilAndEstadoTrueOrderByIdDesc(perfil);
 
         return rutinas.stream()
                 .map(r -> new RutinaVistaDTO(
@@ -78,7 +80,18 @@ public class RutinaService {
             throw new SecurityException("No tienes permiso para eliminar esta rutina.");
         }
 
-        rutinaRepository.delete(rutina);
+        boolean tieneHistoria = historiaRepository.existsByRutina(rutina);
+
+        if(tieneHistoria){
+
+            rutina.setEstado(0);
+            rutinaRepository.save(rutina);
+
+        }else{
+
+            rutinaRepository.delete(rutina);
+
+        }
     }
 
     public RutinaDetalleDTO obtenerRutinaConDetalles(Long rutinaId) {

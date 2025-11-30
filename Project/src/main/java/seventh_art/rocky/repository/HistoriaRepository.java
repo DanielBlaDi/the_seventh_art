@@ -6,4 +6,6 @@ import seventh_art.rocky.entity.Rutina;
 
 public interface HistoriaRepository extends JpaRepository<Historia, Long> {
 
+    boolean existsByRutina(Rutina rutina);
+
 }
