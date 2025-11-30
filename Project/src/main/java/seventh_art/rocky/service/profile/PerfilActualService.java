@@ -2,46 +2,80 @@ package seventh_art.rocky.service.profile;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import seventh_art.rocky.config.UsuarioPrincipal;
 import seventh_art.rocky.entity.Perfil;
 import seventh_art.rocky.entity.Usuario;
+import seventh_art.rocky.repository.PesoRepository;
 import seventh_art.rocky.repository.PerfilRepository;
-import seventh_art.rocky.service.UsuarioService;
+import seventh_art.rocky.repository.UsuarioRepository;
 
 @Service
 @RequiredArgsConstructor
 public class PerfilActualService {
 
-    private final UsuarioService usuarioService;
+    private final UsuarioRepository usuarioRepository;
     private final PerfilRepository perfilRepository;
+    private final PesoRepository pesoRepository;
 
-    public Perfil getCurrentPerfil() {
+    /**
+     * Obtiene el Usuario autenticado (local o Google OIDC).
+     */
+    private Usuario getCurrentUsuario() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if (auth == null || !auth.isAuthenticated()) {
-            throw new IllegalStateException("No authenticated user found");
+        if (auth == null || auth.getPrincipal() == null) {
+            throw new RuntimeException("No hay usuario autenticado en el contexto.");
         }
 
-        final String email = extractEmailFromAuthentication(auth);
+        Object principal = auth.getPrincipal();
+        String email;
 
-        Usuario usuario = usuarioService.findByEmail(email);
+        // -----------------------------------------
+        // 1. LOGIN LOCAL (username = email)
+        // -----------------------------------------
+        if (principal instanceof org.springframework.security.core.userdetails.User user) {
+            email = user.getUsername();
+        }
+        // -----------------------------------------
+        // 2. LOGIN GOOGLE OIDC
+        // -----------------------------------------
+        else if (principal instanceof org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser oidcUser) {
+            email = oidcUser.getEmail();
+        }
+        // -----------------------------------------
+        // 3. Otros casos inesperados
+        // -----------------------------------------
+        else {
+            throw new RuntimeException("Tipo de autenticación no soportado: " + principal.getClass());
+        }
 
-        return perfilRepository.findByUsuario(usuario)
-                .orElseThrow(() -> new IllegalStateException("Perfil not found for user: " + email));
+        // Buscar usuario en BD
+        return usuarioRepository.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado en BD: " + email));
     }
 
-    private String extractEmailFromAuthentication(Authentication auth) {
-        Object principal = auth.getPrincipal();
-        if (principal instanceof UsuarioPrincipal up) {
-            return up.getUsername();
-        } else if (principal instanceof OidcUser o) {
-            return o.getEmail();
-        } else {
-            return auth.getName(); // fallback
-        }
+    /**
+     * Obtiene el Perfil del usuario autenticado.
+     */
+    public Perfil getCurrentPerfil() {
+        Usuario usuario = getCurrentUsuario();
+
+        return perfilRepository.findByUsuarioId(usuario.getId())
+                .orElseThrow(() -> new RuntimeException("Perfil no encontrado"));
+    }
+
+    /**
+     * Obtiene el último peso registrado del usuario.
+     */
+    public Float getPesoActual() {
+
+        Perfil perfil = getCurrentPerfil();
+
+        return pesoRepository
+                .findFirstByPerfilIdOrderByFechaDesc(perfil.getId())
+                .map(p -> p.getValor())
+                .orElse(null);
     }
 }
