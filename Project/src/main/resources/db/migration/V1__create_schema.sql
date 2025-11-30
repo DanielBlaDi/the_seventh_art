@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS rutina (
     nombre VARCHAR(100) NOT NULL,  
     descripcion VARCHAR(500) NOT NULL,
     id_perfil BIGINT NOT NULL,
+    estado TINYINT NOT NULL DEFAULT 1,
     CONSTRAINT pk_rutina PRIMARY KEY (id),
     CONSTRAINT fk_rutina_perfil
         FOREIGN KEY (id_perfil) REFERENCES perfil(id)

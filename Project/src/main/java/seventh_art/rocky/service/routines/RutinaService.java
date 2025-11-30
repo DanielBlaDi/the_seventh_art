@@ -45,7 +45,9 @@ public class RutinaService {
                 .descripcion(dto.getDescripcion())
                 .perfil(perfil)
                 .ejercicios(ejercicios)
+                .estado(1)
                 .build();
+
 
         return rutinaRepository.save(rutina);
     }
