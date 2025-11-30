@@ -1,0 +1,270 @@
+/* =========================================================
+   BASE GENERAL
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f5f7fb;
+    color: #111827;
+}
+
+/* Layout raíz: ocupa el alto completo */
+.layout {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;   /* centra verticalmente el "page-shell" */
+    align-items: stretch;
+    padding: 32px 16px;        /* pequeño margen contra bordes en pantallas pequeñas */
+}
+
+/* Contenedor central: controla el ancho y el margen global
+   ESTE ES EL QUE MÁS HACE QUE SE “SEPARE” DE LOS BORDES */
+.page-shell {
+    width: 100%;
+    max-width: 1200px;         /* reduce el ancho de todo el contenido */
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================================================
+   CABECERA
+   ========================================================= */
+
+.page-header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.back-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #4b5563;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.back-row:hover {
+    color: #111827;
+}
+
+.back-arrow {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.page-title h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.page-title p {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+/* =========================================================
+   TARJETA PRINCIPAL
+   ========================================================= */
+
+.card {
+    flex: 1;
+    margin-top: 8px;
+
+    background: #ffffff;
+    border-radius: 26px;
+    box-shadow:
+        0 30px 80px rgba(15, 23, 42, 0.14),
+        0 0 0 1px rgba(148, 163, 184, 0.15);
+
+    padding: 32px 40px;
+
+    display: flex;
+}
+
+/* =========================================================
+   ÁREA DE LA GRÁFICA
+   ========================================================= */
+
+.chart-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chart-wrapper {
+    width: 100%;
+    max-width: 820px;      /* ajusta el tamaño de la gráfica */
+    aspect-ratio: 4 / 3;
+}
+
+#radarChart {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+
+/* =========================================================
+   GRID DE MÚSCULOS (tarjetas pequeñas)
+   ========================================================= */
+
+.muscle-grid {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+.muscle-card {
+    background: linear-gradient(135deg, #eef2ff, #f5f7ff);
+    border-radius: 22px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-shadow: 0 10px 25px rgba(129, 140, 248, 0.25);
+}
+
+.muscle-card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: rgba(129, 140, 248, 0.20);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    font-size: 20px;
+}
+
+.muscle-card-name {
+    font-size: 14px;
+    color: #4b5563;
+    margin-bottom: 4px;
+}
+
+.muscle-card-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: #4f46e5;
+}
+
+/* =========================================================
+   RESUMEN DEL PROGRESO (tarjeta grande)
+   ========================================================= */
+
+.summary-card {
+    margin-top: 28px;
+    margin-bottom: 16px;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 24px 28px;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+}
+
+.summary-title {
+    margin: 0 0 20px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.summary-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.summary-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 220px;
+}
+
+.summary-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+/* variantes de color para los iconos */
+.summary-icon-blue {
+    background: rgba(129, 140, 248, 0.18);
+}
+
+.summary-icon-orange {
+    background: rgba(251, 146, 60, 0.18);
+}
+
+.summary-icon-purple {
+    background: rgba(196, 181, 253, 0.20);
+}
+
+.summary-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.summary-label {
+    margin: 0;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.summary-value {
+    margin: 2px 0 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .layout {
+        padding: 16px;
+    }
+
+    .card {
+        padding: 16px;
+    }
+
+    .chart-wrapper {
+        max-width: 100%;
+    }
+    
+    .summary-card {
+        padding: 18px 16px;
+    }
+
+    .summary-items {
+        flex-direction: column;
+    }
+
+}
+

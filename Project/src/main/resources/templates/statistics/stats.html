@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bloque de estadísticas</title>
+
+    <!-- Hoja de estilos específica de esta vista -->
+    <link rel="stylesheet" th:href="@{/css/stats.css}">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+<div class="layout">
+    <!-- Contenedor central de la página (controla ancho total) -->
+    <div class="page-shell">
+
+        <!-- ================= CABECERA ================= -->
+        <header class="page-header">
+            <button type="button" class="back-row" onclick="history.back()">
+                <span class="back-arrow">←</span>
+                <span>Volver</span>
+            </button>
+
+            <div class="page-title">
+                <h1>Bloque de estadísticas</h1>
+                <p th:text="${fecha}">Sábado, 29 De Noviembre De 2025</p>
+            </div>
+        </header>
+
+        <!-- ================= TARJETA PRINCIPAL ================= -->
+        <main class="card">
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+        </main>
+
+        <!-- ================= GRID DE MÚSCULOS ================= -->
+        <section class="muscle-grid">
+            <div class="muscle-card">
+                <div class="muscle-card-icon">
+                    <!-- icono simple, luego puedes cambiarlo -->
+                    <span>🏋️</span>
+                </div>
+                <div class="muscle-card-name">
+                    Pectorales
+                </div>
+                <div class="muscle-card-value">
+                    45%
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= RESUMEN DEL PROGRESO ================= -->
+        <section class="summary-card">
+            <h2 class="summary-title">Resumen del Progreso</h2>
+
+            <div class="summary-items">
+
+                <div class="summary-item">
+                    <div class="summary-icon summary-icon-blue">
+                        🎯
+                    </div>
+                    <div class="summary-text">
+                        <p class="summary-label">Grupo más trabajado</p>
+                        <p class="summary-value"
+                        th:text="${grupoMasTrabajado}">Cuádriceps</p>
+                    </div>
+                </div>
+
+                <div class="summary-item">
+                    <div class="summary-icon summary-icon-orange">
+                        📈
+                    </div>
+                    <div class="summary-text">
+                        <p class="summary-label">Mayor progreso</p>
+                        <p class="summary-value"
+                        th:text="${musculoMayorProgreso + ' (+' + porcentajeMayorProgreso + '%)'}">
+                            Brazos (+12%)
+                        </p>
+                    </div>
+                </div>
+
+                <div class="summary-item">
+                    <div class="summary-icon summary-icon-purple">
+                        ⏱
+                    </div>
+                    <div class="summary-text">
+                        <p class="summary-label">Tiempo total</p>
+                        <p class="summary-value"
+                        th:text="${tiempoTotalHoras + ' horas'}">
+                            89 horas
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+    </div>
+</div>
+
+<!-- ================= SCRIPT DE LA GRÁFICA ================= -->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const labels = /*[[${labels}]]*/ [];
+    const values = /*[[${values}]]*/ [];
+
+    const ctx = document.getElementById('radarChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Nivel de trabajo muscular',
+                data: values,
+                fill: true,
+                // colores más parecidos al original
+                backgroundColor: 'rgba(129, 140, 248, 0.30)',
+                borderColor: 'rgba(79, 70, 229, 1)',
+                borderWidth: 2,
+                pointBackgroundColor: 'rgba(79, 70, 229, 1)',
+                pointRadius: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            // animación: el polígono crece desde el centro
+            animation: {
+                duration: 1200,
+                easing: 'easeOutCubic'
+            },
+            animations: {
+                radius: {
+                    duration: 1200,
+                    easing: 'easeOutCubic',
+                    from: 0
+                }
+            },
+
+            scales: {
+                r: {
+                    min: 0,
+                    max: 100,
+                    grid: {
+                        color: '#e5e7eb'
+                    },
+                    angleLines: {
+                        color: '#e5e7eb'
+                    },
+                    pointLabels: {
+                        font: { size: 13 },
+                        color: '#6b7280'
+                    },
+                    ticks: {
+                        display: false
+                    }
+                }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+    /*]]>*/
+</script>
+
+</body>
+</html>

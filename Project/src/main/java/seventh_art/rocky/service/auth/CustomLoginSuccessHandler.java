@@ -48,13 +48,12 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         if (usuarioRegistroId != null && dto == null) {
             // El usuario está en proceso de registro pero no ha completado el perfil
             System.out.println("Redirigiendo a paso2 por registro incompleto... | Condición 1");
-            response.sendRedirect("/registro/paso2");
+            response.sendRedirect("/registro/cuenta-creada");
             return;
         }
 
         // ----------------------------------------
         // 2. ¿El usuario NO ha completado su perfil en la BD?
-        //    Usuarios Google recién creados caen aquí.
         // ----------------------------------------
         if (usuario.isPresent() && !registroService.esPerfilCompleto(usuario.get())) {  
             // método que tú implementas basado en tus reglas:
