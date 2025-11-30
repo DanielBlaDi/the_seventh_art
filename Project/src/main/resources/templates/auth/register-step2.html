@@ -5,9 +5,11 @@
 <body class="bg-auth">
 <main class="card card--narrow">
 
-    <!-- Logo circular igual que en el paso 1 -->
     <div class="logo-circle">
-        <img src="/img/dumbbell.svg" alt="Logo Rocky">
+        <img th:src="@{/images/multipurpose/gym.png}"
+             src="/images/multipurpose/gym.png"
+             alt="Logo"
+             class="logo-img">
     </div>
 
     <h1 class="title">Crear Cuenta</h1>
@@ -24,9 +26,11 @@
     <form class="form"
           th:action="@{/registro/paso2}"
           th:object="${registroDTO}"
-          method="post">
+          method="post"
+          novalidate>
 
-        <p class="form-help">
+        <!-- CAMBIO: se agrega form-help--center -->
+        <p class="form-help form-help--center">
             Ingresa tus datos personales para personalizar tu experiencia
         </p>
 
@@ -49,12 +53,10 @@
                type="text"
                placeholder="Pérez"
                th:field="*{apellido}" />
-
         <p class="form-error"
            th:if="${#fields.hasErrors('apellido')}"
            th:errors="*{apellido}">
         </p>
-
 
         <!-- Edad -->
         <label class="form-label" for="edad">Edad</label>
@@ -66,6 +68,7 @@
                placeholder="25"
                th:field="*{edad}" />
 
+        <!-- mensaje tipo “ventanita” -->
         <p class="form-hint">La edad debe estar entre 15 y 120 años.</p>
 
         <p class="form-error"
@@ -98,6 +101,7 @@
                placeholder="70.5"
                th:field="*{peso}" />
 
+        <!-- mensaje tipo “ventanita” -->
         <p class="form-hint">El peso debe estar entre 10 y 350 kg.</p>
 
         <p class="form-error"
@@ -116,6 +120,7 @@
                placeholder="1.70"
                th:field="*{estatura}" />
 
+        <!-- mensaje tipo “ventanita” -->
         <p class="form-hint">La estatura debe estar entre 1.00 y 2.50 m.</p>
 
         <p class="form-error"

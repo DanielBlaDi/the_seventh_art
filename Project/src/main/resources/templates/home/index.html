@@ -10,8 +10,11 @@
 <body>
 <div class="landing">
     <main class="hero">
-        <div class="hero-logo">
-            <span class="hero-logo-icon">🏋</span>
+        <div class="landing-app-icon">
+            <img th:src="@{/images/multipurpose/gym.png}"
+                 src="/images/multipurpose/gym.png"
+                 alt="Logo"
+                 class="landing-app-icon-img">
         </div>
 
         <h1 class="hero-title">Bienvenido a Rocky</h1>
@@ -48,7 +51,7 @@
                 <p class="feature-desc">Estadísticas y análisis detallados</p>
             </article>
         </section>
-        
+
         <div class="hero-cta">
             <a class="btn-primary" th:href="@{/login}">Comenzar Ahora</a>
         </div>
@@ -60,5 +63,3 @@
 </div>
 </body>
 </html>
-
-
