@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import seventh_art.rocky.entity.Perfil;
 import seventh_art.rocky.entity.Usuario;
-import seventh_art.rocky.repository.PesoRepository;
 import seventh_art.rocky.repository.PerfilRepository;
+import seventh_art.rocky.repository.PesoRepository;
 import seventh_art.rocky.repository.UsuarioRepository;
 
 @Service
@@ -35,13 +35,13 @@ public class PerfilActualService {
         // -----------------------------------------
         // 1. LOGIN LOCAL (username = email)
         // -----------------------------------------
-        if (principal instanceof org.springframework.security.core.userdetails.User user) {
+        if (principal instanceof org.springframework.security.core.userdetails.UserDetails user) {
             email = user.getUsername();
         }
         // -----------------------------------------
         // 2. LOGIN GOOGLE OIDC
         // -----------------------------------------
-        else if (principal instanceof org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser oidcUser) {
+        else if (principal instanceof org.springframework.security.oauth2.core.oidc.user.OidcUser oidcUser) {
             email = oidcUser.getEmail();
         }
         // -----------------------------------------
