@@ -366,7 +366,7 @@ h3 { font-size: 1.125rem; font-weight: 600; }
 
 .option-button-full span {
     display: block;
-    width: 100%;
+    /* width: 100%; */
     text-align: left;
     border-radius: 9999px;
     border: 1px solid var(--color-border);
