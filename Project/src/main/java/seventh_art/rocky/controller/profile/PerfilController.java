@@ -76,4 +76,9 @@ public class PerfilController {
 
         return "redirect:/perfil";
     }
+
+    @GetMapping("/perfil/peso")
+    public String verRegistroPeso(Model model) {
+        return "home/profile/peso/registro_peso";
+    }
 }
