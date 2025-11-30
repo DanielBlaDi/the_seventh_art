@@ -26,6 +26,9 @@ let rutinasCache = [];
 // Id de rutina a eliminar
 let rutinaIdAEliminar = null;
 
+// Rutina que se está viendo en el modal "Ver Rutina" (para Empezar)
+let rutinaVistaActual = null;
+
 // Paginación
 const pageSize = 10;
 let currentPage = 1;            // crear rutina
@@ -70,6 +73,8 @@ const cerrarConfirm = document.getElementById("cerrarConfirm");
 const confirmOk = document.getElementById("confirmOk");
 const confirmText = document.getElementById("confirmText");
 const confirmTitulo = document.getElementById("confirmTitulo");
+
+let confirmCallback = null;
 
 /* ---------- Modal DESCRIPCIÓN RUTINA (crear) ---------- */
 const modalDescripcion = document.getElementById("modalDescripcionRutina");
@@ -287,27 +292,52 @@ function abrirVerEjercicio(id) {
 /* =========================================================
    Modal CONFIRMACIÓN
    ========================================================= */
+function openConfirmModal(titulo, texto, callback) {
+    if (!modalConfirm) return;
+    if (confirmTitulo) confirmTitulo.textContent = titulo || "";
+    if (confirmText)  confirmText.textContent  = texto  || "";
+    confirmCallback = (typeof callback === "function") ? callback : null;
+
+    modalConfirm.classList.remove("hidden");
+    modalConfirm.setAttribute("aria-hidden", "false");
+}
 
 function closeConfirmModal() {
     if (!modalConfirm) return;
     modalConfirm.classList.add("hidden");
     modalConfirm.setAttribute("aria-hidden", "true");
+    // limpiamos referencia para siguientes usos
+    confirmCallback = null;
 }
 
-if (cerrarConfirm) cerrarConfirm.addEventListener("click", closeConfirmModal);
+if (cerrarConfirm) {
+    cerrarConfirm.addEventListener("click", () => {
+        closeConfirmModal();
+    });
+}
 
 if (confirmOk) {
     confirmOk.addEventListener("click", () => {
+        // Guardamos el callback ANTES de cerrar
+        const cb = confirmCallback;
+
+        // Cerrar el modal (esto pone confirmCallback = null)
         closeConfirmModal();
+
+        // Ejecutar el callback si existía
+        if (typeof cb === "function") {
+            cb();
+        }
     });
 }
 
 if (modalConfirm) {
     modalConfirm.addEventListener("click", (e) => {
-        if (e.target === modalConfirm) closeConfirmModal();
+        if (e.target === modalConfirm) {
+            closeConfirmModal();
+        }
     });
 }
-
 /* =========================================================
    Render lista de EJERCICIOS (crear rutina) + paginación
    ========================================================= */
@@ -369,7 +399,7 @@ function renderEjercicios() {
             <button class="btn-add ${yaSeleccionado ? "selected" : ""}"
                     data-id="${e.id}"
                     ${yaSeleccionado ? "disabled" : ""}
-                    title="${yaSeleccionado ? "Ya agregado" : "Agregar"}">
+                    title="${yaSeleccionado ? "Já agregado" : "Agregar"}">
               ${yaSeleccionado ? "✓" : `
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                      viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -738,7 +768,7 @@ function renderRutinasLista(filtroNombre = "") {
     contenedorRutinas.querySelectorAll(".btn-full").forEach(btn => {
         btn.addEventListener("click", (e) => {
             const idRutina = e.currentTarget.dataset.id;
-            abrirRutinaEnVista(idRutina);
+            abrirRutinaEnVista(idRutina); // abre el modal
         });
     });
 
@@ -1289,11 +1319,77 @@ if (modalVerRutina) {
     });
 }
 
+// >>> AQUÍ ES DONDE CAMBIA LA LÓGICA DEL BOTÓN EMPEZAR RUTINA (MODAL) <<<
 if (verRutinaEmpezarBtn) {
     verRutinaEmpezarBtn.addEventListener("click", () => {
-        // Aquí en el futuro puedes iniciar un flujo de "seguir la rutina"
-        console.log("Empezar rutina:", verRutinaNombre?.textContent || "");
-        closeModalVerRutina();
+        if (!rutinaVistaActual) {
+            console.warn("No hay rutinaVistaActual al intentar empezar la rutina");
+            return;
+        }
+
+        // Función que realmente inicia la rutina:
+        function iniciarRutinaSeleccionada() {
+            const ahora = Date.now();
+
+            const payload = {
+                id: rutinaVistaActual.id,
+                nombre: rutinaVistaActual.nombre,
+                descripcion: rutinaVistaActual.descripcion || "",
+                numeroEjercicios: rutinaVistaActual.numeroEjercicios || 0,
+                ejerciciosCompletados: 0,
+
+                startedAt: ahora,          // timestamp de inicio
+                elapsedWhilePaused: 0,     // segundos acumulados cuando está en pausa
+                isPaused: false,           // estado del cronómetro
+
+                defaultRestSeconds: 90
+            };
+
+            try {
+                sessionStorage.setItem("rutinaEnCurso", JSON.stringify(payload));
+                sessionStorage.setItem("rutinaEnCurso_abrirModal", "1");
+            } catch (e) {
+                console.error("Error guardando rutina en curso en sessionStorage", e);
+            }
+
+            // Redirigimos a principal_home para que allí se active la card/modal
+            window.location.href = "principal_home";
+        }
+
+
+        // 1) Revisar si ya hay una rutina en curso en sessionStorage
+        const actualRaw = sessionStorage.getItem("rutinaEnCurso");
+        if (actualRaw) {
+            try {
+                const actual = JSON.parse(actualRaw);
+
+                // Si es la misma rutina, iniciarla sin preguntar otra vez
+                if (actual && actual.id === rutinaVistaActual.id) {
+                    iniciarRutinaSeleccionada();
+                    return;
+                }
+
+                // Si es otra distinta → mostramos modal bonito de confirmación
+                openConfirmModal(
+                    "Otra rutina en progreso",
+                    "Ya tienes otra rutina en progreso. ¿Deseas reemplazarla?",
+                    () => {
+                        // Si el usuario pulsa "Aceptar", iniciamos la nueva rutina
+                        iniciarRutinaSeleccionada();
+                    }
+                );
+                return;
+
+            } catch (e) {
+                console.error("Error leyendo rutinaEnCurso desde sessionStorage", e);
+                // Si algo falla leyendo, por seguridad: iniciar directo
+                iniciarRutinaSeleccionada();
+                return;
+            }
+        }
+
+        // 2) Si no había ninguna rutina en curso, simplemente la iniciamos
+        iniciarRutinaSeleccionada();
     });
 }
 
@@ -1352,6 +1448,15 @@ async function abrirRutinaEnVista(idRutina) {
                 `${n} ejercicio${n === 1 ? "" : "s"} • 45-60 min`;
         }
 
+        // Guardamos la rutina que está en vista para que el botón "Empezar rutina"
+        // pueda usar esta info y mandarla a principal_home
+        rutinaVistaActual = {
+            id: data.id,
+            nombre: data.nombre,
+            descripcion: data.descripcion,
+            numeroEjercicios: n
+        };
+
         renderEjerciciosVistaRutina(data.ejercicios || []);
         openModalVerRutina();
 
@@ -1359,6 +1464,7 @@ async function abrirRutinaEnVista(idRutina) {
         console.error("Error de red al cargar rutina para vista:", err);
     }
 }
+
 
 /* =========================================================
    Inicialización

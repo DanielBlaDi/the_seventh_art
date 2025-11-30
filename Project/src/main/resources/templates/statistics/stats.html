@@ -2,7 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Bloque de estadísticas</title>
+    <title>Estadísticas</title>
 
     <!-- Hoja de estilos específica de esta vista -->
     <link rel="stylesheet" th:href="@{/css/stats.css}">
@@ -24,7 +24,7 @@
 
             <div class="page-title">
                 <h1>Bloque de estadísticas</h1>
-                <p th:text="${fecha}">Sábado, 29 De Noviembre De 2025</p>
+                <p th:text="${fecha}">Default Sábado, 29 De Noviembre De 2025</p>
             </div>
         </header>
 
@@ -39,15 +39,15 @@
 
         <!-- ================= GRID DE MÚSCULOS ================= -->
         <section class="muscle-grid">
-            <div class="muscle-card">
+            <div class="muscle-card" th:each="musculo : ${musculos}">
                 <div class="muscle-card-icon">
                     <!-- icono simple, luego puedes cambiarlo -->
                     <span>🏋️</span>
                 </div>
-                <div class="muscle-card-name">
+                <div class="muscle-card-name" th:text="${musculo.nombreMusculo}">
                     Pectorales
                 </div>
-                <div class="muscle-card-value">
+                <div class="muscle-card-value" th:text="${musculo.porcentaje + '%'}">
                     45%
                 </div>
             </div>
@@ -64,9 +64,9 @@
                         🎯
                     </div>
                     <div class="summary-text">
-                        <p class="summary-label">Grupo más trabajado</p>
+                        <p class="summary-label">Musculo más trabajado</p>
                         <p class="summary-value"
-                        th:text="${grupoMasTrabajado}">Cuádriceps</p>
+                        th:text="${ejercicioMasTrabajado}">Default Cuádriceps</p>
                     </div>
                 </div>
 
@@ -75,10 +75,10 @@
                         📈
                     </div>
                     <div class="summary-text">
-                        <p class="summary-label">Mayor progreso</p>
+                        <p class="summary-label">Sets realizados del músculo</p>
                         <p class="summary-value"
-                        th:text="${musculoMayorProgreso + ' (+' + porcentajeMayorProgreso + '%)'}">
-                            Brazos (+12%)
+                        th:text="${totalSetsdeEjercicioMasTrabajado}">
+                            0 sets Default
                         </p>
                     </div>
                 </div>
@@ -88,19 +88,56 @@
                         ⏱
                     </div>
                     <div class="summary-text">
-                        <p class="summary-label">Tiempo total</p>
+                        <p class="summary-label">Tiempo total de entrenamiento</p>
                         <p class="summary-value"
-                        th:text="${tiempoTotalHoras + ' horas'}">
-                            89 horas
+                        th:text="${totalTiempoEntrenamiento}">
+                            89 horas Default
                         </p>
                     </div>
                 </div>
 
             </div>
         </section>
-
-
     </div>
+
+    <!-- ========== NAV INFERIOR ========== -->
+    <nav class="fixed-nav">
+        <a href="principal_home" class="nav-item active">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="icon-svg h-6 w-6">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="text-xs">Inicio</span>
+        </a>
+
+        <a href="rutinas" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="icon-svg h-6 w-6" aria-hidden="true">
+                <path d="M13 5h8"></path>
+                <path d="M13 12h8"></path>
+                <path d="M13 19h8"></path>
+                <path d="m3 17 2 2 4-4"></path>
+                <path d="m3 7 2 2 4-4"></path>
+            </svg>
+            <span class="text-xs">Mis Rutinas</span>
+        </a>
+
+        <a href="perfil" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="icon-svg h-6 w-6">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span class="text-xs">Perfil</span>
+        </a>
+    </nav>
 </div>
 
 <!-- ================= SCRIPT DE LA GRÁFICA ================= -->
@@ -119,8 +156,8 @@
                 label: 'Nivel de trabajo muscular',
                 data: values,
                 fill: true,
-                // colores más parecidos al original
-                backgroundColor: 'rgba(129, 140, 248, 0.30)',
+                // colores de la gráfica
+                backgroundColor: 'rgba(129, 140, 248, 0.55)',
                 borderColor: 'rgba(79, 70, 229, 1)',
                 borderWidth: 2,
                 pointBackgroundColor: 'rgba(79, 70, 229, 1)',
@@ -155,11 +192,15 @@
                         color: '#e5e7eb'
                     },
                     pointLabels: {
-                        font: { size: 13 },
-                        color: '#6b7280'
+                        font: { size: 15, weight: '500' },
+                        color: '#374151'
                     },
                     ticks: {
-                        display: false
+                        display: true,
+                        stepSize: 10,
+                        backgroundColor: 'transparent',
+                        color: '#9ca3af',
+                        font: { size: 11 }
                     }
                 }
             },

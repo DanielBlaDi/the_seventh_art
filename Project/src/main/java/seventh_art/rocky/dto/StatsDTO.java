@@ -13,4 +13,7 @@ public class StatsDTO {
     private List<String> labels;
     private List<Integer> values;
     private List<MusculoDTO> musculos;
+    private String ejercicioMasTrabajado;
+    private int totalSetsdeEjercicioMasTrabajado;
+    private String totalTiempoEntrenamiento;  //Cambiar al tipo que corresponda
 }

@@ -23,8 +23,11 @@ public class StatsController {
         model.addAttribute("fecha", dto.getFecha());
         model.addAttribute("labels", dto.getLabels());
         model.addAttribute("values", dto.getValues());
-        model.addAttribute("statistics", dto.getMusculos()); // útil para las tarjetas de porcentajes
-
+        model.addAttribute("musculos", dto.getMusculos()); // útil para las tarjetas de porcentajes
+        model.addAttribute("ejercicioMasTrabajado", dto.getEjercicioMasTrabajado());
+        model.addAttribute("totalSetsdeEjercicioMasTrabajado", dto.getTotalSetsdeEjercicioMasTrabajado());
+        model.addAttribute("totalTiempoEntrenamiento", dto.getTotalTiempoEntrenamiento());
+        
         return "statistics/stats";
     }
 }

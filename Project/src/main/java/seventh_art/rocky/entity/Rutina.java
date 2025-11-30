@@ -44,6 +44,9 @@ public class Rutina {
     @Column(nullable = false, length = 500)
     private String descripcion;
 
+    @Column(nullable = false, columnDefinition = "TINYINT DEFAULT 1")
+    private Integer estado;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
             name = "id_perfil",
