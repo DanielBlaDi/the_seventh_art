@@ -1,18 +1,23 @@
 package seventh_art.rocky.service.routines;
 
+import java.time.LocalDate;
+
+import org.springframework.stereotype.Service;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import seventh_art.rocky.dto.RutinaFinalizadaDTO;
 import seventh_art.rocky.dto.SetEjercicioDTO;
-import seventh_art.rocky.entity.*;
+import seventh_art.rocky.entity.Ejercicio;
+import seventh_art.rocky.entity.Historia;
+import seventh_art.rocky.entity.Perfil;
+import seventh_art.rocky.entity.Rutina;
+import seventh_art.rocky.entity.SetEjercicio;
 import seventh_art.rocky.repository.EjercicioRepository;
 import seventh_art.rocky.repository.HistoriaRepository;
 import seventh_art.rocky.repository.RutinaRepository;
 import seventh_art.rocky.repository.SetEjercicioRepository;
-import seventh_art.rocky.service.PerfilActualService;
-
-import java.time.LocalDate;
+import seventh_art.rocky.service.profile.PerfilActualService;
 
 @Service
 @RequiredArgsConstructor

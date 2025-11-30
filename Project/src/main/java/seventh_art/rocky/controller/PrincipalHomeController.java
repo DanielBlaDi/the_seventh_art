@@ -1,15 +1,16 @@
 package seventh_art.rocky.controller;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import lombok.RequiredArgsConstructor;
 import seventh_art.rocky.dto.ActividadRecienteDTO;
 import seventh_art.rocky.entity.Perfil;
 import seventh_art.rocky.service.HistoriaService;
-import seventh_art.rocky.service.PerfilActualService;
-
-import java.util.List;
+import seventh_art.rocky.service.profile.PerfilActualService;
 
 @Controller
 @RequiredArgsConstructor
