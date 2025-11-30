@@ -1,17 +1,15 @@
 package seventh_art.rocky.entity;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -21,12 +19,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(
-        name = "logro"
-)
-
-@Getter
-@Setter
+@Table(name = "logro")
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -39,21 +33,30 @@ public class Logro {
     @NotBlank
     @Column(nullable = false, length = 50)
     private String nombre;
-    
+
     @NotBlank
     @Column(nullable = false, length = 100)
     private String descripcion;
-    
-    
-    @ManyToMany
-    @JoinTable(
-            name = "logro_perfil",
-            joinColumns = @JoinColumn(name = "id_logro", nullable = false,
-            foreignKey = @ForeignKey(name = "fk_logro_perfil_logro")),
-            inverseJoinColumns = @JoinColumn(name = "id_perfil", nullable = false,
-            foreignKey = @ForeignKey(name = "fk_logro_perfil_perfil"))
-)
-@Builder.Default
-private Set<Perfil> perfiles = new HashSet<>();
 
+    @NotBlank
+    @Column(nullable = false, length = 50, unique = true)
+    private String clave;
+
+    @NotBlank
+    @Column(nullable = false, length = 20)
+    private String tipo;
+
+    @Column
+    private Integer umbral;
+
+
+    @Column(length = 1000)
+    private String params;
+
+    @Column(name = "creado_en", nullable = false)
+    private LocalDateTime creadoEn;
+
+    @OneToMany(mappedBy = "logro")
+    @Builder.Default
+    private Set<LogroUsuario> logroUsuarios = new HashSet<>();
 }
