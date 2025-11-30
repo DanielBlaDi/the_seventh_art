@@ -7,6 +7,7 @@ import seventh_art.rocky.entity.Historia;
 import seventh_art.rocky.entity.Perfil;
 import seventh_art.rocky.repository.HistoriaRepository;
 
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;

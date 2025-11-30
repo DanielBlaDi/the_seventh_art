@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import seventh_art.rocky.dto.ActividadRecienteDTO;
 import seventh_art.rocky.entity.Perfil;
 import seventh_art.rocky.service.HistoriaService;
+import seventh_art.rocky.service.MensajeService;
 import seventh_art.rocky.service.PerfilActualService;
 
 import java.util.List;
@@ -17,15 +18,18 @@ public class PrincipalHomeController {
 
     private final PerfilActualService perfilActualService;
     private final HistoriaService historiaService;
+    private final MensajeService mensajeService;
 
     @GetMapping("/principal_home")
     public String mostrarPrincipalHome(Model model) {
 
         Perfil perfil = perfilActualService.getCurrentPerfil();
         List<ActividadRecienteDTO> actividadesRecientes = historiaService.listarRutinasActuales();
+        String mensajeDelDia = mensajeService.getMensaje();
 
         model.addAttribute("perfil", perfil);
         model.addAttribute("actividadesRecientes", actividadesRecientes);
+        model.addAttribute("mensajeDelDia", mensajeDelDia);
 
         return "home/principal_home"; // busca templates/home/principal_home.html
     }
