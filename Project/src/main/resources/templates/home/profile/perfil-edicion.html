@@ -6,31 +6,6 @@
     <title>Editar Perfil</title>
     <link rel="stylesheet" href="/css/perfil.css">
 </head>
-<script>
-    // Objetivo
-    document.querySelectorAll('.objective-option').forEach(btn => {
-        btn.addEventListener('click', function () {
-            document
-                .querySelectorAll('.objective-option')
-                .forEach(b => b.classList.remove('objective-option--active'));
-            this.classList.add('objective-option--active');
-            document.getElementById('objetivo').value = this.textContent.trim();
-        });
-    });
-
-    // Meta semanal (racha deseada)
-    document.querySelectorAll('.day-option').forEach(btn => {
-        btn.addEventListener('click', function () {
-            document
-                .querySelectorAll('.day-option')
-                .forEach(b => b.classList.remove('day-option--active'));
-            this.classList.add('day-option--active');
-            const num = this.querySelector('.day-number').textContent.trim();
-            document.getElementById('metaSemanal').value = num;
-        });
-    });
-</script>
-
 <body>
 <div class="app-container">
     <div class="content-wrapper">
@@ -76,7 +51,7 @@
                            class="text-sm text-destructive"></p>
                     </div>
 
-                    <!-- Edad y Estatura en la misma fila -->
+                    <!-- Edad y Estatura -->
                     <div class="form-group-half">
                         <label class="form-label">Edad</label>
                         <input type="number" th:field="*{edad}" class="input-field"/>
@@ -92,127 +67,116 @@
                            th:errors="*{estatura}"
                            class="text-sm text-destructive"></p>
                     </div>
-<div class="form-group-full" style="margin-top: 1.5rem;">
-    <h3 class="mb-4">Objetivo y Actividad</h3>
-</div>
 
-<!-- OBJETIVO -->
-<div class="form-group-full">
-    <label class="form-label mb-2">¿Cuál es tu objetivo?</label>
+                    <!-- ===================== -->
+                    <!-- OBJETIVO Y ACTIVIDAD -->
+                    <!-- ===================== -->
 
-    <div class="option-group-column">
+                    <div class="form-group-full" style="margin-top: 1.5rem;">
+                        <h3 class="mb-4">Objetivo y Actividad</h3>
+                    </div>
 
-        <label class="option-button-full">
-            <input type="radio"
-                   th:field="*{objetivo}"
-                   value="GANAR_MASA_MUSCULAR"
-                   class="option-input-hidden"/>
-            <span>Subir de peso</span>
-        </label>
+                    <!-- OBJETIVO -->
+                    <div class="form-group-full">
+                        <label class="form-label mb-2">¿Cuál es tu objetivo?</label>
 
-        <label class="option-button-full">
-            <input type="radio"
-                   th:field="*{objetivo}"
-                   value="PERDER_PESO"
-                   class="option-input-hidden"/>
-            <span>Bajar de peso</span>
-        </label>
+                        <div class="option-group-column">
 
-        <label class="option-button-full">
-            <input type="radio"
-                   th:field="*{objetivo}"
-                   value="MANTENERSE_EN_FORMA"
-                   class="option-input-hidden"/>
-            <span>Mantener peso actual</span>
-        </label>
-    </div>
+                            <label class="option-button-full">
+                                <input type="radio"
+                                       th:field="*{objetivo}"
+                                       value="GANAR_MASA_MUSCULAR"
+                                       class="option-input-hidden"/>
+                                <span>Subir de peso</span>
+                            </label>
 
-    <p th:if="${#fields.hasErrors('objetivo')}"
-       th:errors="*{objetivo}"
-       class="text-sm text-destructive"></p>
-</div>
+                            <label class="option-button-full">
+                                <input type="radio"
+                                       th:field="*{objetivo}"
+                                       value="PERDER_PESO"
+                                       class="option-input-hidden"/>
+                                <span>Bajar de peso</span>
+                            </label>
 
-<!-- META SEMANAL / RACHA DESEADA -->
-<div class="form-group-full">
-    <label class="form-label">Meta semanal de entrenamientos</label>
-    <p class="text-sm text-muted-foreground mb-2">
-        Selecciona cuántos días por semana planeas entrenar
-    </p>
+                            <label class="option-button-full">
+                                <input type="radio"
+                                       th:field="*{objetivo}"
+                                       value="MANTENERSE_EN_FORMA"
+                                       class="option-input-hidden"/>
+                                <span>Mantener peso actual</span>
+                            </label>
+                        </div>
 
-    <div class="option-group-grid">
-        <label class="option-button-square">
-            <input type="radio"
-                   th:field="*{rachaDeseada}"
-                   value="2"
-                   class="option-input-hidden"/>
-            <span>
-                <span class="day-number">2</span>
-                <span class="day-text">días</span>
-            </span>
-        </label>
+                        <p th:if="${#fields.hasErrors('objetivo')}"
+                           th:errors="*{objetivo}"
+                           class="text-sm text-destructive"></p>
+                    </div>
 
-        <label class="option-button-square">
-            <input type="radio"
-                   th:field="*{rachaDeseada}"
-                   value="3"
-                   class="option-input-hidden"/>
-            <span>
-                <span class="day-number">3</span>
-                <span class="day-text">días</span>
-            </span>
-        </label>
+                    <!-- META SEMANAL / RACHA -->
+                    <div class="form-group-full">
+                        <label class="form-label">Meta semanal de entrenamientos</label>
+                        <p class="text-sm text-muted-foreground mb-2">
+                            Selecciona cuántos días por semana planeas entrenar
+                        </p>
 
-        <label class="option-button-square">
-            <input type="radio"
-                   th:field="*{rachaDeseada}"
-                   value="4"
-                   class="option-input-hidden"/>
-            <span>
-                <span class="day-number">4</span>
-                <span class="day-text">días</span>
-            </span>
-        </label>
+                        <div class="option-group-grid">
 
-        <label class="option-button-square">
-            <input type="radio"
-                   th:field="*{rachaDeseada}"
-                   value="5"
-                   class="option-input-hidden"/>
-            <span>
-                <span class="day-number">5</span>
-                <span class="day-text">días</span>
-            </span>
-        </label>
+                            <label class="option-button-square">
+                                <input type="radio" th:field="*{rachaDeseada}" value="2" class="option-input-hidden"/>
+                                <span>
+                                    <span class="day-number">2</span>
+                                    <span class="day-text">días</span>
+                                </span>
+                            </label>
 
-        <label class="option-button-square">
-            <input type="radio"
-                   th:field="*{rachaDeseada}"
-                   value="6"
-                   class="option-input-hidden"/>
-            <span>
-                <span class="day-number">6</span>
-                <span class="day-text">días</span>
-            </span>
-        </label>
+                            <label class="option-button-square">
+                                <input type="radio" th:field="*{rachaDeseada}" value="3" class="option-input-hidden"/>
+                                <span>
+                                    <span class="day-number">3</span>
+                                    <span class="day-text">días</span>
+                                </span>
+                            </label>
 
-        <label class="option-button-square">
-            <input type="radio"
-                   th:field="*{rachaDeseada}"
-                   value="7"
-                   class="option-input-hidden"/>
-            <span>
-                <span class="day-number">7</span>
-                <span class="day-text">días</span>
-            </span>
-        </label>
-    </div>
+                            <label class="option-button-square">
+                                <input type="radio" th:field="*{rachaDeseada}" value="4" class="option-input-hidden"/>
+                                <span>
+                                    <span class="day-number">4</span>
+                                    <span class="day-text">días</span>
+                                </span>
+                            </label>
 
-    <p th:if="${#fields.hasErrors('rachaDeseada')}"
-       th:errors="*{rachaDeseada}"
-       class="text-sm text-destructive"></p>
-</div>
+                            <label class="option-button-square">
+                                <input type="radio" th:field="*{rachaDeseada}" value="5" class="option-input-hidden"/>
+                                <span>
+                                    <span class="day-number">5</span>
+                                    <span class="day-text">días</span>
+                                </span>
+                            </label>
 
-                    <!-- BOTONES DE ACCIÓN -->
+                            <label class="option-button-square">
+                                <input type="radio" th:field="*{rachaDeseada}" value="6" class="option-input-hidden"/>
+                                <span>
+                                    <span class="day-number">6</span>
+                                    <span class="day-text">días</span>
+                                </span>
+                            </label>
+
+                            <label class="option-button-square">
+                                <input type="radio" th:field="*{rachaDeseada}" value="7" class="option-input-hidden"/>
+                                <span>
+                                    <span class="day-number">7</span>
+                                    <span class="day-text">días</span>
+                                </span>
+                            </label>
+
+                        </div>
+
+                        <p th:if="${#fields.hasErrors('rachaDeseada')}"
+                           th:errors="*{rachaDeseada}"
+                           class="text-sm text-destructive"></p>
+                    </div>
+
+                    <!-- BOTONES -->
                     <div class="btn-action-group">
                         <a href="/perfil" class="btn btn-cancel">Cancelar</a>
                         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
