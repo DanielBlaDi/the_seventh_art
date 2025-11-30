@@ -1,8 +1,12 @@
 package seventh_art.rocky.service.routines;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import seventh_art.rocky.dto.RutinaDTO;
 import seventh_art.rocky.dto.RutinaDetalleDTO;
 import seventh_art.rocky.dto.RutinaVistaDTO;
@@ -12,10 +16,7 @@ import seventh_art.rocky.entity.Rutina;
 import seventh_art.rocky.repository.EjercicioRepository;
 import seventh_art.rocky.repository.HistoriaRepository;
 import seventh_art.rocky.repository.RutinaRepository;
-import seventh_art.rocky.service.PerfilActualService;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import seventh_art.rocky.service.profile.PerfilActualService;
 
 @Service
 @RequiredArgsConstructor
