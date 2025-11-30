@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil</title>
+    <link rel="stylesheet" href="/css/perfil.css">
+</head>
+<body>
+<div class="app-container">
+    <div class="content-wrapper">
+        <div class="p-4 max-w-screen-lg mx-auto">
+
+            <!-- Encabezado -->
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h1>Editar Perfil</h1>
+                    <p class="text-muted-foreground">Actualiza tu información personal y tus objetivos</p>
+                </div>
+            </div>
+
+            <div class="card">
+
+                <form th:action="@{/perfil/editar}"
+                      th:object="${perfilEdicionDTO}"
+                      method="post"
+                      class="form-grid">
+
+                    <!-- ===================== -->
+                    <!-- INFORMACIÓN PERSONAL -->
+                    <!-- ===================== -->
+                    <div class="form-group-full">
+                        <h3 class="mb-4">Información Personal</h3>
+                    </div>
+
+                    <!-- Nombre -->
+                    <div class="form-group-full">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" th:field="*{nombre}" class="input-field"/>
+                        <p th:if="${#fields.hasErrors('nombre')}"
+                           th:errors="*{nombre}"
+                           class="text-sm text-destructive"></p>
+                    </div>
+
+                    <!-- Apellido -->
+                    <div class="form-group-full">
+                        <label class="form-label">Apellido</label>
+                        <input type="text" th:field="*{apellido}" class="input-field"/>
+                        <p th:if="${#fields.hasErrors('apellido')}"
+                           th:errors="*{apellido}"
+                           class="text-sm text-destructive"></p>
+                    </div>
+
+                    <!-- Edad y Estatura en la misma fila -->
+                    <div class="form-group-half">
+                        <label class="form-label">Edad</label>
+                        <input type="number" th:field="*{edad}" class="input-field"/>
+                        <p th:if="${#fields.hasErrors('edad')}"
+                           th:errors="*{edad}"
+                           class="text-sm text-destructive"></p>
+                    </div>
+
+                    <div class="form-group-half">
+                        <label class="form-label">Estatura (m)</label>
+                        <input type="number" step="0.01" th:field="*{estatura}" class="input-field"/>
+                        <p th:if="${#fields.hasErrors('estatura')}"
+                           th:errors="*{estatura}"
+                           class="text-sm text-destructive"></p>
+                    </div>
+
+                    <div class="form-group-full" style="margin-top: 1.5rem;">
+                        <h3 class="mb-4">Objetivo y Actividad</h3>
+                    </div>
+
+                    <div class="form-group-full">
+                        <label class="form-label">¿Cuál es tu objetivo?</label>
+
+                        <div class="option-group-column">
+
+                            <label class="option-button-full">
+                                <input type="radio"
+                                       th:field="*{objetivo}"
+                                       value="GANAR_MASA_MUSCULAR"
+                                       class="option-input-hidden"/>
+                                <span>Subir de peso</span>
+                            </label>
+
+                            <label class="option-button-full">
+                                <input type="radio"
+                                       th:field="*{objetivo}"
+                                       value="PERDER_PESO"
+                                       class="option-input-hidden"/>
+                                <span>Bajar de peso</span>
+                            </label>
+
+                            <label class="option-button-full">
+                                <input type="radio"
+                                       th:field="*{objetivo}"
+                                       value="MANTENERSE_EN_FORMA"
+                                       class="option-input-hidden"/>
+                                <span>Mantener peso actual</span>
+                            </label>
+                        </div>
+
+                        <p th:if="${#fields.hasErrors('objetivo')}"
+                           th:errors="*{objetivo}"
+                           class="text-sm text-destructive"></p>
+                    </div>
+
+                    <div class="form-group-full">
+                        <label class="form-label">Meta semanal de entrenamientos</label>
+                        <p class="text-sm text-muted-foreground mb-2">
+                            Selecciona cuántos días por semana planeas entrenar
+                        </p>
+
+                        <div class="option-group-grid">
+                            <label class="option-button-square">
+                                <input type="radio"
+                                       th:field="*{rachaDeseada}"
+                                       value="2"
+                                       class="option-input-hidden"/>
+                                <span>2<br><small>días</small></span>
+                            </label>
+
+                            <label class="option-button-square">
+                                <input type="radio"
+                                       th:field="*{rachaDeseada}"
+                                       value="3"
+                                       class="option-input-hidden"/>
+                                <span>3<br><small>días</small></span>
+                            </label>
+
+                            <label class="option-button-square">
+                                <input type="radio"
+                                       th:field="*{rachaDeseada}"
+                                       value="4"
+                                       class="option-input-hidden"/>
+                                <span>4<br><small>días</small></span>
+                            </label>
+
+                            <label class="option-button-square">
+                                <input type="radio"
+                                       th:field="*{rachaDeseada}"
+                                       value="5"
+                                       class="option-input-hidden"/>
+                                <span>5<br><small>días</small></span>
+                            </label>
+
+                            <label class="option-button-square">
+                                <input type="radio"
+                                       th:field="*{rachaDeseada}"
+                                       value="6"
+                                       class="option-input-hidden"/>
+                                <span>6<br><small>días</small></span>
+                            </label>
+
+                            <label class="option-button-square">
+                                <input type="radio"
+                                       th:field="*{rachaDeseada}"
+                                       value="7"
+                                       class="option-input-hidden"/>
+                                <span>7<br><small>días</small></span>
+                            </label>
+                        </div>
+
+                        <p th:if="${#fields.hasErrors('rachaDeseada')}"
+                           th:errors="*{rachaDeseada}"
+                           class="text-sm text-destructive"></p>
+                    </div>
+
+                    <!-- BOTONES DE ACCIÓN -->
+                    <div class="btn-action-group">
+                        <a href="/perfil" class="btn btn-cancel">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

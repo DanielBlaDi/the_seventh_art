@@ -31,7 +31,7 @@ public class PerfilController {
     public String mostrarPerfil(Model model) {
         Perfil perfil = perfilActualService.getCurrentPerfil();
         model.addAttribute("perfil", perfil);
-        return "home/perfil";
+        return "home/profile/perfil";
     }
 
 
@@ -46,7 +46,7 @@ public class PerfilController {
         dto.setObjetivo(perfil.getObjetivo());
         dto.setRachaDeseada(perfil.getRachaDeseada());
         model.addAttribute("perfilEdicionDTO", dto);
-        return "home/perfil-edit";
+        return "home/profile/perfil-edicion";
     }
 
     @PostMapping("/perfil/editar")
@@ -55,7 +55,7 @@ public class PerfilController {
             BindingResult result) {
 
         if (result.hasErrors()) {
-            return "home/perfil-edit";
+            return "home/profile/perfil-edicion";
         }
 
         perfilService.actualizarPerfilActual(dto);
