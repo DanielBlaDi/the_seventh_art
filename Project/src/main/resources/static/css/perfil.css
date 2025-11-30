@@ -346,4 +346,182 @@ h3 { font-size: 1.125rem; font-weight: 600; }
     .btn-action-group {
         justify-content: center; 
     }
+    .option-group-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
 }
+
+
+/* ------------------------------------------- */
+/* --- OPCIONES DE OBJETIVO Y RACHA DESEADA --- */
+/* ------------------------------------------- */
+
+/* Contenedores */
+.option-group-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.option-group-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+/* Ocultamos el radio nativo, usamos el label como botón */
+.option-input-hidden {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ---- Botones de OBJETIVO (píldoras) ---- */
+
+.option-button-full {
+    display: block;
+    cursor: pointer;
+}
+
+.option-button-full span {
+    display: block;
+    width: 100%;
+    text-align: left;
+    border-radius: 9999px;
+    border: 1px solid var(--color-border);
+    background-color: #f3f4f6;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s,
+                box-shadow 0.15s, transform 0.1s;
+}
+
+.option-button-full:hover span {
+    background-color: #e5e7eb;
+}
+
+.option-button-full input:checked + span {
+    background-color: var(--color-indigo-600);
+    border-color: var(--color-indigo-600);
+    color: var(--color-white);
+    box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.4);
+    transform: translateY(-1px);
+}
+
+/* ---- Botones de Racha (cuadraditos) ---- */
+
+.option-button-square {
+    cursor: pointer;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-border);
+    background-color: #f9fafb;
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s, border-color 0.15s, transform 0.1s,
+                box-shadow 0.15s;
+    text-align: center;
+}
+
+.option-button-square span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.1;
+}
+
+/* número grande y texto pequeño ("días") */
+.day-number {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.day-text {
+    font-size: 0.75rem;
+    margin-top: 2px;
+    opacity: 0.9;
+}
+
+/* hover */
+.option-button-square:hover {
+    background-color: #eef2ff;
+    border-color: var(--color-indigo-600);
+    transform: translateY(-1px);
+}
+
+/* estado activo cuando el radio está marcado */
+.option-button-square input:checked + span,
+.option-button-square input:checked + span .day-number,
+.option-button-square input:checked + span .day-text {
+    color: var(--color-white);
+}
+
+.option-button-square input:checked ~ span {
+    /* por si el navegador interpreta ~ en vez de + */
+    color: var(--color-white);
+}
+
+.option-button-square input:checked ~ span .day-number,
+.option-button-square input:checked ~ span .day-text {
+    color: var(--color-white);
+}
+
+.option-button-square input:checked {
+    /* nada, solo para tener el selector */
+}
+
+.option-button-square input:checked + span,
+.option-button-square input:checked ~ span {
+    /* cambiamos también el fondo/borde del label */
+}
+
+.option-button-square input:checked + span,
+.option-button-square input:checked ~ span {
+    /* se maneja con el padre: */
+}
+
+.option-button-square input:checked {
+    /* pero realmente cambiamos el label via parent selector */
+}
+
+.option-button-square input:checked {
+    /* (los navegadores antiguos no tienen :has, así que usamos truco
+       extra abajo con una regla más específica) */
+}
+
+/* truco: usamos el selector del label cuando el input está antes */
+.option-button-square input:checked {
+    /* noop */
+}
+
+/* color del label cuando está checked */
+.option-button-square input:checked + span {
+    /* solo color de texto */
+}
+
+/* para fondo/borde usamos esta combinación: */
+.option-button-square input:checked {
+    /* usamos box-shadow en el label por encima */
+}
+
+.option-button-square input:checked {
+    /* noop otra vez, lo importante viene abajo */
+}
+
+/* truco final: aplicamos estilos al label usando :has si el navegador lo soporta */
+@supports(selector(:has(*))) {
+    .option-button-square:has(input:checked) {
+        background-color: var(--color-indigo-600);
+        border-color: var(--color-indigo-600);
+        box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.4);
+    }
+
+    .option-button-square:has(input:checked) .day-number,
+    .option-button-square:has(input:checked) .day-text {
+        color: var(--color-white);
+    }
+}
+
