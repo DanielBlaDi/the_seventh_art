@@ -13,7 +13,10 @@
 
             <!-- ========== TÍTULO + SUBTÍTULO ========== -->
             <div class="mb-6">
-                <h1 class="text-2xl font-bold">¡Hola, Usuario!</h1>
+                <h1 class="page-title font-bold"
+                    th:text="'¡Hola ' + ${perfil.nombre} + '!'">
+                    Hola Usuario
+                </h1>
                 <p class="text-muted-foreground">Aquí está tu progreso de hoy</p>
             </div>
 
@@ -253,6 +256,7 @@
             </div>
 
             <!-- ========== ACTIVIDAD RECIENTE ========== -->
+            <!-- ========== ACTIVIDAD RECIENTE ========== -->
             <div data-slot="card" class="card card-lg">
                 <div class="flex items-center gap-2 mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -266,26 +270,34 @@
                 </div>
 
                 <div class="space-y-4 activity-list">
-                    <div class="flex items-center justify-between pb-3 border-b">
-                        <div>
-                            <p class="font-medium">Rutina de Pierna</p>
-                            <p class="text-sm text-muted-foreground">Ayer • 45 min</p>
-                        </div>
+
+                    <!-- Mensaje si no hay actividad -->
+                    <div th:if="${#lists.isEmpty(actividadesRecientes)}"
+                         class="text-sm text-muted-foreground">
+                        Aún no tienes actividad reciente. ¡Comienza una rutina hoy! 💪
                     </div>
-                    <div class="flex items-center justify-between pb-3 border-b">
+
+                    <!-- Lista de actividades -->
+                    <div th:each="actividad, iterStat : ${actividadesRecientes}"
+                         class="flex items-center justify-between"
+                         th:classappend="${!iterStat.last} ? ' pb-3 border-b' : ''">
                         <div>
-                            <p class="font-medium">Rutina Full Body</p>
-                            <p class="text-sm text-muted-foreground">Hace 2 días • 52 min</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="font-medium">Rutina de Pecho</p>
-                            <p class="text-sm text-muted-foreground">Hace 3 días • 38 min</p>
+                            <!-- Nombre de la rutina -->
+                            <p class="font-medium"
+                               th:text="${actividad.nombreRutina}">
+                                Rutina de Ejemplo
+                            </p>
+
+                            <!-- "Hace X días • Y min" -->
+                            <p class="text-sm text-muted-foreground"
+                               th:text="${actividad.tiempoRelativo} + ' • ' + ${actividad.duracionTexto}">
+                                Hace 2 días • 45 min
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
+
 
         </div>
     </div>
