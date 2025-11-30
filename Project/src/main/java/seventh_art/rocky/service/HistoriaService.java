@@ -53,6 +53,10 @@ public class HistoriaService {
 
     private String aFormatoHoraMinuto(Long segundos){
 
+        if (segundos == 0){
+            return "--:--";
+        }
+
         long horas = segundos / 3600;
         long minutos = (segundos % 3600) / 60;
 

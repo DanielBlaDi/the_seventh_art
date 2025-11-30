@@ -256,7 +256,6 @@
             </div>
 
             <!-- ========== ACTIVIDAD RECIENTE ========== -->
-            <!-- ========== ACTIVIDAD RECIENTE ========== -->
             <div data-slot="card" class="card card-lg">
                 <div class="flex items-center gap-2 mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -290,7 +289,7 @@
 
                             <!-- "Hace X días • Y min" -->
                             <p class="text-sm text-muted-foreground"
-                               th:text="${actividad.tiempoRelativo} + ' • ' + ${actividad.duracionTexto}">
+                               th:text="${actividad.tiempoRelativo} + ' • ' + ${actividad.duracion}">
                                 Hace 2 días • 45 min
                             </p>
                         </div>

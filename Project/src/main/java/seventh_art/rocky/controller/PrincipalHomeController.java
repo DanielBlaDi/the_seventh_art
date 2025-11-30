@@ -22,10 +22,10 @@ public class PrincipalHomeController {
     public String mostrarPrincipalHome(Model model) {
 
         Perfil perfil = perfilActualService.getCurrentPerfil();
-        List<ActividadRecienteDTO> rutinasRecientes = historiaService.listarRutinasActuales();
+        List<ActividadRecienteDTO> actividadesRecientes = historiaService.listarRutinasActuales();
 
         model.addAttribute("perfil", perfil);
-        model.addAttribute("rutinasRecientes", rutinasRecientes);
+        model.addAttribute("actividadesRecientes", actividadesRecientes);
 
         return "home/principal_home"; // busca templates/home/principal_home.html
     }
