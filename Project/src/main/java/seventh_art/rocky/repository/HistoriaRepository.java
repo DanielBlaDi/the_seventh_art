@@ -9,13 +9,14 @@ import seventh_art.rocky.entity.Rutina;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.OptionalLong;
 
 public interface HistoriaRepository extends JpaRepository<Historia, Long> {
 
     boolean existsByRutina(Rutina rutina);
 
     List<Historia> findTop3ByRutina_PerfilOrderByFechaDesc(Perfil perfil);
+
+    List<Historia> findTop3ByRutina_PerfilOrderByIdDesc(Perfil perfil);
 
     // Está en segundos
     // Suma la duración de todas las historias asociadas al perfil dado
