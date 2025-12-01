@@ -1,15 +1,14 @@
 package seventh_art.rocky.repository;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import seventh_art.rocky.entity.Historia;
 import seventh_art.rocky.entity.Perfil;
 import seventh_art.rocky.entity.Rutina;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.OptionalLong;
 
 public interface HistoriaRepository extends JpaRepository<Historia, Long> {
 
@@ -25,6 +24,8 @@ public interface HistoriaRepository extends JpaRepository<Historia, Long> {
             Long perfilId,
             LocalDate fechaDesde
     );
+    List<Historia> findTop3ByRutina_PerfilOrderByIdDesc(Perfil perfil);
+
     // Está en segundos
     // Suma la duración de todas las historias asociadas al perfil dado
     @Query("""

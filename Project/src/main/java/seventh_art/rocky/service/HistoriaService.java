@@ -24,7 +24,7 @@ public class HistoriaService {
     public List<ActividadRecienteDTO> listarRutinasActuales(Perfil perfil) {
 
         List<Historia> historias = historiaRepository
-                .findTop3ByRutina_PerfilOrderByFechaDesc(perfil);
+                .findTop3ByRutina_PerfilOrderByIdDesc(perfil);
 
         LocalDate ahora = LocalDate.now();
 
@@ -32,7 +32,7 @@ public class HistoriaService {
                 h -> {
                     String nombre = h.getRutina().getNombre();
                     String tiempoRelativo = formatoTiempoRelativo(h.getFecha(), ahora);
-                    String duracion = aFormatoHoraMinuto(h.getTiempo());
+                    String duracion = aFormatoHoraMinutoSegundo(h.getTiempo());
 
                     return new ActividadRecienteDTO(nombre, tiempoRelativo, duracion);
                 }).toList();
@@ -52,16 +52,17 @@ public class HistoriaService {
         }
     }
 
-    private String aFormatoHoraMinuto(Long segundos){
+    private String aFormatoHoraMinutoSegundo(Long segundos){
 
         if (segundos == 0){
-            return "--:--";
+            return "--:--:--";
         }
 
         long horas = segundos / 3600;
         long minutos = (segundos % 3600) / 60;
+        long seg = (segundos % 60);
 
-        return String.format("%02d:%02d", horas, minutos);
+        return String.format("%02d:%02d:%02d", horas, minutos, seg);
     }
 
     public String getTiempoTotalDeEntrenamiento(Perfil perfil){
