@@ -1,46 +1,50 @@
-package seventh_art.rocky.service;
+// package seventh_art.rocky.service;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-import org.springframework.stereotype.Service;
+// import java.time.LocalDate;
 
-import lombok.RequiredArgsConstructor;
-import seventh_art.rocky.config.UsuarioPrincipal;
-import seventh_art.rocky.entity.Perfil;
-import seventh_art.rocky.entity.Usuario;
-import seventh_art.rocky.repository.PerfilRepository;
+// import org.springframework.security.core.Authentication;
+// import org.springframework.security.core.context.SecurityContextHolder;
+// import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+// import org.springframework.stereotype.Service;
 
-@Service
-@RequiredArgsConstructor
-public class PerfilActualService {
+// import lombok.RequiredArgsConstructor;
+// import seventh_art.rocky.config.UsuarioPrincipal;
+// import seventh_art.rocky.entity.Perfil;
+// import seventh_art.rocky.entity.Usuario;
+// import seventh_art.rocky.repository.PerfilRepository;
 
-    private final UsuarioService usuarioService;
-    private final PerfilRepository perfilRepository;
+// @Service
+// @RequiredArgsConstructor
+// public class PerfilActualService {
 
-    public Perfil getCurrentPerfil() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//     private final UsuarioService usuarioService;
+//     private final PerfilRepository perfilRepository;
+//     private final LocalDate fechaActual = LocalDate.now();
 
-        if (auth == null || !auth.isAuthenticated()) {
-            throw new IllegalStateException("No authenticated user found");
-        }
+//     public Perfil getCurrentPerfil() {
+//         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        final String email = extractEmailFromAuthentication(auth);
+//         if (auth == null || !auth.isAuthenticated()) {
+//             throw new IllegalStateException("No authenticated user found");
+//         }
 
-        Usuario usuario = usuarioService.findByEmail(email);
+//         final String email = extractEmailFromAuthentication(auth);
 
-        return perfilRepository.findByUsuario(usuario)
-                .orElseThrow(() -> new IllegalStateException("Perfil not found for user: " + email));
-    }
+//         Usuario usuario = usuarioService.findByEmail(email);
 
-    private String extractEmailFromAuthentication(Authentication auth) {
-        Object principal = auth.getPrincipal();
-        if (principal instanceof UsuarioPrincipal up) {
-            return up.getUsername();
-        } else if (principal instanceof OidcUser o) {
-            return o.getEmail();
-        } else {
-            return auth.getName(); // fallback
-        }
-    }
-}
+//         return perfilRepository.findByUsuario(usuario.getId())
+//                 .orElseThrow(() -> new IllegalStateException("Perfil not found for user: " + email));
+//     }
+
+//     private String extractEmailFromAuthentication(Authentication auth) {
+//         Object principal = auth.getPrincipal();
+//         if (principal instanceof UsuarioPrincipal up) {
+//             return up.getUsername();
+//         } else if (principal instanceof OidcUser o) {
+//             return o.getEmail();
+//         } else {
+//             return auth.getName(); // fallback
+//         }
+//     }
+
+// }

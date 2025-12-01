@@ -10,8 +10,9 @@ import seventh_art.rocky.entity.Ejercicio;
 import seventh_art.rocky.entity.Perfil;
 import seventh_art.rocky.entity.Rutina;
 import seventh_art.rocky.repository.EjercicioRepository;
+import seventh_art.rocky.repository.HistoriaRepository;
 import seventh_art.rocky.repository.RutinaRepository;
-import seventh_art.rocky.service.PerfilActualService;
+import seventh_art.rocky.service.profile.PerfilActualService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ public class RutinaService {
     private final RutinaRepository rutinaRepository;
     private final EjercicioRepository ejercicioRepository;
     private final PerfilActualService perfilActualService;
+    private final HistoriaRepository historiaRepository;
 
     @Transactional
     public Rutina crear(RutinaDTO dto) {
@@ -45,6 +47,7 @@ public class RutinaService {
                 .descripcion(dto.getDescripcion())
                 .perfil(perfil)
                 .ejercicios(ejercicios)
+                .estado(1) // ⬅️ mantiene la lógica nueva de estado
                 .build();
 
         return rutinaRepository.save(rutina);
@@ -53,15 +56,34 @@ public class RutinaService {
     public List<RutinaVistaDTO> listarRutinasPerfilActual() {
         Perfil perfil = perfilActualService.getCurrentPerfil();
 
-        List<Rutina> rutinas = rutinaRepository.findByPerfilOrderByIdDesc(perfil);
+        // ⬅️ usa el método nuevo que solo trae rutinas activas
+        List<Rutina> rutinas = rutinaRepository.findByPerfilAndEstadoTrueOrderByIdDesc(perfil);
 
+        // ⬅️ mantiene la lógica de la vista con previews (limite 3)
         return rutinas.stream()
-                .map(r -> new RutinaVistaDTO(
-                        r.getId(),
-                        r.getNombre(),
-                        r.getDescripcion(),
-                        r.getEjercicios() != null ? r.getEjercicios().size() : 0
-                ))
+                .map(r -> {
+                    List<Ejercicio> ejercicios = r.getEjercicios();
+                    int numeroEjercicios = (ejercicios != null) ? ejercicios.size() : 0;
+
+                    List<RutinaVistaDTO.EjercicioPreviewDTO> preview =
+                            (ejercicios == null)
+                                    ? java.util.Collections.emptyList()
+                                    : ejercicios.stream()
+                                    .limit(3)
+                                    .map(e -> new RutinaVistaDTO.EjercicioPreviewDTO(
+                                            e.getId(),
+                                            e.getNombre()
+                                    ))
+                                    .collect(Collectors.toList());
+
+                    return new RutinaVistaDTO(
+                            r.getId(),
+                            r.getNombre(),
+                            r.getDescripcion(),
+                            numeroEjercicios,
+                            preview
+                    );
+                })
                 .collect(Collectors.toList());
     }
 
@@ -76,7 +98,15 @@ public class RutinaService {
             throw new SecurityException("No tienes permiso para eliminar esta rutina.");
         }
 
-        rutinaRepository.delete(rutina);
+        // ⬅️ mantiene soft delete si tiene historia
+        boolean tieneHistoria = historiaRepository.existsByRutina(rutina);
+
+        if (tieneHistoria) {
+            rutina.setEstado(0);
+            rutinaRepository.save(rutina);
+        } else {
+            rutinaRepository.delete(rutina);
+        }
     }
 
     public RutinaDetalleDTO obtenerRutinaConDetalles(Long rutinaId) {
@@ -121,7 +151,6 @@ public class RutinaService {
         }
 
         rutina.setNombre(dto.getNombre());
-
         rutina.setDescripcion(dto.getDescripcion());
 
         if (dto.getEjercicios() == null || dto.getEjercicios().isEmpty()) {
@@ -140,4 +169,3 @@ public class RutinaService {
         rutinaRepository.save(rutina);
     }
 }
-

@@ -1,4 +1,7 @@
-/* --- Variables y base --- */
+/* =========================================================
+   VARIABLES Y BASE
+   ========================================================= */
+
 :root {
     --color-bg-light: #f9fafb;
     --color-text-dark: #111827;
@@ -10,7 +13,10 @@
     --color-border: #e5e7eb;
 }
 
-*{ box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
@@ -18,484 +24,854 @@ body {
     color: var(--color-text-dark);
 }
 
-/* Layout general */
+
+/* =========================================================
+   LAYOUT GENERAL
+   ========================================================= */
+
 .app-container {
     min-height: 100vh;
-    display:flex;
-    flex-direction:column;
+    display: flex;
+    flex-direction: column;
 }
+
 .content-wrapper {
-    flex:1;
-    padding:1.5rem 1.5rem 5rem;
-    max-width:1400px;
-    margin:0 auto;
-}
-.dashboard-content { padding:0; }
-
-/* Utils */
-.font-bold{ font-weight:700; }
-.font-semibold{ font-weight:600; }
-.text-sm{ font-size:.875rem; }
-.text-xs{ font-size:.75rem; }
-.text-muted-foreground{ color: var(--color-text-muted); }
-
-.page-title{
-    font-size:1.75rem;
-    margin:0 0 .25rem;
+    flex: 1;
+    padding: 1.5rem 1.5rem 5rem;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
-/* Espaciado vertical estilo "space-y" */
-.space-y-4 > * + *{
-    margin-top:1rem;
+.dashboard-content {
+    padding: 0;
 }
 
-/* Botones */
-.btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:.5rem;
-    border-radius:8px;
-    padding:.5rem .9rem;
-    font-weight:600;
-    cursor:pointer;
-    border:1px solid transparent;
-    background:var(--color-white);
-}
-.btn-primary{
-    background:var(--color-indigo-600);
-    color:var(--color-white);
-    border:none;
-}
-.btn.crear{
-    background:var(--color-indigo-600);
-    color:#fff;
-    border:none;
-    padding:.6rem 1rem;
-    border-radius:8px;
-}
-.btn.cancelar{
-    background:#f3f4f6;
-    border:none;
-    padding:.6rem 1rem;
-    border-radius:8px;
+
+/* =========================================================
+   UTILIDADES / TIPOGRAFÍA
+   ========================================================= */
+
+.font-bold { font-weight: 700; }
+.font-semibold { font-weight: 600; }
+.text-sm { font-size: .875rem; }
+.text-xs { font-size: .75rem; }
+.text-muted-foreground { color: var(--color-text-muted); }
+
+.page-title {
+    font-size: 1.75rem;
+    margin: 0 0 .25rem;
 }
 
-/* Header and search */
-.mb-6{ margin-bottom:1.5rem; }
-.mb-4{ margin-bottom:1rem; }
-.mb-3{ margin-bottom:.75rem; }
-.flex{ display:flex; }
-.items-center{ align-items:center; }
-.justify-between{ justify-content:space-between; }
+/* Espaciado tipo "space-y" */
+.space-y-4 > * + * {
+    margin-top: 1rem;
+}
 
-.search-input-container{
-    position:relative;
-    width:100%;
-    max-width:680px;
+/* Márgenes rápidos */
+.mb-6 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 1rem; }
+
+/* Flex helpers */
+.flex { display: flex; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+
+
+/* =========================================================
+   BOTONES
+   ========================================================= */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    border-radius: 8px;
+    padding: .5rem .9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    background: var(--color-white);
+}
+
+.btn-primary {
+    background: var(--color-indigo-600);
+    color: var(--color-white);
+    border: none;
+}
+
+.btn.crear {
+    background: var(--color-indigo-600);
+    color: #fff;
+    border: none;
+    padding: .6rem 1rem;
+    border-radius: 8px;
+}
+
+.btn.cancelar {
+    background: #f3f4f6;
+    border: none;
+    padding: .6rem 1rem;
+    border-radius: 8px;
+}
+
+.btn.eliminar {
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    padding: .6rem 1rem;
+    border-radius: 8px;
+}
+
+.btn.eliminar:hover {
+    filter: brightness(0.95);
+}
+
+/* Estado deshabilitado (especialmente Crear Rutina) */
+.btn[disabled],
+.btn:disabled {
+    opacity: .45;
+    cursor: default;
+    box-shadow: none;
+}
+
+.btn.crear:disabled,
+.btn.crear[disabled] {
+    background: #a5b4fc;
+}
+
+/* Botón de agregar cuando ya está seleccionado */
+.btn-add.selected {
+    cursor: default;
+    opacity: 0.8;
+    border-radius: 999px;
+    padding-inline: 0.65rem;
+    font-weight: 600;
+}
+
+/* Botón eliminar (ícono basurero) en listas */
+.btn-eliminar {
+    background: none;
+    border: none;
+    padding: .2rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-eliminar svg {
+    display: block;
+}
+
+
+/* =========================================================
+   BUSCADOR / HEADER
+   ========================================================= */
+
+.search-input-container {
+    position: relative;
+    width: 100%;
+    max-width: 680px;
     margin: .75rem auto 0;
-    display:flex;
-    align-items:center;
-}
-.search-icon{
-    position:absolute;
-    left:14px;
-    pointer-events:none;
-}
-.search-input{
-    width:100%;
-    padding:.7rem .9rem .7rem 44px;
-    border-radius:12px;
-    border:1px solid var(--color-border);
-    background:#fff;
+    display: flex;
+    align-items: center;
 }
 
-/* Cards genéricas (por si las usas en otro lado) */
-.card{
-    background:var(--color-white);
-    border-radius:12px;
-    border:1px solid var(--color-border);
-    box-shadow:0 6px 18px rgba(16,24,40,0.04);
-    padding:1rem;
-    margin-bottom:1rem;
+.search-icon {
+    position: absolute;
+    left: 14px;
+    pointer-events: none;
 }
 
-/* ===== ESTADO VACÍO ===== */
-.empty-state{
-    background:var(--color-white);
-    border-radius:16px;
-    border:1px solid var(--color-border);
-    padding:2rem 1.75rem;
-    text-align:center;
-    box-shadow:0 10px 25px rgba(15,23,42,0.04);
-}
-.empty-icon{
-    width:48px;
-    height:48px;
-    border-radius:999px;
-    background:#eef2ff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    margin:0 auto .75rem;
-}
-.empty-state h2{
-    margin:.25rem 0 .35rem;
-    font-size:1.1rem;
-}
-.empty-state p{
-    margin:0 0 1rem;
-    font-size:.9rem;
-    color:var(--color-text-muted);
+.search-input {
+    width: 100%;
+    padding: .7rem .9rem .7rem 44px;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    background: #fff;
 }
 
-/* Fixed nav */
-.fixed-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    background:var(--color-white);
-    border-top:1px solid var(--color-border);
-    height:64px;
-    display:flex;
-    align-items:center;
-    justify-content:space-around;
-    z-index:60;
-}
-.nav-item{
-    color:var(--color-text-muted);
-    text-decoration:none;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:6px;
-    font-weight:600;
-}
-.nav-item.active{
-    color:var(--color-indigo-600);
+
+/* =========================================================
+   CARDS GENERALES + ESTADO VACÍO
+   ========================================================= */
+
+.card {
+    background: var(--color-white);
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 6px 18px rgba(16,24,40,0.04);
+    padding: 1rem;
+    margin-bottom: 1rem;
 }
 
-/* Modal base */
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.45);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:1000;
+/* Estado vacío principal (vista Mis Rutinas) */
+.empty-state {
+    background: var(--color-white);
+    border-radius: 16px;
+    border: 1px solid var(--color-border);
+    padding: 2rem 1.75rem;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(15,23,42,0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
 }
-.hidden{ display:none; }
-.modal-box{
-    width:94%;
-    max-width:1200px;
-    background:var(--color-white);
-    border-radius:12px;
-    overflow:hidden;
-    display:flex;
-    flex-direction:column;
-    box-shadow:0 20px 60px rgba(16,24,40,0.35);
-}
-.modal-desktop{ max-width:1200px; }
-.view-box{ max-width:760px; }
 
-/* Modal header/footer */
+@media (min-width: 700px) {
+    .empty-state {
+        min-width: 640px;
+    }
+}
+
+.empty-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 999px;
+    background: #eef2ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto .75rem;
+}
+
+.empty-state h2 {
+    margin: .25rem 0 .35rem;
+    font-size: 1.1rem;
+}
+
+.empty-state p {
+    margin: 0 0 1rem;
+    font-size: .9rem;
+    color: var(--color-text-muted);
+}
+
+#rutinasExistentes .empty-state {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0;
+}
+
+
+/* =========================================================
+   NAV INFERIOR FIJO
+   ========================================================= */
+
+.fixed-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--color-white);
+    border-top: 1px solid var(--color-border);
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    z-index: 60;
+}
+
+.nav-item {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+}
+
+.nav-item.active {
+    color: var(--color-indigo-600);
+}
+
+
+/* =========================================================
+   MODALES: BASE
+   ========================================================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-box {
+    width: 96%;
+    max-width: 1100px;
+    background: var(--color-white);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(16,24,40,0.35);
+    max-height: 86vh;
+    margin: 2.5rem auto;
+}
+
+.modal-desktop {
+    max-width: 1100px;
+}
+
+.view-box {
+    max-width: 760px;
+}
+
 .modal-header,
-.modal-footer{
-    padding:1rem 1.25rem;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    border-bottom:1px solid var(--color-border);
-    background:transparent;
-}
-.modal-footer{
-    border-top:1px solid var(--color-border);
-    border-bottom:none;
-    background:#fafafa;
+.modal-footer {
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--color-border);
+    background: transparent;
 }
 
-/* Modal body layout */
-.modal-body{
-    padding:1rem;
-    display:flex;
-    gap:1rem;
-    max-height:74vh;
-    overflow:auto;
-}
-.left-panel{ width:60%; }
-.right-panel{ width:40%; }
-
-/* Inputs, labels */
-.label{
-    display:block;
-    margin-top:.25rem;
-    margin-bottom:.5rem;
-    font-weight:700;
-}
-.label-small{
-    display:block;
-    font-size:.8rem;
-    margin-bottom:.25rem;
-    color:var(--color-text-muted);
-}
-.input-modal{
-    width:100%;
-    padding:.6rem;
-    border-radius:8px;
-    border:1px solid #d1d5db;
-    background:#fff;
+.modal-footer {
+    border-top: 1px solid var(--color-border);
+    border-bottom: none;
+    background: #fafafa;
 }
 
-/* Mensaje IA (morado) */
-.alert.alert-purple{
+.modal-body {
+    padding: 1.25rem 1.5rem 1.5rem;
+    display: flex;
+    gap: 1rem;
+    max-height: calc(86vh - 170px);
+    overflow: auto;
+}
+
+.left-panel { width: 60%; }
+.right-panel { width: 40%; }
+
+/* Ocultar botón X solo en el modal CREAR RUTINA (por si existe) */
+#modalCrearRutina .close-btn {
+    display: none;
+}
+
+
+/* =========================================================
+   FORMULARIOS EN MODALES (INPUTS / LABELS)
+   ========================================================= */
+
+.label {
+    display: block;
+    margin-top: .25rem;
+    margin-bottom: .5rem;
+    font-weight: 700;
+}
+
+.left-panel .label:first-of-type {
+    margin-top: 0.75rem;
+}
+
+.label-small {
+    display: block;
+    font-size: .8rem;
+    margin-bottom: .25rem;
+    color: var(--color-text-muted);
+}
+
+.input-modal {
+    width: 100%;
+    padding: .6rem;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    background: #fff;
+}
+
+
+/* =========================================================
+   MENSAJE IA (BANNER MORADO)
+   ========================================================= */
+
+.alert.alert-purple {
     background-color: var(--color-purple-100);
-    border-radius:8px;
-    padding:.9rem;
-    color:var(--color-purple-600);
-    display:flex;
-    align-items:center;
-    gap:.75rem;
-    border:none;
-    margin-bottom:.8rem;
-}
-.icon-circle.icon-circle-sm{
-    width:1.1rem;
-    height:1.1rem;
-    border-radius:50%;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    background:var(--color-purple-600);
+    border-radius: 8px;
+    padding: .9rem;
+    color: var(--color-purple-600);
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    border: none;
+    margin-bottom: .8rem;
 }
 
-/* ===== MENÚ GRUPO MUSCULAR ===== */
-.filters{
-    margin:.6rem 0 1rem;
-}
-.muscle-select-wrapper{
-    position:relative;
-    display:inline-block;
-}
-.muscle-select{
-    appearance:none;
-    -webkit-appearance:none;
-    -moz-appearance:none;
-    padding:.45rem 2.3rem .45rem .9rem;
-    border-radius:999px;
-    border:1px solid #e6e7eb;
-    background:#fff;
-    font-weight:600;
-    font-size:.9rem;
-    cursor:pointer;
-}
-.muscle-select-wrapper::after{
-    content:"▾";
-    position:absolute;
-    right:.8rem;
-    top:50%;
-    transform:translateY(-50%);
-    font-size:.75rem;
-    color:var(--color-text-muted);
-    pointer-events:none;
+.icon-circle.icon-circle-sm {
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-purple-600);
 }
 
-/* listas */
+/* Ocultar banner IA en modal Crear Rutina (por ahora) */
+#iaMessage {
+    display: none;
+}
+
+
+/* =========================================================
+   SELECTOR DE GRUPO MUSCULAR
+   ========================================================= */
+
+.filters {
+    margin: .6rem 0 1rem;
+}
+
+.muscle-select-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.muscle-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: .45rem 2.3rem .45rem .9rem;
+    border-radius: 999px;
+    border: 1px solid #e6e7eb;
+    background: #fff;
+    font-weight: 600;
+    font-size: .9rem;
+    cursor: pointer;
+}
+
+.muscle-select-wrapper::after {
+    content: "▾";
+    position: absolute;
+    right: .8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: .75rem;
+    color: var(--color-text-muted);
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   LISTAS DE EJERCICIOS (CREAR / EDITAR / VISTA)
+   ========================================================= */
+
 .ejercicios-lista,
-.ejercicios-seleccionados{
-    border:1px solid var(--color-border);
-    border-radius:10px;
-    padding:.6rem;
-    height:520px;
-    overflow:auto;
-    background:#fff;
+.ejercicios-seleccionados {
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: .6rem;
+    height: 520px;
+    overflow: auto;
+    background: #fff;
 }
 
-/* item ejercicio */
-.ejercicio{
-    display:flex;
-    justify-content:space-between;
-    gap:.6rem;
-    padding:.6rem;
-    border-bottom:1px solid #f3f4f6;
-    align-items:center;
-}
-.ejercicio .meta{
-    color:var(--color-text-muted);
-    font-size:.9rem;
-    margin-left:.5rem;
-}
-
-/* acciones (eye + add) */
-.ejercicio .actions button{
-    background:none;
-    border:none;
-    cursor:pointer;
-    padding:.25rem;
-    margin-left:.4rem;
+/* Estado "sin ejercicios" en panel derecho */
+.ejercicios-seleccionados .ejercicio:first-child:last-child {
+    border: none;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2.5rem 1.25rem;
+    font-size: .9rem;
+    color: var(--color-text-muted);
 }
 
-/* seleccionados (derecha) */
-.sel-item{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:.8rem;
-    padding:.7rem;
-    border-radius:10px;
-    background:#fbfbff;
-    margin-bottom:.6rem;
-}
-.sel-left{
-    display:flex;
-    gap:.6rem;
-    align-items:flex-start;
-}
-.sel-name{ font-weight:700; }
-.sel-small{
-    color:var(--color-text-muted);
-    font-size:.88rem;
+.ejercicios-seleccionados .ejercicio:first-child:last-child .text-muted-foreground {
+    margin-top: .25rem;
+    font-size: .85rem;
 }
 
-/* controles series/reps/peso */
-.ctrls{
-    display:flex;
-    gap:.6rem;
-    margin-top:.45rem;
-    align-items:center;
-    flex-wrap:wrap;
-}
-.ctrls label{
-    font-size:.85rem;
-    color:var(--color-text-muted);
-    display:flex;
-    gap:.4rem;
-    align-items:center;
-}
-.ctrls input[type="number"]{
-    width:96px;
-    padding:.38rem;
-    border-radius:6px;
-    border:1px solid #e5e7eb;
+/* Item de la lista de ejercicios (lado izquierdo, etc.) */
+.ejercicio {
+    display: flex;
+    justify-content: space-between;
+    gap: .6rem;
+    padding: .6rem;
+    border-bottom: 1px solid #f3f4f6;
+    align-items: center;
 }
 
-/* boton eliminar en la lista de seleccionados */
-.btn-eliminar{
-    background:none;
-    border:none;
-    padding:.2rem;
-    cursor:pointer;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-}
-.btn-eliminar svg{ display:block; }
-
-/* view modal */
-.view-body{
-    display:flex;
-    gap:1rem;
-    padding:1rem;
-}
-.view-img{
-    width:260px;
-    height:170px;
-    border-radius:10px;
-    background-size:cover;
-    background-position:center;
-    border:1px solid var(--color-border);
-}
-.pills{
-    display:flex;
-    gap:.5rem;
-    margin:.5rem 0;
-}
-.pill{
-    background:#f3f4ff;
-    color:var(--color-indigo-600);
-    padding:.25rem .6rem;
-    border-radius:999px;
-    font-weight:700;
+.ejercicio .meta {
+    color: var(--color-text-muted);
+    font-size: .9rem;
+    margin-left: .5rem;
 }
 
-/* Confirm modal (pequeño) */
-.confirm-box{
-    max-width:440px;
-    width:90%;
-    border-radius:12px;
-    padding:0;
-    overflow:visible;
-}
-.confirm-box .modal-header{
-    border-bottom:none;
-    display:flex;
-    justify-content:center;
-}
-.confirm-box .modal-body{
-    padding:1rem 1.25rem;
-    text-align:center;
-}
-.confirm-box .modal-footer{
-    border-top:none;
-    padding:1rem;
+.ejercicio .actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: .25rem;
+    margin-left: .4rem;
 }
 
-/* Responsive smaller */
-@media (max-width:900px){
-    .modal-body{
-        flex-direction:column;
-    }
-    .left-panel,
-    .right-panel{
-        width:100%;
-    }
-    .ejercicios-lista,
-    .ejercicios-seleccionados{
-        height:320px;
-    }
-    .view-img{
-        width:100%;
-        height:220px;
-    }
+/* Panel derecho: ejercicios seleccionados */
+.sel-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: .8rem;
+    padding: .7rem;
+    border-radius: 10px;
+    background: #fbfbff;
+    margin-bottom: .6rem;
 }
 
-.pagination{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:.35rem;
-    margin-top:.6rem;
+.sel-left {
+    display: flex;
+    gap: .6rem;
+    align-items: flex-start;
 }
 
-.pagination button{
-    min-width:32px;
-    height:28px;
-    border-radius:999px;
-    border:1px solid var(--color-border);
-    background:#fff;
-    font-size:.8rem;
-    cursor:pointer;
-    padding:0 .6rem;
+.sel-name {
+    font-weight: 700;
 }
 
-.pagination button.active{
-    background:var(--color-indigo-600);
-    color:#fff;
-    border-color:var(--color-indigo-600);
+.sel-small {
+    color: var(--color-text-muted);
+    font-size: .88rem;
 }
 
-.pagination button:disabled{
-    opacity:.4;
-    cursor:default;
+
+/* Mantener íconos fijos a la derecha en la lista de ejercicios */
+
+.ejercicio {
+    align-items: flex-start;
 }
 
-.rutina-card {
+.ejercicio > div:first-child {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    gap: .6rem;
+}
+
+.ejercicio .actions {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    white-space: nowrap;
+}
+
+.ejercicio .meta-title,
+.ejercicio-name,
+.ejercicio > div:first-child > div:last-child {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+}
+
+
+/* =========================================================
+   MODAL VER EJERCICIO – versión final
+   ========================================================= */
+
+#modalVerEjercicio .modal-box {
+    max-width: 520px;
+    max-height: 86vh;
+    overflow: hidden;
+}
+
+/* Contenido: imagen grande arriba, texto abajo */
+.view-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem 1.5rem;
+}
+
+/* Imagen grande */
+.view-img {
+    width: 100%;
+    aspect-ratio: 16 / 13;
+    border-radius: 14px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #f8fafc;
+    border: 1px solid var(--color-border);
+}
+
+/* Texto */
+.view-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.view-content h4 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+#verCategorias.pills {
+    margin: 0.35rem 0 0.9rem;
+}
+
+#modalVerEjercicio .view-content h5 {
+    margin: 0.6rem 0 0.3rem;
+}
+
+/* Footer */
+#modalVerEjercicio .modal-footer {
+    background: #f9fafb;
+    border-top: 1px solid var(--color-border);
+    padding: 0.9rem 2rem 1rem;
+    justify-content: flex-end;
+}
+
+#modalVerEjercicio .modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 1.4rem 1.6rem;
+    max-height: calc(86vh - 120px);
+    overflow-y: auto;
+}
+
+/* Botón "Cerrar" */
+#cerrarVerFooter {
+    width: auto;
+    max-width: none;
+    padding: 0.5rem 1.6rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    background: var(--color-indigo-600);
+    color: #ffffff;
+    border: none;
+}
+
+/* Ajustes de espaciado/títulos Instrucciones */
+#modalVerEjercicio .view-content {
+    gap: 0.35rem;
+}
+
+#verCategorias.pills {
+    margin: 0.2rem 0 0.65rem !important;
+}
+
+#modalVerEjercicio .view-content h5 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0.4rem 0 0.25rem;
+}
+
+#verDescripcion {
+    margin-top: 0.2rem;
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   MODAL CONFIRMACIÓN PEQUEÑO
+   ========================================================= */
+
+.confirm-box {
+    max-width: 440px;
+    width: 90%;
+    border-radius: 12px;
+    padding: 0;
+    overflow: visible;
+}
+
+.confirm-box .modal-header {
+    border-bottom: none;
+    display: flex;
+    justify-content: center;
+}
+
+.confirm-box .modal-body {
+    padding: 1rem 1.25rem;
+    text-align: center;
+}
+
+.confirm-box .modal-footer {
+    border-top: none;
+    padding: 1rem;
+}
+
+
+/* =========================================================
+   TOAST NOTIFICACIONES (ESQUINA INFERIOR DERECHA)
+   ========================================================= */
+
+.toast {
+    position: fixed;
+    right: 1.5rem;
+    bottom: 4.5rem; /* por encima del nav inferior */
+    background: #ffffff;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 12px 30px rgba(15,23,42,0.18);
+    padding: 0.55rem 1rem 0.55rem 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.9rem;
+    color: var(--color-text-dark);
+    z-index: 2000;
+}
+
+.toast-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: #111827;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.toast-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.toast-text {
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   MODAL DESCRIPCIÓN RUTINA (AL CREAR)
+   ========================================================= */
+
+#modalDescripcionRutina .confirm-box {
+    max-width: 460px;
+    width: 90%;
+    border-radius: 16px;
+    padding: 0;
+    overflow: hidden;
+}
+
+#modalDescripcionRutina .modal-desc-header {
+    justify-content: space-between;
+    border-bottom: 1px solid var(--color-border);
+    padding: 0.9rem 1.25rem;
+}
+
+#modalDescripcionRutina .modal-desc-body {
+    padding: 1rem 1.25rem 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    max-height: none;
+    text-align: left;
+}
+
+.modal-desc-helper {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+.modal-desc-textarea {
+    width: 100%;
+    min-height: 120px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    padding: 0.7rem 0.85rem;
+    resize: vertical;
+    font-size: 0.9rem;
+}
+
+.modal-desc-textarea::placeholder {
+    color: #9ca3af;
+}
+
+.modal-desc-counter {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+#modalDescripcionRutina .modal-desc-footer {
+    border-top: 1px solid var(--color-border);
+    padding: 0.75rem 1.25rem 1rem;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+
+/* =========================================================
+   PAGINACIÓN (LISTAS DE EJERCICIOS)
+   ========================================================= */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .35rem;
+    margin-top: .6rem;
+}
+
+.pagination button {
+    min-width: 32px;
+    height: 28px;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    background: #fff;
+    font-size: .8rem;
+    cursor: pointer;
+    padding: 0 .6rem;
+}
+
+.pagination button.active {
+    background: var(--color-indigo-600);
+    color: #fff;
+    border-color: var(--color-indigo-600);
+}
+
+.pagination button:disabled {
+    opacity: .4;
+    cursor: default;
+}
+
+
+/* =========================================================
+   TARJETAS DE RUTINA (LISTA PRINCIPAL)
+   ========================================================= */
+
+#rutinasExistentes {
+    max-width: 640px;
+    margin: 0 auto;
+    min-height: 260px;
+}
+
+/* Tarjeta de rutina */
+.card.rutina-card {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+    width: 100%;
+    max-width: 640px;
+    box-sizing: border-box;
+    padding: 1.1rem 1.25rem;
+    border-radius: 14px;
+    border: 1px solid var(--color-border);
+    background: var(--color-white);
+    box-shadow: 0 6px 18px rgba(16,24,40,0.05);
+    overflow: visible;
 }
 
+/* Header */
 .rutina-header {
     display: flex;
     justify-content: space-between;
@@ -503,18 +879,39 @@ body {
     gap: 0.75rem;
 }
 
+.rutina-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.rutina-icon-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: #eef2ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+}
+
 .rutina-title {
-    font-size: 1rem;
+    font-size: 1.05rem;
     font-weight: 700;
     margin: 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .rutina-subtitle {
     margin: 0.15rem 0 0;
-    font-size: 0.875rem;
+    font-size: 0.85rem;
     color: var(--color-text-muted);
 }
 
+/* Iconos editar/eliminar */
 .rutina-icons {
     display: flex;
     gap: 0.25rem;
@@ -528,79 +925,306 @@ body {
     padding: 0.15rem;
 }
 
+/* Texto cuerpo */
 .rutina-body {
     margin-top: 0.25rem;
 }
 
 .rutina-description {
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 0.92rem;
     color: var(--color-text-muted);
+    display: block;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
+/* Preview de ejercicios */
+.rutina-preview {
+    margin-top: 0.75rem;
+    border-radius: 12px;
+    background: #f9fafb;
+    padding: 0.75rem 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1.2rem;
+}
+
+.rutina-preview-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.rutina-ej-row {
+    font-size: 0.9rem;
+}
+
+.rutina-preview-more {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    align-self: flex-end;
+}
+
+/* Footer */
 .rutina-footer {
     margin-top: 0.5rem;
 }
 
 .btn-full {
     width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    margin-top: 0.9rem;
 }
 
-.btn.eliminar{
-    background:#ef4444;
-    color:#fff;
-    border:none;
-    padding:.6rem 1rem;
-    border-radius:8px;
-}
-.btn.eliminar:hover{
-    filter:brightness(0.95);
+.rutina-play-icon {
+    font-size: 0.9rem;
 }
 
-/* Tarjetas de ejercicios dentro del editor de rutina */
-.edit-ej-item{
-    display:flex;
-    justify-content:space-between;
-    gap:.8rem;
-    padding:.7rem;
-    border-radius:10px;
-    background:#fbfbff;
-    margin-bottom:.6rem;
-    align-items:flex-start;
+/* Separación entre tarjetas */
+#rutinasExistentes .rutina-card {
+    margin-bottom: 1.1rem;
 }
 
-.edit-ej-left{
-    display:flex;
-    gap:.6rem;
+/* Banner IA encima de la lista */
+.rutina-ia-banner {
+    margin-bottom: 0.85rem;
 }
 
-.edit-ej-name{
-    font-weight:700;
+
+/* =========================================================
+   BANNER ELIMINAR RUTINA
+   ========================================================= */
+
+.rutina-delete-banner {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-.edit-ej-meta{
-    font-size:.85rem;
-    color:var(--color-text-muted);
+.rutina-delete-text {
+    font-size: 0.9rem;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
-.edit-ej-actions{
-    display:flex;
-    flex-direction:column;
-    gap:.35rem;
+.rutina-delete-actions {
+    display: flex;
+    gap: 0.5rem;
 }
 
-.edit-ej-actions button{
-    border:none;
-    background:transparent;
-    cursor:pointer;
-    padding:.2rem;
+
+/* =========================================================
+   TARJETAS EJERCICIOS – EDITAR / VER RUTINA
+   ========================================================= */
+
+.edit-ej-item {
+    display: flex;
+    justify-content: space-between;
+    gap: .8rem;
+    padding: .7rem;
+    border-radius: 10px;
+    background: #fbfbff;
+    margin-bottom: .6rem;
+    align-items: flex-start;
 }
 
-.btn-add.selected {
-    cursor: default;
-    opacity: 0.8;
-    border-radius: 999px;
-    padding-inline: 0.65rem;
+.edit-ej-left {
+    display: flex;
+    gap: .6rem;
+}
+
+.edit-ej-name {
+    font-weight: 700;
+}
+
+.edit-ej-meta {
+    font-size: .85rem;
+    color: var(--color-text-muted);
+}
+
+.edit-ej-actions {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+}
+
+.edit-ej-actions button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: .2rem;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+    .modal-body {
+        flex-direction: column;
+    }
+
+    .left-panel,
+    .right-panel {
+        width: 100%;
+    }
+
+    .ejercicios-lista,
+    .ejercicios-seleccionados {
+        height: 320px;
+    }
+
+    .view-img {
+        width: 100%;
+        height: 220px;
+    }
+}
+
+
+/* =========================================================
+   UTILIDAD GLOBAL HIDDEN
+   ========================================================= */
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================================================
+   AJUSTES EXTRA
+   ========================================================= */
+
+/* Mejor contraste del botón Cancelar en todos los modales */
+.btn.cancelar {
+    background: #e5e7eb !important;
+    border: 1px solid #d1d5db !important;
+    color: #374151;
     font-weight: 600;
 }
 
+.btn.cancelar:hover {
+    background: #dcdfe3 !important;
+}
+
+/* Modal EDITAR RUTINA – ancho compacto */
+#modalEditarRutina .modal-box {
+    max-width: 760px !important;
+}
+
+/* Modal AGREGAR EJERCICIOS – ancho compacto */
+#modalAgregarEjercicios .modal-box {
+    max-width: 760px !important;
+}
+
+/* Header más compacto */
+#modalAgregarEjercicios .modal-header {
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+}
+
+/* Buscador más compacto */
+#modalAgregarEjercicios .search-input-container {
+    margin-top: 0.4rem !important;
+    margin-bottom: 0.4rem !important;
+}
+
+/* Filtros más compactos */
+#modalAgregarEjercicios .filters {
+    margin-top: 0.3rem !important;
+    margin-bottom: 0.6rem !important;
+}
+
+/* Más altura para lista de ejercicios */
+#modalAgregarEjercicios .modal-body {
+    max-height: calc(86vh - 160px) !important;
+}
+
+/* Compactar título/descripcion en header Agregar Ejercicios */
+#modalAgregarEjercicios .modal-header p {
+    margin-top: 0.2rem !important;
+    margin-bottom: 0.4rem !important;
+}
+
+#modalAgregarEjercicios .modal-body .search-input-container {
+    margin-top: 0.2rem !important;
+}
+
+/* Modal VER RUTINA – ancho compacto */
+#modalVerRutina .modal-box {
+    max-width: 760px !important;
+}
+
+/* Header más pequeño Ver Rutina */
+#modalVerRutina .modal-header {
+    padding-top: 0.6rem !important;
+    padding-bottom: 0.6rem !important;
+}
+
+/* Body más compacto arriba */
+#modalVerRutina .modal-body {
+    padding-top: 0.6rem !important;
+}
+
+/* Menos espacio entre título y descripción */
+#modalVerRutina #verRutinaDescripcion {
+    margin-top: 0.3rem !important;
+    margin-bottom: 0.8rem !important;
+}
+
+/* Más espacio útil para lista ejercicios */
+#modalVerRutina .modal-body {
+    max-height: calc(86vh - 160px) !important;
+}
+
+
+/* =========================================================
+   CREAR NUEVA RUTINA – nombre arriba + 2 columnas
+   ========================================================= */
+
+#modalCrearRutina .modal-body {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    grid-template-rows: auto 1fr;
+    gap: 1rem 1.25rem;
+    max-height: calc(86vh - 170px);
+}
+
+/* Nombre ocupa toda la fila superior */
+#modalCrearRutina .name-block {
+    grid-column: 1 / -1;
+    margin-bottom: 0.15rem !important;
+    width: 100%;
+}
+
+#modalCrearRutina .name-block .label {
+    margin-bottom: 0.2rem !important;
+}
+
+#modalCrearRutina .name-block input {
+    margin-bottom: 0 !important;
+}
+
+/* Panel izquierdo (buscar + lista) */
+#modalCrearRutina .left-panel {
+    grid-column: 1 / 2;
+    width: 100%;
+}
+
+/* Panel derecho (seleccionados) */
+#modalCrearRutina .right-panel {
+    grid-column: 2 / 3;
+    width: 100%;
+}

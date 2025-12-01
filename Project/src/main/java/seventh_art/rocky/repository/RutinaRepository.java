@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface RutinaRepository extends JpaRepository<Rutina, Long> {
 
-    List<Rutina> findByPerfilOrderByIdDesc(Perfil perfil);
+    List<Rutina> findByPerfilAndEstadoTrueOrderByIdDesc(Perfil perfil);
 
 }
+
