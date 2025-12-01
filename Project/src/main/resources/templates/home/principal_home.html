@@ -165,7 +165,7 @@
                         </div>
                         <div>
                             <p class="text-sm text-muted-foreground">Tiempo Total</p>
-                            <h4 class="font-semibold text-lg">89 hrs</h4>
+                            <h4 class="font-semibold text-lg" th:text="${tiempoTotalEntrenado}"> Default Tiempo</h4>
                         </div>
                     </div>
                 </div>
@@ -197,11 +197,11 @@
                 <div class="space-y-4">
                     <div class="flex items-center justify-between">
                         <span class="text-sm text-muted-foreground">Total de entrenamientos</span>
-                        <span class="font-medium">156</span>
+                        <span class="font-medium" th:text="${cantidadSesionesTotales}">0 Default</span>
                     </div>
                     <div class="flex items-center justify-between">
                         <span class="text-sm text-muted-foreground">Horas de ejercicio</span>
-                        <span class="font-medium">89 hrs</span>
+                        <span class="font-medium" th:text="${tiempoTotalEntrenado}">0 Default</span>
                     </div>
                     <div class="flex items-center justify-between">
                         <span class="text-sm text-muted-foreground">Promedio semanal</span>

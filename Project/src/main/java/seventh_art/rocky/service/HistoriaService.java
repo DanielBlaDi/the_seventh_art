@@ -81,4 +81,11 @@ public class HistoriaService {
 
         return texto;
     }
+
+    public int getCantidadDeSesionesTotales(){
+        Perfil perfil = perfilActualService.getCurrentPerfil();
+        return historiaRepository.countByRutina_Perfil(perfil);
+    }
+
+
 }

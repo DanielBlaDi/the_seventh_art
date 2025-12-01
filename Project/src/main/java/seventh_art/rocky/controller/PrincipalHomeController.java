@@ -27,6 +27,9 @@ public class PrincipalHomeController {
         model.addAttribute("perfil", perfil);
         model.addAttribute("actividadesRecientes", actividadesRecientes);
 
+        model.addAttribute("tiempoTotalEntrenado", historiaService.getTiempoTotalDeEntrenamiento());
+        model.addAttribute("cantidadSesionesTotales", historiaService.getCantidadDeSesionesTotales());
+        
         return "home/principal_home"; // busca templates/home/principal_home.html
     }
 }

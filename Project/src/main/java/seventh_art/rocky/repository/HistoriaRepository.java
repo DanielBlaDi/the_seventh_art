@@ -7,6 +7,7 @@ import seventh_art.rocky.entity.Historia;
 import seventh_art.rocky.entity.Perfil;
 import seventh_art.rocky.entity.Rutina;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.OptionalLong;
 
@@ -24,5 +25,10 @@ public interface HistoriaRepository extends JpaRepository<Historia, Long> {
         WHERE h.rutina.perfil = :perfil
     """)
     Long sumTiempoByRutina_Perfil(Perfil perfil);
+
+    // Contar la cantidad de historias asociadas a un perfil
+    int countByRutina_Perfil(Perfil perfil);
+
+    //List<Historia> findByFechaBetweenAndRutina_Perfil(LocalDate startDate, LocalDate endDate, Perfil perfil);
 
 }
