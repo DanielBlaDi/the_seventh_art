@@ -65,16 +65,16 @@ VALUES (
     '{"ventanaDias":7}'
 );
 
--- 7) Explorador: 20 ejercicios distintos
-INSERT INTO logro (nombre, descripcion, clave, tipo, umbral, params)
-VALUES (
-    'Explorador',
-    'Has probado 20 ejercicios distintos.',
-    'distinct_exercises_20',
-    'DISTINCT',
-    20,
-    NULL
-);
+-- -- 7) Explorador: 20 ejercicios distintos
+-- INSERT INTO logro (nombre, descripcion, clave, tipo, umbral, params)
+-- VALUES (
+--     'Explorador',
+--     'Has probado 20 ejercicios distintos.',
+--     'distinct_exercises_20',
+--     'DISTINCT',
+--     20,
+--     NULL
+-- );
 
 -- 8) Returner: vuelves después de 14 días sin actividad
 INSERT INTO logro (nombre, descripcion, clave, tipo, umbral, params)
