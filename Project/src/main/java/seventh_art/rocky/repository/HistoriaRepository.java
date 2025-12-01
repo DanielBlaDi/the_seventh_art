@@ -29,6 +29,6 @@ public interface HistoriaRepository extends JpaRepository<Historia, Long> {
     // Contar la cantidad de historias asociadas a un perfil
     int countByRutina_Perfil(Perfil perfil);
 
-    //List<Historia> findByFechaBetweenAndRutina_Perfil(LocalDate startDate, LocalDate endDate, Perfil perfil);
+    List<Historia> findByFechaBetweenAndRutina_Perfil(LocalDate startDate, LocalDate endDate, Perfil perfil);
 
 }

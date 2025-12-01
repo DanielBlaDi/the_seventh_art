@@ -48,7 +48,7 @@ public class StatsService {
         int totalSetsMusculoMasTrabajado = calcularTotalSets(perfil.getId(), musculoMasTrabajado);
 
         // Obtener el tiempo total de entrenamiento
-        String tiempoTotalEntrenamiento = historiaService.getTiempoTotalDeEntrenamiento();
+        String tiempoTotalEntrenamiento = historiaService.getTiempoTotalDeEntrenamiento(perfil);
 
         StatsDTO dto = new StatsDTO();
         dto.setFecha(java.time.LocalDate.now());

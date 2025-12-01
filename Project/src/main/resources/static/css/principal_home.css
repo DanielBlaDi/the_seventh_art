@@ -781,6 +781,36 @@
     gap: 0.5rem;
 }
 
+/* CONTENEDOR DEL CHIP */
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 8px;
+    border-radius: 9999px; /* pill */
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* ÉXITO (racha completada) */
+.chip-success {
+    background-color: #dcfce7;  /* verde muy claro */
+    color: #166534;             /* verde oscuro */
+}
+
+/* INCOMPLETA (sigue entrenando) */
+.chip-danger {
+    background-color: #fee2e2;  /* rojo muy claro */
+    color: #b91c1c;             /* rojo oscuro */
+}
+
+/* Iconos dentro del chip */
+.chip svg {
+    width: 14px;
+    height: 14px;
+}
+
+
 /* =========================================
    11. RESPONSIVE
    ========================================= */

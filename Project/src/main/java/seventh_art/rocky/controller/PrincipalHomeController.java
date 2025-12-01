@@ -25,16 +25,17 @@ public class PrincipalHomeController {
     public String mostrarPrincipalHome(Model model) {
 
         Perfil perfil = perfilActualService.getCurrentPerfil();
-        List<ActividadRecienteDTO> actividadesRecientes = historiaService.listarRutinasActuales();
+        List<ActividadRecienteDTO> actividadesRecientes = historiaService.listarRutinasActuales(perfil);
         String mensajeDelDia = mensajeService.getMensaje();
 
         model.addAttribute("perfil", perfil);
         model.addAttribute("actividadesRecientes", actividadesRecientes);
         model.addAttribute("mensajeDelDia", mensajeDelDia);
+        model.addAttribute("tiempoTotalEntrenado", historiaService.getTiempoTotalDeEntrenamiento(perfil));
+        model.addAttribute("cantidadSesionesTotales", historiaService.getCantidadDeSesionesTotales(perfil));
+        model.addAttribute("rachaDTO", perfilActualService.getRachaDTO());
+        model.addAttribute("objetivoPerfil", perfilActualService.getObjetivoPerfil());
 
-        model.addAttribute("tiempoTotalEntrenado", historiaService.getTiempoTotalDeEntrenamiento());
-        model.addAttribute("cantidadSesionesTotales", historiaService.getCantidadDeSesionesTotales());
-        
         return "home/principal_home"; // busca templates/home/principal_home.html
     }
 }

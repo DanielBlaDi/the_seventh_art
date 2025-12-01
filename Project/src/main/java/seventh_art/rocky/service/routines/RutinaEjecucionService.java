@@ -54,6 +54,7 @@ public class RutinaEjecucionService {
                 .build();
 
         historiaRepository.save(historia);
+        perfilActualService.actualizarRachaActual(); // Actualizo la racha al registrar una nueva ejecución
 
         if (dto.getSets() != null) {
             for(SetEjercicioDTO setDTO : dto.getSets()){
