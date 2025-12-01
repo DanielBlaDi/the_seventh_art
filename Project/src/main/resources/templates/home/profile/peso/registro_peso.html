@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento de Peso</title>
+    <link rel="stylesheet" href="/css/registroPeso.css">
+</head>
+<body>
+<div class="app-container">
+    <div class="content-wrapper">
+        <div class="p-4 max-w-screen-lg mx-auto">
+
+            <!-- ENCABEZADO -->
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h1>Seguimiento de Peso</h1>
+                    <p class="text-muted-foreground">Registra y visualiza tu progreso</p>
+                </div>
+
+                <!-- Botón volver al perfil -->
+                <a th:href="@{/perfil}" class="btn-back">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 18l-6-6 6-6"></path>
+                    </svg>
+                    Volver al perfil
+                </a>
+            </div>
+
+            <!-- TARJETAS RESUMEN SUPERIOR -->
+            <div class="stats-grid grid-cols-3 mb-6">
+                <!-- Peso actual -->
+                <div class="card">
+                    <p class="text-sm">Peso actual</p>
+                    <p class="text-2xl"
+                       th:text="${pesoActual != null ? pesoActual + ' kg' : 'Sin registro'}">
+                        75 kg
+                    </p>
+                </div>
+
+                <!-- Cambio total -->
+                <div class="card">
+                    <p class="text-sm">Cambio total</p>
+                    <p class="text-2xl"
+                       th:text="${cambioTotal != null ? cambioTotal + ' kg' : 'Sin registro'}">
+                        -3.5 kg
+                    </p>
+                </div>
+
+                <!-- Número de registros -->
+                <div class="card">
+                    <p class="text-sm">Registros</p>
+                    <p class="text-2xl"
+                       th:text="${totalRegistros != null ? totalRegistros : 0}">
+                        0
+                    </p>
+                </div>
+            </div>
+
+            <!-- CARD: FORMULARIO NUEVO PESO -->
+            <div class="card card-form mb-6">
+                <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 5v14"></path>
+                        <path d="M5 12h14"></path>
+                    </svg>
+                    <h2>Registrar Nuevo Peso</h2>
+                </div>
+
+                <form th:action="@{/perfil/peso}"
+                      th:object="${pesoRegistroDTO}"
+                      method="post"
+                      class="grid">
+
+                    <!-- Peso -->
+                    <div>
+                        <label for="peso">Peso (kg)</label>
+                        <input id="peso"
+                               th:field="*{peso}"
+                               type="number"
+                               step="0.1"
+                               min="10"
+                               max="300"
+                               placeholder="Ej: 75.5"
+                               class="input"
+                               required>
+                    </div>
+
+                    <!-- Fecha -->
+                    <div>
+                        <label for="fecha">Fecha</label>
+                        <input id="fecha"
+                               th:field="*{fecha}"
+                               type="date"
+                               class="input"
+                               required
+                               th:attr="max=${fechaHoy}">
+                    </div>
+
+                    <!-- Botón -->
+                    <div>
+                        <button type="submit">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 5v14"></path>
+                                <path d="M5 12h14"></path>
+                            </svg>
+                            Agregar Registro
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- CARD: GRÁFICO DE PROGRESO -->
+            <div class="card card-chart mb-6">
+                <h2>Progreso de Peso</h2>
+
+                <div style="width:100%; height:260px;">
+                    <canvas id="weightChart"></canvas>
+                </div>
+
+                <div class="flex gap-4 mt-4 text-sm text-muted-foreground">
+                    <span>• Mínimo:
+                        <span th:text="${pesoMinimo != null ? pesoMinimo + ' kg' : 'N/A'}">75 kg</span>
+                    </span>
+                    <span>• Máximo:
+                        <span th:text="${pesoMaximo != null ? pesoMaximo + ' kg' : 'N/A'}">78.5 kg</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- CARD: HISTORIAL DE REGISTROS (ÚLTIMOS 5) -->
+            <div class="card card-history mb-6">
+                <h2 class="mb-4">Historial de Registros</h2>
+
+                <!-- Si hay registros -->
+                <div class="flex flex-col gap-3"
+                     th:if="${registrosPeso != null and !registrosPeso.isEmpty()}">
+
+                    <div class="registro-item"
+                         th:each="registro : ${registrosPeso}">
+                        <div class="flex items-center gap-3">
+                            <!-- Icono -->
+                            <div class="bg-indigo-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M13 5h8"></path>
+                                    <path d="M13 12h8"></path>
+                                    <path d="M13 19h8"></path>
+                                    <path d="m3 17 2 2 4-4"></path>
+                                    <path d="m3 7 2 2 4-4"></path>
+                                </svg>
+                            </div>
+
+                            <!-- Texto peso + fecha -->
+                            <div>
+                                <p class="font-medium"
+                                   th:text="|${registro.valor} kg|">75 kg</p>
+                                <p class="text-xs"
+                                   th:text="${#temporals.format(registro.fecha, 'dd ''de'' MMMM ''de'' yyyy')}">
+                                    18 de noviembre de 2024
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Si no hay registros -->
+                <p class="text-sm text-muted-foreground"
+                   th:if="${registrosPeso == null or registrosPeso.isEmpty()}">
+                    Aún no tienes registros de peso. ¡Comienza agregando el primero arriba!
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ==============================
+     JS PARA LA GRÁFICA DE PESO
+     ============================== -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Datos que vienen del backend -->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    window.weightChartData = {
+        labels: [[${fechasPeso}]],
+        values: [[${valoresPeso}]]
+    };
+    /*]]>*/
+</script>
+
+<script src="/js/registro-peso.js"></script>
+
+</body>
+</html>
+
+

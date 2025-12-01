@@ -12,6 +12,7 @@ import seventh_art.rocky.dto.StatsDTO;
 import seventh_art.rocky.entity.Perfil;
 import seventh_art.rocky.entity.TipoEjercicio;
 import seventh_art.rocky.repository.SetEjercicioRepository;
+import seventh_art.rocky.service.profile.PerfilActualService;
 
 @Service
 public class StatsService {

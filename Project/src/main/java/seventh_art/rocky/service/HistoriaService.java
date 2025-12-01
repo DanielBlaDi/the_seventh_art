@@ -6,6 +6,8 @@ import seventh_art.rocky.dto.ActividadRecienteDTO;
 import seventh_art.rocky.entity.Historia;
 import seventh_art.rocky.entity.Perfil;
 import seventh_art.rocky.repository.HistoriaRepository;
+import seventh_art.rocky.service.profile.PerfilActualService;
+
 
 import java.time.Duration;
 import java.time.LocalDate;

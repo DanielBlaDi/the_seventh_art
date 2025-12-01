@@ -8,6 +8,7 @@ import seventh_art.rocky.entity.Usuario;
 import seventh_art.rocky.repository.UsuarioRepository;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -36,35 +37,45 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
                                         throws IOException {
 
         HttpSession session = request.getSession();
-        String email = authentication.getName();
+
+        // ------------------------------------------------------
+        // 1. Obtener el email dependiendo del tipo de autenticación
+        // ------------------------------------------------------
+        String email;
+
+        if (authentication.getPrincipal() instanceof OidcUser oidcUser) {
+            // Login por Google OAuth
+            email = oidcUser.getEmail();
+        } else {
+            // Login normal por formulario
+            email = authentication.getName();
+        }
+
         Optional<Usuario> usuario = usuarioRepository.findByEmailIgnoreCase(email);
 
         // ----------------------------------------
-        // 1. PRIORIDAD: ¿Está el usuario en registro INCOMPLETO?
+        // 2. PRIORIDAD: ¿Registro incompleto en sesión?
         // ----------------------------------------
         Long usuarioRegistroId = (Long) session.getAttribute("usuarioRegistroId");
         RegistroDTO dto = (RegistroDTO) session.getAttribute("registroDTO");
 
         if (usuarioRegistroId != null && dto == null) {
-            // El usuario está en proceso de registro pero no ha completado el perfil
-            System.out.println("Redirigiendo a paso2 por registro incompleto... | Condición 1");
-            response.sendRedirect("/registro/cuenta-creada");
-            return;
-        }
-
-        // ----------------------------------------
-        // 2. ¿El usuario NO ha completado su perfil en la BD?
-        // ----------------------------------------
-        if (usuario.isPresent() && !registroService.esPerfilCompleto(usuario.get())) {  
-            // método que tú implementas basado en tus reglas:
-            // nombre, apellido, edad, objetivo, etc.
-            System.out.println("Redirigiendo a paso2 por registro incompleto... | Condición 2");
+            System.out.println("Redirigiendo a paso2 por session registro incompleto...");
             response.sendRedirect("/registro/paso2");
             return;
         }
 
         // ----------------------------------------
-        // 3. Usuario con registro completo → Home
+        // 3. Usuario encontrado pero con perfil incompleto
+        // ----------------------------------------
+        if (usuario.isPresent() && !registroService.esPerfilCompleto(usuario.get())) {
+            System.out.println("Redirigiendo a paso2 por perfil incompleto en BD...");
+            response.sendRedirect("/registro/paso2");
+            return;
+        }
+
+        // ----------------------------------------
+        // 4. Usuario completamente registrado → Home
         // ----------------------------------------
         response.sendRedirect("/principal_home");
     }

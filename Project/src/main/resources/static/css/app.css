@@ -66,6 +66,10 @@ a:hover{
 /* Card más angosta, ideal para auth */
 .card--narrow{
     width:min(460px, 92vw);
+    padding-top:40px;
+    padding-bottom:32px;
+    margin-top:32px;
+    margin-bottom:32px;
 }
 
 /* Card simple para dashboard */
@@ -80,13 +84,20 @@ a:hover{
 .logo-circle{
     width:64px;
     height:64px;
-    margin:0 auto 10px;
+    margin:12px auto 14px;
     border-radius:50%;
     display:grid;
     place-items:center;
-    background:#eef2ff;
-    color:var(--primary);
+    background:#4f46e5;
+    color:#ffffff;
 }
+
+.logo-circle img.logo-img{
+    width:34px;
+    height:34px;
+    object-fit:contain;
+}
+
 .logo-circle svg{
     width:34px;
     height:34px;
@@ -143,9 +154,85 @@ a:hover{
     box-shadow:0 0 0 3px rgba(79,70,229,.15);
 }
 
+/* Mensaje de ayuda estándar (ej. “¿Olvidaste tu contraseña?”) */
 .form-help{
     font-size:13px;
+    color:var(--primary);
+    margin-top:12px;
+    margin-bottom:18px;
+    align-self:flex-end;
+}
+
+/* Mensaje introductorio centrado (Paso 2) */
+.form-help--center{
+    align-self:stretch;
+    text-align:center;
+    font-size:14px;
+    font-weight:500;
+    color:var(--primary);
+    margin-top:18px;
+    margin-bottom:18px;
+}
+
+/* Pistas dinámicas debajo de los campos numéricos */
+.form-hint{
+    font-size:11px;
     color:var(--muted);
+    padding:4px 8px;
+    border-radius:8px;
+    background:#f3f4ff;
+    border:1px solid rgba(79,70,229,.18);
+
+    margin-top:4px;      /* mismo gap que los demás */
+    display:none;        /* NO ocupa espacio por defecto */
+}
+
+/* Mostrar la pista solo cuando el input está enfocado */
+.form-input:focus + .form-hint{
+    display:block;       /* aparece solo en focus */
+}
+
+/* Select con estilo igual a los inputs */
+select.form-input{
+    height:44px;
+    border:1px solid var(--ring);
+    border-radius:10px;
+    padding:0 36px 0 12px;
+    background:#f3f4f6;
+    font-size:15px;
+    outline:none;
+
+    /* texto en gris mientras actúa como placeholder */
+    color:var(--muted);
+
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+
+    /* flechita simple */
+    background-image:
+            linear-gradient(45deg, transparent 50%, #6b7280 50%),
+            linear-gradient(135deg, #6b7280 50%, transparent 50%);
+    background-position:
+            calc(100% - 16px) 50%,
+            calc(100% - 12px) 50%;
+    background-size:6px 6px, 6px 6px;
+    background-repeat:no-repeat;
+}
+
+/* Opciones reales en color normal */
+select.form-input option{
+    color:var(--text);
+}
+
+/* El placeholder explícito (value="") debe ser gris */
+select.form-input option[value=""]{
+    color:var(--muted);
+}
+
+select.form-input:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(79,70,229,.15);
 }
 
 /* Separación extra entre el último campo y el botón */
@@ -273,12 +360,13 @@ a:hover{
     font-size:14px;
 }
 
-/* Mensajes de error */
+/* Mensajes de error (backend) */
 .form-error{
-    margin-top:10px;
+    margin-top:4px;
+    margin-bottom:4px;
     color:#b91c1c;
-    text-align:center;
-    font-size:14px;
+    text-align:left;
+    font-size:13px;
 }
 
 /* ========= Grid de tarjetas (dashboard) ========= */
@@ -298,28 +386,6 @@ a:hover{
 .stats-card-value{
     font-size:18px;
     font-weight:600;
-}
-
-/* --- Unificar estilo del SELECT con los inputs --- */
-
-/* Placeholder gris antes de elegir */
-select.form-input {
-    color: var(--muted); /* gris como los otros placeholders */
-}
-
-/* Opciones reales en color normal */
-select.form-input option {
-    color: var(--text);
-}
-
-/* Cuando ya seleccionó M o F → vuelve a texto normal */
-select.form-input:valid {
-    color: var(--text);
-}
-
-/* El placeholder explícito (value="") debe ser gris */
-select.form-input option[value=""] {
-    color: var(--muted);
 }
 
 /* === Paso 3: objetivo y días === */
@@ -410,13 +476,146 @@ select.form-input option[value=""] {
 }
 
 .error-list {
-    color: #dc2626;          /* rojo suave */
+    color: #dc2626;
     font-size: 14px;
     margin-top: 12px;
-    padding-left: 18px;      /* desplazamiento típico de ul */
-    list-style-type: disc;   /* viñetas circulares */
+    padding-left: 18px;
+    list-style-type: disc;
 }
 
 .error-list li {
     margin-bottom: 4px;
+}
+
+/* ===== Paso 3: alineación izquierda de textos guía ===== */
+.form-help-left{
+    font-size:13px;
+    color:var(--primary);
+    margin:16px 0 6px;
+    align-self:flex-start;
+}
+
+/* Subtítulo de sección (ej. “Meta semanal…”) */
+.form-subtitle{
+    font-size:15px;
+    font-weight:600;
+    color:var(--primary);
+    margin:22px 0 6px;
+    align-self:flex-start;
+}
+
+/* Reduce espacio cuando form-help-left sigue a form-subtitle */
+.form-subtitle + .form-help-left{
+    margin-top:6px;
+}
+
+/* Texto guía secundario en gris (para Paso 3) */
+.form-help-gray{
+    font-size:13px;
+    color:var(--muted);
+    margin:6px 0 14px;
+    align-self:flex-start;
+}
+
+/* ===== Pantalla de éxito (Paso final) ===== */
+
+.icon-wrapper{
+    display:flex;
+    justify-content:center;
+    margin-bottom:26px;
+}
+
+/* círculo más pequeño y proporcionado */
+.icon-circle{
+    width:82px;
+    height:82px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* versión morada para éxito final */
+.success-primary{
+    background:#4f46e5;
+    color:white;
+}
+
+/* icono más delgado */
+.check-icon{
+    width:38px;
+    height:38px;
+    stroke-width:1.6;
+}
+
+/* título ajustado para éxito */
+.title{
+    margin-top:0;
+    font-size:22px;
+}
+
+/* subtítulo centrado y limpio */
+.subtitle{
+    text-align:center;
+    max-width:340px;
+    margin:0 auto 22px;
+    font-size:14px;
+    line-height:1.45;
+}
+
+/* botón ancho */
+.btn--full{
+    width:100%;
+}
+
+/* ===== Campo de contraseña con "ojito" ===== */
+.password-field{
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.password-field .form-input{
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding-right: 40px;
+}
+
+.password-toggle{
+    position:absolute;
+    right:12px;
+    top:50%;
+    transform:translateY(-50%);
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    padding:0;
+    width:22px;
+    height:22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.eye-icon{
+    width:20px;
+    height:20px;
+    stroke:var(--muted);
+    fill:none;
+    stroke-width:2;
+    display:none;
+}
+
+.eye-open{
+    display:block;
+}
+
+.password-toggle.active .eye-open{
+    display:none;
+}
+
+.password-toggle.active .eye-closed{
+    display:block;
+    stroke:var(--primary);
 }
