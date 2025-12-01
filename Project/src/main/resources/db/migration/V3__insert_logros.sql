@@ -34,9 +34,9 @@ VALUES (
 -- 4) Primer ejercicio de una categoría (genérico; params puede indicar categoría)
 INSERT INTO logro (nombre, descripcion, clave, tipo, umbral, params)
 VALUES (
-    'Primer ejercicio de categoría',
-    'Completaste por primera vez un ejercicio de una categoría.',
-    'first_category',
+    'Primera vez en una rutina',
+    'Has realizado esta rutina por primera vez.',
+    'first_routine_finish',
     'FLAG',
     NULL,
     '{"categoria":"any"}'
@@ -95,15 +95,4 @@ VALUES (
     'FLAG',
     NULL,
     '{"dias":14}'
-);
-
--- 10) Combo diario: 3 categorías distintas en un día
-INSERT INTO logro (nombre, descripcion, clave, tipo, umbral, params)
-VALUES (
-    'Combo diario - 3 categorías',
-    'En un día completaste ejercicios de 3 categorías distintas.',
-    'daily_combo_3',
-    'COUNT',
-    3,
-    '{"tipo":"categorias_por_dia"}'
 );

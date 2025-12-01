@@ -18,6 +18,8 @@ import seventh_art.rocky.repository.HistoriaRepository;
 import seventh_art.rocky.repository.RutinaRepository;
 import seventh_art.rocky.repository.SetEjercicioRepository;
 import seventh_art.rocky.service.profile.PerfilActualService;
+import seventh_art.rocky.service.achievement.LogroService;
+
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +30,7 @@ public class RutinaEjecucionService {
     private final EjercicioRepository ejercicioRepository;
     private final SetEjercicioRepository setEjercicioRepository;
     private final HistoriaRepository historiaRepository;
+    private final LogroService logroService;
 
     @Transactional
     public void registrarEjecucion(RutinaFinalizadaDTO dto){
@@ -54,6 +57,7 @@ public class RutinaEjecucionService {
                 .build();
 
         historiaRepository.save(historia);
+        logroService.verificarYOtorgarPorEntradaDeHistoria(historia);
 
         if (dto.getSets() != null) {
             for(SetEjercicioDTO setDTO : dto.getSets()){

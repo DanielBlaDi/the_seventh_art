@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logros</title>
+    <!-- Reutilizamos estilos base del perfil -->
+    <link rel="stylesheet" href="/css/perfil.css">
+    <!-- Estilos específicos para la vista de logros -->
+    <link rel="stylesheet" href="/css/logros.css">
+</head>
+
+<body>
+<div class="app-container">
+    <div class="content-wrapper">
+        <div class="p-4 max-w-screen-lg mx-auto">
+
+            <!-- Encabezado -->
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h1>Logros</h1>
+                    <p class="text-muted-foreground">
+                        Revisa tu progreso y los logros que puedes desbloquear
+                    </p>
+                </div>
+
+                <!-- Botón para volver al perfil -->
+                <a th:href="@{/perfil}" class="btn">
+                    ← Volver al perfil
+                </a>
+            </div>
+
+            <!-- CARD: Resumen general de logros -->
+            <div class="card mb-6 achievements-summary-card">
+                <div class="flex items-center justify-between mb-2">
+                    <div>
+                        <h3 class="mb-1">Resumen de logros</h3>
+                        <p class="text-sm text-muted-foreground">
+                            <span th:text="${logrosCompletados}">0</span>
+                            /
+                            <span th:text="${totalLogros}">0</span>
+                            logros completados
+                        </p>
+                    </div>
+                    <div class="achievements-summary-percentage">
+                        <span th:text="${porcentajeGlobal + '%'}">0%</span>
+                    </div>
+                </div>
+
+                <!-- Barra global de progreso -->
+                <div class="global-progress-bar">
+                    <div class="global-progress-fill"
+                         th:style="'width:' + ${porcentajeGlobal} + '%'">
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD: Lista de logros -->
+            <div class="card achievements-card">
+                <h3 class="mb-4">Logros disponibles</h3>
+
+                <div class="achievements-list">
+                    <div class="achievement-item"
+                         th:each="item : ${logros}"
+                         th:classappend="${item.completado} ? ' achievement-item-completed' : ''">
+
+                        <!-- Columna izquierda: icono/placeholder -->
+                        <div class="achievement-icon">
+                            <span class="achievement-icon-placeholder">
+                                ★
+                            </span>
+                        </div>
+
+                        <!-- Contenido principal -->
+                        <div class="achievement-content">
+
+                            <!-- Primera fila: nombre + porcentaje -->
+                            <div class="achievement-header-row">
+                                <div class="achievement-name"
+                                     th:text="${item.logro.nombre}">
+                                    Nombre del logro
+                                </div>
+                                <div class="achievement-percentage">
+                                    <span th:text="${item.porcentaje + '%'}">0%</span>
+                                </div>
+                            </div>
+
+                            <!-- Descripción -->
+                            <div class="achievement-description"
+                                 th:text="${item.logro.descripcion}">
+                                Descripción del logro...
+                            </div>
+
+                            <!-- Progreso -->
+                            <div class="achievement-progress-row">
+
+                                <!-- Barra -->
+                                <div class="achievement-progress-bar">
+                                    <div class="achievement-progress-fill"
+                                         th:style="'width:' + ${item.porcentaje} + '%'">
+                                    </div>
+                                </div>
+
+                                <!-- Texto de progreso -->
+                                <div class="achievement-progress-text">
+                                    <!-- Para logros con umbral numérico -->
+                                    <span th:if="${item.logro.umbral != null}">
+                                        <span th:text="${item.estado.progreso}">0</span>
+                                        /
+                                        <span th:text="${item.logro.umbral}">0</span>
+                                    </span>
+
+                                    <!-- Para logros tipo FLAG sin umbral -->
+                                    <span th:if="${item.logro.umbral == null}">
+                                        <span th:text="${item.completado ? 'Completado' : 'Pendiente'}">
+                                            Pendiente
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FOOTER (igual al resto de la app, marcando Perfil como activo) -->
+    <nav class="fixed-nav">
+        <a href="/principal_home" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="icon-svg h-6 w-6">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            Inicio
+        </a>
+
+        <a href="/rutinas" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="icon-svg">
+                <path d="M13 5h8"></path>
+                <path d="M13 12h8"></path>
+                <path d="M13 19h8"></path>
+                <path d="m3 17 2 2 4-4"></path>
+                <path d="m3 7 2 2 4-4"></path>
+            </svg>
+            Mis rutinas
+        </a>
+
+        <a href="/perfil" class="nav-item active">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="icon-svg">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            Perfil
+        </a>
+    </nav>
+
+</div>
+</body>
+</html>
