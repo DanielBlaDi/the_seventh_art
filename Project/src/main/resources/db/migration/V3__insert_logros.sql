@@ -23,7 +23,7 @@ VALUES (
 -- 3) Racha objetivo alcanzada (usar perfil.racha_actual vs racha_deseada)
 INSERT INTO logro (nombre, descripcion, clave, tipo, umbral, params)
 VALUES (
-    'Racha objetivo alcanzada',
+    'Lo prometido es deuda',
     'Has alcanzado la racha que te propusiste.',
     'streak_target_reached',
     'STREAK',
@@ -34,51 +34,41 @@ VALUES (
 -- 4) Primer ejercicio de una categoría (genérico; params puede indicar categoría)
 INSERT INTO logro (nombre, descripcion, clave, tipo, umbral, params)
 VALUES (
-    'Primera vez en una rutina',
-    'Has realizado esta rutina por primera vez.',
+    'Primeros pasos',
+    'Has realizado una rutina por primera vez.',
     'first_routine_finish',
     'FLAG',
     NULL,
     '{"categoria":"any"}'
 );
 
--- 5) Completar 10 ejercicios de una categoría (ejemplo: piernas)
-INSERT INTO logro (nombre, descripcion, clave, tipo, umbral, params)
-VALUES (
-    '10 ejercicios de piernas',
-    'Completaste 10 ejercicios de la categoría piernas.',
-    'category_piernas_10',
-    'COUNT',
-    10,
-    '{"categoria":"piernas"}'
-);
+-- -- 5) Completar 10 ejercicios de una categoría (ejemplo: piernas)
+-- INSERT INTO logro (nombre, descripcion, clave, tipo, umbral, params)
+-- VALUES (
+--     '10 ejercicios de piernas',
+--     'Completaste 10 ejercicios distintos de la categoría piernas.',
+--     'category_piernas_10',
+--     'COUNT',
+--     10,
+--     '{"categoria":"piernas"}'
+-- );
 
--- 6) Completar una rutina completa una vez
-INSERT INTO logro (nombre, descripcion, clave, tipo, umbral, params)
-VALUES (
-    'Rutina completada (1 vez)',
-    'Completaste todos los ejercicios de una rutina una vez.',
-    'routine_complete_once',
-    'FLAG',
-    NULL,
-    NULL
-);
 
--- 7) Consistencia en 7 días (rolling window): 3 sesiones
+-- 6) Consistencia en 7 días (rolling window): 3 sesiones
 INSERT INTO logro (nombre, descripcion, clave, tipo, umbral, params)
 VALUES (
-    'Consistencia 3 en 7 días',
-    'Completaste al menos 3 sesiones en los últimos 7 días.',
+    'Consistencia 3 en 7!',
+    'Completaste al menos 3 entrenamientos en los últimos 7 días.',
     'weekly_consistency_3',
     'COUNT',
     3,
     '{"ventanaDias":7}'
 );
 
--- 8) Explorador: 20 ejercicios distintos
+-- 7) Explorador: 20 ejercicios distintos
 INSERT INTO logro (nombre, descripcion, clave, tipo, umbral, params)
 VALUES (
-    'Explorador - 20 ejercicios',
+    'Explorador',
     'Has probado 20 ejercicios distintos.',
     'distinct_exercises_20',
     'DISTINCT',
@@ -86,10 +76,10 @@ VALUES (
     NULL
 );
 
--- 9) Returner: vuelves después de 14 días sin actividad
+-- 8) Returner: vuelves después de 14 días sin actividad
 INSERT INTO logro (nombre, descripcion, clave, tipo, umbral, params)
 VALUES (
-    'Regresaste después de un descanso',
+    'El regreso del rey',
     'Volviste a entrenar luego de 14 días o más sin actividad.',
     'return_after_14',
     'FLAG',

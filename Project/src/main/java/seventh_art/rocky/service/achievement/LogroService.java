@@ -86,15 +86,23 @@ public class LogroService {
         int porcentaje;
         // Si no tiene conteo no tiene umbral ni progreso numérico
         Integer faltante = null;
-
+        boolean yaOtorgado = (logroUsuario.getOtorgadoEn() != null);
+        boolean completadoPorUmbral = false;
         if (umbral != null && umbral > 0) {
-            completado = (progreso >= umbral); // Retorna booleano
+            completadoPorUmbral = (progreso >= umbral); // Retorna booleano
+            completado = completadoPorUmbral || yaOtorgado;
+
             int falta = (umbral - progreso);
             faltante = Math.max(falta, 0);  // 0 si ya completó
             porcentaje = (int) Math.min(
                     100,
                     Math.round((progreso * 100.0) / umbral) // 100 si ya completó
             );
+
+            if (yaOtorgado) {
+                porcentaje = 100;
+                faltante = 0;
+            }
         } else {
             // FLAG u otros sin umbral numérico
             completado = logroUsuario.getOtorgadoEn() != null;
@@ -213,6 +221,42 @@ public class LogroService {
         }
     }
 
+        /**
+         * Mapea categorías "lógicas" (piernas, etc.) a grupos de enums de TipoEjercicio.
+         *
+         * @param nombreEnum       nombre del enum, por ejemplo "GLUTEOS", "CUADRICEPS".
+         * @param categoriaBuscada token de categoría del logro, por ejemplo "piernas".
+         */
+        private boolean coincideCategoriaLogica(String nombreEnum, String categoriaBuscada) {
+            String enumLower = nombreEnum.toLowerCase();
+
+            switch (categoriaBuscada) {
+
+                // 🔥 Caso "piernas": grupo de músculos de la pierna / cadera
+                case "piernas":
+                case "pierna":
+                case "lower_body":
+                    return enumLower.equals("gluteos")
+                            || enumLower.equals("cuadriceps")
+                            || enumLower.equals("isquiotibiales")
+                            || enumLower.equals("aductores")
+                            || enumLower.equals("abductores")
+                            || enumLower.equals("gemelos")
+                            || enumLower.equals("soleo")
+                            || enumLower.equals("tibial_anterior");
+
+                // 🔧 Si quieres más categorías lógicas (espalda, pecho, core, etc.)
+                // case "espalda":
+                //     return enumLower.equals("dorsales") || enumLower.equals("trapecio") ...
+
+                // Default: intenta igualar literalmente el nombre del enum
+                // (sirve para logros tipo category_GLUTEOS_5)
+                default:
+                    return enumLower.equals(categoriaBuscada);
+            }
+        }
+
+
     /**
      * COUNT:
      * - "days_active_N"      -> días distintos con Historia en los últimos N días
@@ -262,28 +306,40 @@ public class LogroService {
             return historias.size();
         }
 
+
         // 3) Categoría: "category_piernas_10" (ejemplo)
-        //    Cuenta cuántos sets tiene el usuario de esa categoría.
+        //    Cuenta cuántos sets tiene el usuario de esa categoría lógica.
         if (clave.startsWith("category_")) {
-            // Ej: "category_piernas_10" -> categoriaToken = "piernas"
+            // Ej: "category_piernas_10" -> resto = "piernas_10"
             String resto = clave.substring("category_".length()); // piernas_10
+
+            // Extraer "piernas" de "piernas_10"
             String categoriaToken = resto;
             int idx = resto.lastIndexOf('_');
             if (idx > 0) {
                 categoriaToken = resto.substring(0, idx); // "piernas"
             }
-            String categoriaBuscada = categoriaToken.toUpperCase();
+
+            String categoriaBuscada = categoriaToken.toLowerCase();
 
             var sets = setEjercicioRepository.findByPerfil_Id(perfilId);
 
             long cantidad = sets.stream()
                     .filter(se -> se.getEjercicio() != null
-                            && se.getEjercicio().getTipoEjercicio() != null
-                            && se.getEjercicio().getTipoEjercicio().toString().equalsIgnoreCase(categoriaBuscada))
+                            && se.getEjercicio().getTipoEjercicio() != null)
+                    .filter(se -> coincideCategoriaLogica(
+                            se.getEjercicio().getTipoEjercicio().name(),
+                            categoriaBuscada
+                    ))
+                    // contamos EJERCICIOS distintos, no sets
+                    .map(se -> se.getEjercicio().getId())
+                    .distinct()
                     .count();
+
 
             return (int) cantidad;
         }
+
 
         return 0;
     }
