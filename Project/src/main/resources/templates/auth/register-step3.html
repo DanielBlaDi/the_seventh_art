@@ -6,7 +6,10 @@
 <main class="card card--narrow">
 
   <div class="logo-circle">
-    <img src="/img/dumbbell.svg" alt="Logo Rocky">
+    <img th:src="@{/images/multipurpose/gym.png}"
+         src="/images/multipurpose/gym.png"
+         alt="Logo"
+         class="logo-img">
   </div>
 
   <h1 class="title">Crear Cuenta</h1>
@@ -21,30 +24,28 @@
 
   <form class="form" th:action="@{/registro/paso3}" method="post">
 
-      <!-- Objetivo -->
-      <p class="form-help">¿Cuál es tu objetivo?</p>
+    <!-- Objetivo -->
+    <p class="form-subtitle">¿Cuál es tu objetivo?</p>
 
-      <div class="objective-group">
-          <div class="objective-option">
-              <input type="radio" id="obj-subir" name="objetivo" value="GANAR_MASA_MUSCULAR" required>
-              <label for="obj-subir">Subir de peso</label>
-          </div>
-          <div class="objective-option">
-              <input type="radio" id="obj-bajar" name="objetivo" value="PERDER_PESO">
-              <label for="obj-bajar">Bajar de peso</label>
-          </div>
-          <div class="objective-option">
-              <input type="radio" id="obj-mantener" name="objetivo" value="MANTENERSE_EN_FORMA">
-              <label for="obj-mantener">Mantener peso actual</label>
-          </div>
+    <div class="objective-group">
+      <div class="objective-option">
+        <input type="radio" id="obj-subir" name="objetivo" value="GANAR_MASA_MUSCULAR" required>
+        <label for="obj-subir">Subir de peso</label>
       </div>
+      <div class="objective-option">
+        <input type="radio" id="obj-bajar" name="objetivo" value="PERDER_PESO">
+        <label for="obj-bajar">Bajar de peso</label>
+      </div>
+      <div class="objective-option">
+        <input type="radio" id="obj-mantener" name="objetivo" value="MANTENERSE_EN_FORMA">
+        <label for="obj-mantener">Mantener peso actual</label>
+      </div>
+    </div>
 
-
-
-
-      <!-- Meta semanal -->
-    <p class="form-help" style="margin-top:18px;">Meta semanal de entrenamientos</p>
-    <p class="form-help">Selecciona cuántos días por semana planeas entrenar</p>
+    <!-- Meta semanal -->
+    <!-- Meta semanal -->
+    <p class="form-subtitle">Meta semanal de entrenamientos</p>
+    <p class="form-help-gray">Selecciona cuántos días por semana planeas entrenar</p>
 
     <div class="days-grid">
       <div class="day-option">
