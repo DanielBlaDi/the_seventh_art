@@ -120,8 +120,8 @@
                             </svg>
                         </div>
                         <div>
-                            <p class="text-sm text-muted-foreground">Racha Semanal</p>
-                            <h4 class="font-semibold text-lg">3 semanas</h4>
+                            <p class="text-sm text-muted-foreground">Tu objetivo</p>
+                            <h4 class="font-semibold text-lg" th:text="${objetivoPerfil}"></h4>
                         </div>
                     </div>
                 </div>
@@ -145,7 +145,7 @@
                         </div>
                         <div>
                             <p class="text-sm text-muted-foreground">Esta Semana</p>
-                            <h4 class="font-semibold text-lg">5/6</h4>
+                            <h4 class="font-semibold text-lg" th:text="${rachaDTO.rachaActual} + '/' + ${rachaDTO.rachaMaxima}">5/6 Default</h4>
                         </div>
                     </div>
                 </div>
@@ -167,7 +167,7 @@
                         </div>
                         <div>
                             <p class="text-sm text-muted-foreground">Tiempo Total</p>
-                            <h4 class="font-semibold text-lg">89 hrs</h4>
+                            <h4 class="font-semibold text-lg" th:text="${tiempoTotalEntrenado}"> Default Tiempo</h4>
                         </div>
                     </div>
                 </div>
@@ -181,7 +181,7 @@
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="font-semibold">Estadísticas</h3>
 
-                    <a href="estadisticas.html"
+                    <a href="stats"
                        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-bold border bg-background h-8 rounded-md gap-1.5 px-3 border-indigo-200 text-indigo-600 hover:bg-indigo-50">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                              viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -199,32 +199,31 @@
                 <div class="space-y-4">
                     <div class="flex items-center justify-between">
                         <span class="text-sm text-muted-foreground">Total de entrenamientos</span>
-                        <span class="font-medium">156</span>
+                        <span class="font-medium" th:text="${cantidadSesionesTotales}">0 Default</span>
                     </div>
                     <div class="flex items-center justify-between">
                         <span class="text-sm text-muted-foreground">Horas de ejercicio</span>
-                        <span class="font-medium">89 hrs</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-sm text-muted-foreground">Promedio semanal</span>
-                        <span class="font-medium">5 entrenamientos</span>
+                        <span class="font-medium" th:text="${tiempoTotalEntrenado}">0 Default</span>
                     </div>
                 </div>
             </div>
 
             <!-- ========== PROGRESO SEMANAL ========== -->
-            <div
-                    data-slot="card"
-                    class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border p-6 mb-6"
-            >
+            <div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border p-6 mb-6">
                 <div class="flex items-center justify-between mb-3">
                     <div class="flex items-center gap-2">
                         <h3 class="font-semibold">Progreso Semanal</h3>
-                        <div class="flex items-center gap-1 px-2 py-1 bg-green-100 rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                 class="lucide lucide-trophy h-3 w-3 text-green-600" aria-hidden="true">
+
+                        <!-- CHIP ESTADO RACHA -->
+                        <div class="flex items-center gap-1 px-2 py-1 rounded-full"
+                            th:classappend="${rachaDTO.completada ? ' chip-success' : ' chip-danger'}">
+
+                            <!-- Icono cuando está completa -->
+                            <svg th:if="${rachaDTO.completada}"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-trophy h-3 w-3 text-green-600" aria-hidden="true">
                                 <path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978"></path>
                                 <path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978"></path>
                                 <path d="M18 9h1.5a1 1 0 0 0 0-5H18"></path>
@@ -232,30 +231,63 @@
                                 <path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"></path>
                                 <path d="M6 9H4.5a1 1 0 0 1 0-5H6"></path>
                             </svg>
-                            <span class="text-xs text-green-700 font-medium">3 semanas</span>
+
+                            <!-- Icono cuando NO está completa -->
+                            <svg th:if="${!rachaDTO.completada}"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-alert-circle h-3 w-3 text-red-600" aria-hidden="true">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="12"></line>
+                                <circle cx="12" cy="16" r="1"></circle>
+                            </svg>
+
+                            <span class="text-xs font-medium"
+                                th:classappend="${rachaDTO.completada ? 'text-green-700' : 'text-red-700'}"
+                                th:text="${rachaDTO.completada ? 'Meta semanal completada' : 'Sigue entrenando'}">
+                                Sigue entrenando
+                            </span>
                         </div>
                     </div>
-                    <span class="text-sm text-muted-foreground">5 de 6 entrenamientos</span>
+
+                    <!-- Texto: rachaActual / rachaMaxima -->
+                    <span class="text-sm text-muted-foreground"
+                        th:text="|${rachaDTO.rachaActual} de ${rachaDTO.rachaMaxima} entrenamientos|">
+                        1 de 5 entrenamientos
+                    </span>
                 </div>
 
+                <!-- BARRA DE PROGRESO -->
                 <div
                         class="bg-progress-bg relative h-2 w-full overflow-hidden rounded-full mb-2"
                         data-slot="progress"
                         role="progressbar"
                         aria-valuemin="0"
                         aria-valuemax="100"
+                        th:attr="aria-valuenow=${rachaDTO.rachaActual * 100.0 / rachaDTO.rachaMaxima}"
                 >
                     <div
-                            class="bg-progress-indicator h-full transition-all rounded-full"
-                            data-slot="progress-indicator"
-                            style="width: 83.33%;"
-                    ></div>
+                        class="bg-progress-indicator h-full transition-all rounded-full"
+                        data-slot="progress-indicator"
+                        th:style="${'width:' + (rachaDTO.rachaActual * 100.0 / rachaDTO.rachaMaxima) + '%;'}">
+                    </div>
+
                 </div>
 
-                <p class="text-sm text-muted-foreground">
-                    Te falta 1 entrenamiento para mantener tu racha de 3 semanas
+                <!-- MENSAJE INFERIOR -->
+                <p class="text-sm text-muted-foreground"
+                th:text="${rachaDTO.rachaActual == 0 ?
+                            'Empieza a entrenar para avanzar en tu racha. 🕢🥶' :
+                            (rachaDTO.completada ?
+                                '💯 ¡Felicidades, has llegado a la meta semanal de tu racha! 💯' :
+                                'Te falta ' + (rachaDTO.rachaMaxima - rachaDTO.rachaActual)
+                                + ' entrenamientos para mantener tu racha de '
+                                + rachaDTO.rachaMaxima + ' días. ¡Sigue así! 🔥')}">
+                    Te falta 4 entrenamientos para mantener tu racha de 5 días. ¡Sigue así!
                 </p>
             </div>
+
 
             <!-- ========== ACTIVIDAD RECIENTE ========== -->
             <div data-slot="card" class="card card-lg">

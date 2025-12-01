@@ -5,18 +5,24 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Mis Rutinas</title>
 
+    <!-- CSRF -->
     <meta name="_csrf" th:content="${_csrf.token}" />
     <meta name="_csrf_header" th:content="${_csrf.headerName}" />
 
+    <!-- CSS -->
     <link rel="stylesheet" href="css/rutinas.css">
 </head>
+
 <body>
 <div class="app-container">
     <div class="content-wrapper">
         <div class="dashboard-content">
 
-            <!-- ===== HEADER + BUSCADOR ===== -->
+            <!-- ========================================================= -->
+            <!-- HEADER + BUSCADOR -->
+            <!-- ========================================================= -->
             <div class="mb-6">
+
                 <div class="flex items-center justify-between mb-4">
                     <div>
                         <h1 class="page-title font-bold">Mis Rutinas</h1>
@@ -25,11 +31,13 @@
                         </p>
                     </div>
 
-                    <!-- BOTÓN CREAR -->
+                    <!-- Botón Crear Rutina -->
                     <button id="btnAbrirModal" class="btn btn-primary btn-icon-left h-8 px-3" title="Crear rutina">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="lucide lucide-plus h-4 w-4 mr-2" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                             viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round"
+                             class="lucide lucide-plus h-4 w-4 mr-2">
                             <path d="M5 12h14"></path>
                             <path d="M12 5v14"></path>
                         </svg>
@@ -37,58 +45,72 @@
                     </button>
                 </div>
 
+                <!-- Buscador -->
                 <div class="search-input-container">
-                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="m21 21-4.34-4.34"></path>
                         <circle cx="11" cy="11" r="8"></circle>
                     </svg>
-                    <input type="text" class="input-field search-input" placeholder="Buscar rutinas por nombre...">
+                    <input type="text" class="input-field search-input"
+                           placeholder="Buscar rutinas por nombre...">
                 </div>
+
             </div>
 
-            <!-- ===== LISTA DE RUTINAS (VACÍA POR AHORA) ===== -->
+            <!-- ========================================================= -->
+            <!-- LISTA DE RUTINAS (VACÍA INICIAL) -->
+            <!-- ========================================================= -->
             <div class="space-y-4" id="rutinasExistentes">
 
-                <!-- Estado vacío hasta que haya rutinas del usuario -->
                 <div class="empty-state" id="emptyRutinas">
                     <div class="empty-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
-                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                             viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10"></circle>
                             <path d="M8 15s1.5-2 4-2 4 2 4 2"></path>
                             <line x1="9" y1="9" x2="9.01" y2="9"></line>
                             <line x1="15" y1="9" x2="15.01" y2="9"></line>
                         </svg>
                     </div>
+
                     <h2>Sin rutinas aún</h2>
-                    <p>
-                        Cuando crees una rutina desde el botón <strong>“Crear”</strong>, aparecerá aquí para que puedas gestionarla.
-                    </p>
+                    <p>Cuando crees una rutina desde el botón <strong>“Crear”</strong>, aparecerá aquí.</p>
+
                     <button class="btn btn-primary" id="emptyCrearBtn">
                         Crear mi primera rutina
                     </button>
                 </div>
 
-            </div> <!-- /rutinasExistentes -->
+            </div>
 
         </div>
     </div>
 
-    <!-- ===== NAV INFERIOR ===== -->
-    <nav class="fixed-nav" role="navigation" aria-label="Navegación">
+    <!-- ========================================================= -->
+    <!-- NAV INFERIOR -->
+    <!-- ========================================================= -->
+    <nav class="fixed-nav">
+
         <a href="principal_home" class="nav-item" title="Inicio">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-svg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                 fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 class="icon-svg">
                 <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
                 <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
             </svg>
             <span class="text-xs">Inicio</span>
         </a>
 
-        <a href="" class="nav-item active" title="Mis Rutinas">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-svg">
+        <a class="nav-item active" title="Mis Rutinas">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                 fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 class="icon-svg">
                 <path d="M13 5h8"></path>
                 <path d="M13 12h8"></path>
                 <path d="M13 19h8"></path>
@@ -99,52 +121,49 @@
         </a>
 
         <a href="perfil" class="nav-item" title="Perfil">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-svg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                 fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 class="icon-svg">
                 <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
             </svg>
             <span class="text-xs">Perfil</span>
         </a>
+
     </nav>
 </div>
 
-<!-- ================= MODAL CREAR RUTINA ================= -->
-<div id="modalCrearRutina" class="modal hidden" aria-hidden="true">
-    <div class="modal-box modal-desktop" role="dialog" aria-modal="true" aria-labelledby="tituloCrear">
+<!-- =================================================================== -->
+<!-- MODAL: CREAR RUTINA -->
+<!-- =================================================================== -->
+<div id="modalCrearRutina" class="modal hidden">
+    <div class="modal-box modal-desktop">
+
         <div class="modal-header">
-            <h2 id="tituloCrear" class="font-bold">Crear Nueva Rutina</h2>
-            <button id="cerrarModal" class="close-btn" title="Cerrar">×</button>
+            <h2 class="font-bold">Crear Nueva Rutina</h2>
         </div>
 
         <div class="modal-body">
-            <!-- IZQUIERDA -->
-            <div class="left-panel">
+
+            <!-- Nombre -->
+            <div class="name-block">
                 <label class="label">Nombre de la Rutina</label>
                 <input id="nombreRutina" class="input-modal" placeholder="Ej: Full Body">
+            </div>
+
+            <!-- Panel izquierdo -->
+            <div class="left-panel">
 
                 <label class="label">Buscar Ejercicios</label>
                 <input id="buscarEjercicio" class="input-modal" placeholder="Buscar ejercicios...">
 
-                <!-- MENSAJE IA -->
-                <div class="alert alert-purple mb-4 p-4 flex items-center gap-2" id="iaMessage">
-                    <div class="icon-circle icon-circle-sm bg-purple-600 flex-shrink-0" aria-hidden="true">
-                        <svg class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                        </svg>
-                    </div>
-                    <span class="text-sm font-medium">
-            ¿Necesitas ayuda? Prueba nuestras rutinas generadas con IA basadas en tu objetivo
-          </span>
-                </div>
-
-                <!-- ===== NUEVO MENÚ DE GRUPOS MUSCULARES ===== -->
-                <div class="filters" id="filtros">
-                    <label for="filtroGrupo" class="label-small">Grupo muscular</label>
+                <!-- Filtro -->
+                <div class="filters">
+                    <label class="label-small">Grupo muscular</label>
                     <div class="muscle-select-wrapper">
                         <select id="filtroGrupo" class="muscle-select">
-                            <option value="TODOS" selected>Todos</option>
+                            <option value="TODOS">Todos</option>
 
                             <optgroup label="Pectorales">
                                 <option value="PECHO_SUPERIOR">Pecho superior</option>
@@ -153,18 +172,18 @@
                             </optgroup>
 
                             <optgroup label="Hombros / Deltoides">
-                                <option value="DELTOIDE_ANTERIOR">Deltoide anterior</option>
-                                <option value="DELTOIDE_LATERAL">Deltoide lateral</option>
-                                <option value="DELTOIDE_POSTERIOR">Deltoide posterior</option>
+                                <option value="DELTOIDE_ANTERIOR">Anterior</option>
+                                <option value="DELTOIDE_LATERAL">Lateral</option>
+                                <option value="DELTOIDE_POSTERIOR">Posterior</option>
                             </optgroup>
 
                             <optgroup label="Espalda">
                                 <option value="DORSALES">Dorsales</option>
-                                <option value="TRAPECIO_SUPERIOR">Trapecio superior</option>
+                                <option value="TRAPECIO_SUPERIOR">Trapecio sup.</option>
                                 <option value="TRAPECIO_MEDIO">Trapecio medio</option>
-                                <option value="TRAPECIO_INFERIOR">Trapecio inferior</option>
+                                <option value="TRAPECIO_INFERIOR">Trapecio inf.</option>
                                 <option value="ROMBOIDES">Romboides</option>
-                                <option value="ERECTORES_ESPINALES">Erectores espinales</option>
+                                <option value="ERECTORES_ESPINALES">Erectores</option>
                             </optgroup>
 
                             <optgroup label="Brazos">
@@ -173,24 +192,24 @@
                                 <option value="ANTEBRAZO">Antebrazo</option>
                             </optgroup>
 
-                            <optgroup label="Pierna / Cadera">
+                            <optgroup label="Pierna">
                                 <option value="GLUTEOS">Glúteos</option>
                                 <option value="CUADRICEPS">Cuádriceps</option>
-                                <option value="ISQUIOTIBIALES">Isquiotibiales</option>
+                                <option value="ISQUIOTIBIALES">Isquios</option>
                                 <option value="ADUCTORES">Aductores</option>
                                 <option value="ABDUCTORES">Abductores</option>
                                 <option value="GEMELOS">Gemelos</option>
                                 <option value="SOLEO">Sóleo</option>
-                                <option value="TIBIAL_ANTERIOR">Tibial anterior</option>
+                                <option value="TIBIAL_ANTERIOR">Tibial ant.</option>
                             </optgroup>
 
                             <optgroup label="Core">
-                                <option value="RECTO_ABDOMINAL">Recto abdominal</option>
+                                <option value="RECTO_ABDOMINAL">Recto abd.</option>
                                 <option value="OBLICUOS">Oblicuos</option>
-                                <option value="TRANSVERSO_ABDOMINAL">Transverso abdominal</option>
+                                <option value="TRANSVERSO_ABDOMINAL">Transverso</option>
                             </optgroup>
 
-                            <optgroup label="Otros / Generales">
+                            <optgroup label="Otros">
                                 <option value="CUELLO">Cuello</option>
                                 <option value="FULL_BODY">Full body</option>
                                 <option value="OTRO">Otro</option>
@@ -199,195 +218,147 @@
                     </div>
                 </div>
 
-                <!-- Lista de ejercicios (se llenará desde BD más adelante) -->
-                <div id="listaEjercicios" class="ejercicios-lista" aria-live="polite">
-                    <!-- Por ahora la dejamos vacía para cuando se alimente desde la base de datos -->
-                </div>
+                <!-- Lista de ejercicios -->
+                <div id="listaEjercicios" class="ejercicios-lista"></div>
+
             </div>
 
-            <!-- DERECHA -->
+            <!-- Panel derecho -->
             <div class="right-panel">
-                <div class="header-right">
-                    <h3 class="font-semibold">
-                        Ejercicios Seleccionados <span id="contadorSel">(0)</span>
-                    </h3>
-                </div>
-                <div id="seleccionados" class="ejercicios-seleccionados">
-                    <!-- Aquí irán los ejercicios agregados. -->
-                </div>
+                <h3 class="font-semibold">Ejercicios Seleccionados <span id="contadorSel">(0)</span></h3>
+                <div id="seleccionados" class="ejercicios-seleccionados"></div>
             </div>
+
         </div>
 
         <div class="modal-footer">
-            <div>
-                <button id="cancelar" class="btn cancelar">Cancelar</button>
-            </div>
-            <div>
-                <button id="crearRutina" class="btn crear">Crear Rutina</button>
-            </div>
+            <button id="cancelar" class="btn cancelar">Cancelar</button>
+            <button id="crearRutina" class="btn crear">Crear Rutina</button>
         </div>
+
     </div>
 </div>
 
-<!-- ================= MODAL VER EJERCICIO ================= -->
-<div id="modalVerEjercicio" class="modal hidden" aria-hidden="true">
-    <div class="modal-box view-box" role="dialog" aria-modal="true" aria-labelledby="verTitulo">
+<!-- =================================================================== -->
+<!-- MODAL: VER EJERCICIO -->
+<!-- =================================================================== -->
+<div id="modalVerEjercicio" class="modal hidden">
+    <div class="modal-box view-box">
+
         <div class="modal-header">
-            <h3 id="verTitulo" class="font-bold">Detalle del ejercicio</h3>
-            <button id="cerrarVer" class="close-btn" title="Cerrar">×</button>
+            <h3 class="font-bold">Detalle del Ejercicio</h3>
         </div>
 
         <div class="modal-body view-body">
-            <div id="verImagen" class="view-img" role="img" aria-label="Imagen del ejercicio"></div>
+            <div id="verImagen" class="view-img"></div>
             <div class="view-content">
                 <h4 id="verNombre"></h4>
                 <div id="verCategorias" class="pills"></div>
 
-                <h5>Descripción</h5>
-                <p id="verDescripcion" class="text-muted-foreground"></p>
-
                 <h5>Instrucciones</h5>
-                <ol id="verInstrucciones"></ol>
+                <p id="verDescripcion" class="text-muted-foreground"></p>
             </div>
         </div>
 
         <div class="modal-footer">
             <button id="cerrarVerFooter" class="btn crear">Cerrar</button>
         </div>
+
     </div>
 </div>
 
-<!-- ================= MODAL CONFIRMACIÓN ================= -->
-<div id="modalConfirm" class="modal hidden" aria-hidden="true">
-    <div class="modal-box confirm-box" role="dialog" aria-modal="true" aria-labelledby="confirmTitulo">
-        <div class="modal-header" style="background:transparent; border-bottom:none;">
-            <h3 id="confirmTitulo" class="font-bold">Rutina creada</h3>
-            <button id="cerrarConfirm" class="close-btn" title="Cerrar">×</button>
+<!-- =================================================================== -->
+<!-- MODAL: CONFIRMACIÓN -->
+<!-- =================================================================== -->
+<div id="modalConfirm" class="modal hidden">
+    <div class="modal-box confirm-box">
+        <div class="modal-header">
+            <h3 class="font-bold">Rutina creada</h3>
         </div>
-        <div class="modal-body" style="padding:1rem;">
+        <div class="modal-body">
             <p id="confirmText">Tu rutina se ha creado correctamente.</p>
         </div>
-        <div class="modal-footer" style="justify-content:center;">
+        <div class="modal-footer">
             <button id="confirmOk" class="btn crear">Aceptar</button>
         </div>
     </div>
 </div>
 
-<!-- ================= MODAL DESCRIPCIÓN RUTINA ================= -->
-<div id="modalDescripcionRutina" class="modal hidden" aria-hidden="true">
-    <div class="modal-box confirm-box" role="dialog" aria-modal="true" aria-labelledby="descripcionTitulo">
-        <div class="modal-header">
-            <h3 id="descripcionTitulo" class="font-bold">Descripción de la rutina</h3>
-            <button id="cerrarDescripcion" class="close-btn" title="Cerrar">×</button>
+<!-- =================================================================== -->
+<!-- MODAL: DESCRIPCIÓN RUTINA -->
+<!-- =================================================================== -->
+<div id="modalDescripcionRutina" class="modal hidden">
+    <div class="modal-box confirm-box">
+
+        <div class="modal-header modal-desc-header">
+            <h3 class="font-bold text-sm">Descripción de la rutina</h3>
         </div>
-        <div class="modal-body">
-            <p class="text-sm text-muted-foreground">
-                Agrega una breve descripción para tu rutina (opcional).
-            </p>
-            <textarea id="descripcionRutina" rows="4"
-                      style="width:100%; margin-top:.75rem; border-radius:8px; border:1px solid var(--color-border); padding:.6rem; resize:vertical;"
+
+        <div class="modal-body modal-desc-body">
+            <p class="modal-desc-helper">Agrega una breve descripción.</p>
+
+            <textarea id="descripcionRutina" class="modal-desc-textarea" rows="4"
                       placeholder="Ej: Rutina enfocada en fuerza para tren superior..."></textarea>
+
+            <div id="descripcionRutinaContador" class="modal-desc-counter">0/200 caracteres</div>
         </div>
-        <div class="modal-footer" style="justify-content:flex-end;">
+
+        <div class="modal-footer modal-desc-footer">
             <button id="cancelarDescripcion" class="btn cancelar">Cancelar</button>
             <button id="hechoDescripcion" class="btn crear">Hecho</button>
         </div>
+
     </div>
 </div>
 
-<!-- ================= MODAL ELIMINAR RUTINA ================= -->
-<div id="modalEliminarRutina" class="modal hidden" aria-hidden="true">
-    <div class="modal-box confirm-box" role="dialog" aria-modal="true" aria-labelledby="tituloEliminarRutina">
-        <div class="modal-header">
-            <h3 id="tituloEliminarRutina" class="font-bold">Eliminar rutina</h3>
-            <button id="cerrarEliminarRutina" class="close-btn" title="Cerrar">×</button>
-        </div>
-        <div class="modal-body">
-            <p>
-                ¿Estás seguro de que quieres eliminar la rutina
-                <strong id="nombreRutinaEliminar"></strong>?
-                <br/>
-                Esta acción eliminará la rutina completamente.
-            </p>
-        </div>
-        <div class="modal-footer">
-            <button id="cancelarEliminarRutina" class="btn cancelar">Cancelar</button>
-            <button id="confirmarEliminarRutina" class="btn eliminar">Eliminar</button>
-        </div>
-    </div>
-</div>
+<!-- =================================================================== -->
+<!-- MODAL: EDITAR RUTINA -->
+<!-- =================================================================== -->
+<div id="modalEditarRutina" class="modal hidden">
+    <div class="modal-box modal-desktop">
 
-<!-- ================ MODAL EDITAR RUTINA ================= -->
-<div id="modalEditarRutina" class="modal hidden" aria-hidden="true">
-    <div class="modal-box modal-desktop" role="dialog" aria-modal="true" aria-labelledby="tituloEditarRutina">
-
-        <!-- Header: nombre + resumen -->
         <div class="modal-header">
             <div style="flex:1;">
-                <input id="editarNombreRutina"
-                       class="input-modal"
-                       placeholder="Nombre de la rutina">
-
-                <!-- NUEVO: descripción editable -->
-                <textarea id="editarDescripcionRutina"
-                          class="input-modal"
-                          rows="2"
+                <input id="editarNombreRutina" class="input-modal" placeholder="Nombre de la rutina">
+                <textarea id="editarDescripcionRutina" class="input-modal" rows="1"
                           style="margin-top:.5rem; resize:vertical;"
                           placeholder="Descripción de la rutina"></textarea>
-
-                <p id="editarResumenRutina"
-                   class="text-muted-foreground text-sm"
-                   style="margin-top:.25rem;">
-                    <!-- Ej: 2 ejercicios • 45-60 min -->
-                </p>
             </div>
-            <button id="cerrarEditarRutina" class="close-btn" title="Cerrar">×</button>
         </div>
 
-
-        <!-- Body: botón agregar + lista ejercicios -->
         <div class="modal-body" style="flex-direction:column; max-height:70vh;">
-
             <button id="btnAgregarEjercicioEditar" class="btn btn-primary" style="width:100%; margin-bottom:.75rem;">
                 + Agregar Ejercicio
             </button>
 
-            <div id="listaEjerciciosEditar" class="ejercicios-seleccionados" style="height:auto; min-height:100px; max-height:55vh; overflow:auto;">
-                <!-- Aquí se pintan los ejercicios de la rutina -->
+            <div id="listaEjerciciosEditar" class="ejercicios-seleccionados"
+                 style="height:auto; min-height:100px; max-height:55vh; overflow:auto;">
             </div>
-
         </div>
 
-        <!-- Footer: cancelar / guardar -->
         <div class="modal-footer">
             <button id="cancelarEditarRutina" class="btn cancelar">Cancelar</button>
-            <button id="guardarEditarRutina" class="btn crear" type="button">
-                Guardar cambios
-            </button>
+            <button id="guardarEditarRutina" class="btn crear">Guardar cambios</button>
         </div>
 
     </div>
 </div>
 
-<!-- ================ MODAL AGREGAR EJERCICIOS A RUTINA (EDICIÓN) ================= -->
-<div id="modalAgregarEjercicios" class="modal hidden" aria-hidden="true">
-    <div class="modal-box modal-desktop" role="dialog" aria-modal="true" aria-labelledby="tituloAgregarEjercicios">
+<!-- =================================================================== -->
+<!-- MODAL: AGREGAR EJERCICIOS (EDICIÓN) -->
+<!-- =================================================================== -->
+<div id="modalAgregarEjercicios" class="modal hidden">
+    <div class="modal-box modal-desktop">
 
-        <!-- Header -->
         <div class="modal-header">
             <div>
-                <h3 id="tituloAgregarEjercicios" class="font-bold">Agregar Ejercicios</h3>
-                <p class="text-muted-foreground text-sm">
-                    Selecciona ejercicios para agregar a tu rutina
-                </p>
+                <h3 class="font-bold">Agregar Ejercicios</h3>
+                <p class="text-muted-foreground text-sm">Selecciona ejercicios para agregar a tu rutina</p>
             </div>
-            <button id="cerrarAgregarEjercicios" class="close-btn" title="Cerrar">×</button>
         </div>
 
-        <!-- Body -->
         <div class="modal-body" style="flex-direction:column; max-height:70vh; gap:0.75rem;">
 
-            <!-- Buscador -->
             <div class="search-input-container">
                 <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -395,17 +366,15 @@
                     <path d="m21 21-4.34-4.34"></path>
                     <circle cx="11" cy="11" r="8"></circle>
                 </svg>
-                <input type="text" id="buscarEjercicioAgregar"
-                       class="input-field search-input"
+                <input type="text" id="buscarEjercicioAgregar" class="input-field search-input"
                        placeholder="Buscar ejercicios por nombre...">
             </div>
 
-            <!-- Filtro por grupo muscular (igual que en crear rutina) -->
-            <div class="filters" id="filtrosAgregar">
-                <label for="filtroGrupoAgregar" class="label-small">Grupo muscular</label>
+            <div class="filters">
+                <label class="label-small">Grupo muscular</label>
                 <div class="muscle-select-wrapper">
                     <select id="filtroGrupoAgregar" class="muscle-select">
-                        <option value="TODOS" selected>Todos</option>
+                        <option value="TODOS">Todos</option>
 
                         <optgroup label="Pectorales">
                             <option value="PECHO_SUPERIOR">Pecho superior</option>
@@ -413,19 +382,19 @@
                             <option value="PECHO_INFERIOR">Pecho inferior</option>
                         </optgroup>
 
-                        <optgroup label="Hombros / Deltoides">
-                            <option value="DELTOIDE_ANTERIOR">Deltoide anterior</option>
-                            <option value="DELTOIDE_LATERAL">Deltoide lateral</option>
-                            <option value="DELTOIDE_POSTERIOR">Deltoide posterior</option>
+                        <optgroup label="Hombros">
+                            <option value="DELTOIDE_ANTERIOR">Anterior</option>
+                            <option value="DELTOIDE_LATERAL">Lateral</option>
+                            <option value="DELTOIDE_POSTERIOR">Posterior</option>
                         </optgroup>
 
                         <optgroup label="Espalda">
                             <option value="DORSALES">Dorsales</option>
-                            <option value="TRAPECIO_SUPERIOR">Trapecio superior</option>
+                            <option value="TRAPECIO_SUPERIOR">Trapecio sup.</option>
                             <option value="TRAPECIO_MEDIO">Trapecio medio</option>
-                            <option value="TRAPECIO_INFERIOR">Trapecio inferior</option>
+                            <option value="TRAPECIO_INFERIOR">Trapecio inf.</option>
                             <option value="ROMBOIDES">Romboides</option>
-                            <option value="ERECTORES_ESPINALES">Erectores espinales</option>
+                            <option value="ERECTORES_ESPINALES">Erectores</option>
                         </optgroup>
 
                         <optgroup label="Brazos">
@@ -434,24 +403,24 @@
                             <option value="ANTEBRAZO">Antebrazo</option>
                         </optgroup>
 
-                        <optgroup label="Pierna / Cadera">
+                        <optgroup label="Pierna">
                             <option value="GLUTEOS">Glúteos</option>
                             <option value="CUADRICEPS">Cuádriceps</option>
-                            <option value="ISQUIOTIBIALES">Isquiotibiales</option>
+                            <option value="ISQUIOTIBIALES">Isquios</option>
                             <option value="ADUCTORES">Aductores</option>
                             <option value="ABDUCTORES">Abductores</option>
                             <option value="GEMELOS">Gemelos</option>
                             <option value="SOLEO">Sóleo</option>
-                            <option value="TIBIAL_ANTERIOR">Tibial anterior</option>
+                            <option value="TIBIAL_ANTERIOR">Tibial ant.</option>
                         </optgroup>
 
                         <optgroup label="Core">
-                            <option value="RECTO_ABDOMINAL">Recto abdominal</option>
+                            <option value="RECTO_ABDOMINAL">Recto abd.</option>
                             <option value="OBLICUOS">Oblicuos</option>
-                            <option value="TRANSVERSO_ABDOMINAL">Transverso abdominal</option>
+                            <option value="TRANSVERSO_ABDOMINAL">Transverso</option>
                         </optgroup>
 
-                        <optgroup label="Otros / Generales">
+                        <optgroup label="Otros">
                             <option value="CUELLO">Cuello</option>
                             <option value="FULL_BODY">Full body</option>
                             <option value="OTRO">Otro</option>
@@ -460,14 +429,10 @@
                 </div>
             </div>
 
-            <!-- Lista de ejercicios (se llena desde JS) -->
-            <div id="listaEjerciciosAgregar" class="ejercicios-lista" aria-live="polite">
-                <!-- Aquí se renderizan los ejercicios con paginación 10 en 10 -->
-            </div>
+            <div id="listaEjerciciosAgregar" class="ejercicios-lista"></div>
 
         </div>
 
-        <!-- Footer -->
         <div class="modal-footer">
             <button id="cancelarAgregarEjercicios" class="btn cancelar">Cancelar</button>
             <button id="guardarAgregarEjercicios" class="btn crear" disabled>Agregar Cambios</button>
@@ -476,58 +441,67 @@
     </div>
 </div>
 
-<!-- ================ MODAL VER RUTINA (EMPEZAR RUTINA) ================= -->
-<div id="modalVerRutina" class="modal hidden" aria-hidden="true">
-    <div class="modal-box modal-desktop" role="dialog" aria-modal="true" aria-labelledby="verRutinaNombre">
+<!-- =================================================================== -->
+<!-- MODAL: VER RUTINA COMPLETA -->
+<!-- =================================================================== -->
+<div id="modalVerRutina" class="modal hidden">
+    <div class="modal-box modal-desktop">
 
-        <!-- Header: nombre + resumen -->
         <div class="modal-header">
             <div>
                 <h3 id="verRutinaNombre" class="font-bold">Rutina</h3>
-                <p id="verRutinaResumen" class="text-muted-foreground text-sm">
-                    <!-- Ej: 5 ejercicios • 45-60 min -->
-                </p>
+                <p id="verRutinaResumen" class="text-muted-foreground text-sm"></p>
             </div>
-            <button id="cerrarVerRutina" class="close-btn" title="Cerrar">×</button>
         </div>
 
-        <!-- Body: descripción + lista de ejercicios -->
         <div class="modal-body" style="flex-direction:column; max-height:70vh;">
-            <p id="verRutinaDescripcion"
-               class="text-muted-foreground text-sm"
-               style="margin-bottom:.75rem;"></p>
+            <p id="verRutinaDescripcion" class="text-muted-foreground text-sm"></p>
 
             <div id="verRutinaListaEjercicios"
                  class="ejercicios-seleccionados"
                  style="height:auto; min-height:100px; max-height:55vh; overflow:auto;">
-                <!-- Aquí se muestran los ejercicios de la rutina -->
             </div>
         </div>
 
-        <!-- Footer -->
         <div class="modal-footer">
             <button id="cerrarVerRutinaFooter" class="btn cancelar">Cerrar</button>
-            <button id="verRutinaEmpezarBtn" class="btn crear">
-                Empezar Rutina
-            </button>
+            <button id="verRutinaEmpezarBtn" class="btn crear">Empezar Rutina</button>
         </div>
 
     </div>
 </div>
 
+<!-- =================================================================== -->
+<!-- TOAST NOTIFICACIONES -->
+<!-- =================================================================== -->
+<div id="toastNotif" class="toast hidden">
+    <div class="toast-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 12l2 2 4-4"></path>
+            <circle cx="12" cy="12" r="9"></circle>
+        </svg>
+    </div>
+    <div id="toastNotifText" class="toast-text">
+        Rutina creada con éxito
+    </div>
+</div>
 
+<!-- ========================================================= -->
+<!-- SCRIPT: Conectar botón vacío con Crear -->
+<!-- ========================================================= -->
 <script>
-    // Para que el botón del estado vacío reutilice la misma lógica que el botón principal
     document.addEventListener('DOMContentLoaded', function () {
         const btnMain = document.getElementById('btnAbrirModal');
         const btnEmpty = document.getElementById('emptyCrearBtn');
-        if (btnMain && btnEmpty) {
-            btnEmpty.addEventListener('click', () => btnMain.click());
-        }
+        if (btnMain && btnEmpty) btnEmpty.addEventListener('click', () => btnMain.click());
     });
 </script>
 
+<!-- Scripts principales -->
 <script src="js/rutinas.js"></script>
 <script src="js/rutina-en-curso.js"></script>
+
 </body>
 </html>

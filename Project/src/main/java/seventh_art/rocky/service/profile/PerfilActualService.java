@@ -1,15 +1,22 @@
 package seventh_art.rocky.service.profile;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import seventh_art.rocky.dto.RachaDTO;
+import seventh_art.rocky.entity.Objetivo;
 import seventh_art.rocky.entity.Perfil;
 import seventh_art.rocky.entity.Usuario;
 import seventh_art.rocky.repository.PerfilRepository;
 import seventh_art.rocky.repository.PesoRepository;
 import seventh_art.rocky.repository.UsuarioRepository;
+import seventh_art.rocky.service.RachaService;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +25,7 @@ public class PerfilActualService {
     private final UsuarioRepository usuarioRepository;
     private final PerfilRepository perfilRepository;
     private final PesoRepository pesoRepository;
+    private final RachaService rachaService;
 
     /**
      * Obtiene el Usuario autenticado (local o Google OIDC).
@@ -77,5 +85,56 @@ public class PerfilActualService {
                 .findFirstByPerfilIdOrderByFechaDesc(perfil.getId())
                 .map(p -> p.getValor())
                 .orElse(null);
+    }
+
+    // ------------------------------------------------------
+    // Metodos para manejar la racha actual de entrenamientos
+    // ------------------------------------------------------
+
+    public void actualizarRachaActual() {
+        Perfil perfil = getCurrentPerfil();
+        //llamo a metodo que me retorna la cantidad de dias entrenados en la semana actual
+        int diasEntrenadosEnLaSemana = rachaService.contarDiasEntrenadosPorSemana(perfil, getFechaInicioSemana(), getFechaFinSemana());
+        perfil.setRachaActual(diasEntrenadosEnLaSemana);
+        perfilRepository.save(perfil);
+    }
+
+    public void resetearRachaActual() {
+        Perfil perfil = getCurrentPerfil();
+        perfil.setRachaActual(0);
+        perfilRepository.save(perfil);
+    }
+
+    public RachaDTO getRachaDTO() {
+        Perfil perfil = getCurrentPerfil();
+        int rachaActual = perfil.getRachaActual();
+        int rachaDeseada = perfil.getRachaDeseada();
+        boolean completada = false;
+        if (rachaActual >= rachaDeseada) {
+            completada = true;
+        }
+        return new RachaDTO(rachaActual, rachaDeseada, completada);
+    }
+
+    // -----------------------------------------------
+    // Métodos para obtener fechas de la semana actual
+    // -----------------------------------------------
+    public LocalDate getFechaActual() {
+        return LocalDate.now();
+    }
+
+    public LocalDate getFechaInicioSemana() {
+        LocalDate hoy = getFechaActual();
+        return hoy.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+    }
+
+    public LocalDate getFechaFinSemana() {
+        LocalDate hoy = getFechaActual();
+        return hoy.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+    }
+
+    public Objetivo getObjetivoPerfil() {
+        Perfil perfil = getCurrentPerfil();
+        return perfil.getObjetivo();
     }
 }

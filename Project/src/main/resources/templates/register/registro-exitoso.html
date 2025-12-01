@@ -7,29 +7,28 @@
 <div class="page-wrapper">
     <div class="card card--narrow">
 
-        <!-- Icono de check -->
+        <!-- Icono morado -->
         <div class="icon-wrapper" style="margin-bottom: 10px;">
-            <div class="icon-circle">
+            <div class="icon-circle success-primary">
                 <svg viewBox="0 0 24 24" class="check-icon">
-                    <circle cx="12" cy="12" r="11" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="12" cy="12" r="11" fill="none" stroke="currentColor" stroke-width="1.8"/>
                     <path d="M7 12.5l3 3.2 6-7.2"
                           fill="none"
                           stroke="currentColor"
-                          stroke-width="2"
+                          stroke-width="1.8"
                           stroke-linecap="round"
                           stroke-linejoin="round"/>
                 </svg>
             </div>
         </div>
 
-        <h1 class="title">¡Tu cuenta fue creada con éxito!</h1>
+        <h1 class="title">¡Registro finalizado con éxito!</h1>
 
         <p class="subtitle" style="margin-bottom: 20px;">
-            El registro ha finalizado correctamente.
-            Ahora puedes iniciar sesión para acceder a tu cuenta y comenzar a personalizar tu experiencia.
+            Tu cuenta ha sido creada correctamente. Ahora puedes iniciar sesión y comenzar a usar la plataforma.
         </p>
 
-        <a th:href="@{/login}" class="btn btn-primary" style="width: 100%;">Iniciar Sesión</a>
+        <a th:href="@{/login}" class="btn btn-primary btn--full">Iniciar Sesión</a>
 
     </div>
 </div>
