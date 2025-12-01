@@ -128,29 +128,34 @@
                 </div>
             </div>
 
-            <!-- CARD: Estadísticas -->
-            <div class="card flex flex-col gap-6 rounded-xl border p-6 mb-6">
-                <h3 class="mb-4">Estadísticas Totales</h3>
-
-                <div class="stats-grid">
+            <!-- CARD: Logros -->
+            <div class="card flex flex-col gap-4 rounded-xl border p-6 mb-6 logros-card">
+                <div class="flex items-center justify-between mb-2">
                     <div>
-                        <p class="text-sm text-muted-foreground">Rutinas completadas</p>
-                        <p>0</p>
+                        <h3 class="mb-1">Logros</h3>
+                        <p class="text-sm text-muted-foreground">
+                            <span th:text="${logrosCompletados}">0</span>
+                            /
+                            <span th:text="${totalLogros}">0</span>
+                            logros completados
+                            <span th:text="' • ' + ${porcentajeGlobal} + '%'"> • 0%</span>
+                        </p>
+                        <p class="text-xs text-muted-foreground">
+                            Te faltan
+                            <span th:text="${logrosFaltantes}">0</span>
+                            logros por desbloquear.
+                        </p>
                     </div>
 
-                    <div>
-                        <p class="text-sm text-muted-foreground">Horas entrenadas</p>
-                        <p>0 hrs</p>
-                    </div>
+                    <a th:href="@{/perfil/logros}" class="btn btn-primary">
+                        Ver logros
+                    </a>
+                </div>
 
-                    <div>
-                        <p class="text-sm text-muted-foreground">Calorías quemadas</p>
-                        <p>0 kcal</p>
-                    </div>
-
-                    <div>
-                        <p class="text-sm text-muted-foreground">Racha actual</p>
-                        <p>0 días</p>
+                <!-- Barra pequeña de progreso global para que se vea gamificado -->
+                <div class="logros-progress-bar">
+                    <div class="logros-progress-fill"
+                         th:style="'width:' + ${porcentajeGlobal} + '%'">
                     </div>
                 </div>
             </div>

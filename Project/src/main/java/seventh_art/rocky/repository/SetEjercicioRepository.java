@@ -8,9 +8,14 @@ import org.springframework.data.jpa.repository.Query;
 import seventh_art.rocky.entity.SetEjercicio;
 import seventh_art.rocky.entity.TipoEjercicio;
 
+import java.util.List;
 
 public interface SetEjercicioRepository extends JpaRepository<SetEjercicio, Long> {
 
+    // Todos los sets registrados para un perfil
+    List<SetEjercicio> findByPerfil_Id(Long perfilId);
+
+    
     @Query("""
         SELECT e.tipoEjercicio, COUNT(s.id)
         FROM SetEjercicio s

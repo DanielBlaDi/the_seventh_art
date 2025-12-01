@@ -85,24 +85,37 @@ CREATE TABLE IF NOT EXISTS historia (
 );
 
 -- =========================================
--- LOGRO
+-- LOGRO (catálogo/tabla con info de los logros)
 -- =========================================
 CREATE TABLE IF NOT EXISTS logro (
     id BIGINT NOT NULL AUTO_INCREMENT,
     nombre VARCHAR(50) NOT NULL,
     descripcion VARCHAR(100) NOT NULL,
-    CONSTRAINT pk_logro PRIMARY KEY (id)
+    clave VARCHAR(50) NOT NULL,
+    tipo VARCHAR(20) NOT NULL,
+    umbral INT NULL,
+    params VARCHAR(1000) NULL,
+    creado_en DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    
+    CONSTRAINT pk_logro PRIMARY KEY (id),
+    CONSTRAINT uk_logro_clave UNIQUE (clave)
 );
 
--- Tabla intermedia para la relación ManyToMany: LOGRO_PERFIL
-CREATE TABLE IF NOT EXISTS logro_perfil (
-    id_logro BIGINT NOT NULL,
+-- =========================================
+-- LOGRO_USUARIO (progreso del logro por perfil/la de rompimiento de logros con algo mas)
+-- =========================================
+CREATE TABLE IF NOT EXISTS logro_usuario (
+    id BIGINT NOT NULL AUTO_INCREMENT,
     id_perfil BIGINT NOT NULL,
-    CONSTRAINT pk_logro_perfil PRIMARY KEY (id_logro, id_perfil),
-    CONSTRAINT fk_logro_perfil_logro
-        FOREIGN KEY (id_logro) REFERENCES logro(id),
-    CONSTRAINT fk_logro_perfil_perfil
-        FOREIGN KEY (id_perfil) REFERENCES perfil(id)
+    id_logro BIGINT NOT NULL,
+    progreso INT NOT NULL DEFAULT 0,
+    otorgado_en DATETIME NULL,
+    meta VARCHAR(1000) NULL,
+    
+    CONSTRAINT pk_logro_usuario PRIMARY KEY (id),
+    CONSTRAINT uk_logro_usuario_perfil_logro UNIQUE (id_perfil, id_logro),
+    CONSTRAINT fk_logro_usuario_logro FOREIGN KEY (id_logro) REFERENCES logro(id),
+    CONSTRAINT fk_logro_usuario_perfil FOREIGN KEY (id_perfil) REFERENCES perfil(id)
 );
 
 

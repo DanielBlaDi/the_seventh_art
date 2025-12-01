@@ -38,68 +38,69 @@ import lombok.Setter;
 @Builder
 public class Perfil {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    @NotBlank
-    @Column(nullable = false, length = 50)
-    private String nombre;
+        @NotBlank
+        @Column(nullable = false, length = 50)
+        private String nombre;
 
-    @NotBlank
-    @Column(nullable = false, length = 50)
-    private String apellido;
+        @NotBlank
+        @Column(nullable = false, length = 50)
+        private String apellido;
 
-    @NotNull
-    @Positive
-    @Column(nullable = false)
-    private Integer edad;
-    
-    @NotNull
-    @Enumerated(EnumType.STRING) 
-    @Column(nullable = false, length = 10)
-    private Sexo sexo;
+        @NotNull
+        @Positive
+        @Column(nullable = false)
+        private Integer edad;
 
-    @NotNull
-    @Enumerated(EnumType.STRING) 
-    @Column(nullable = false, length = 30)
-    private Objetivo objetivo;
+        @NotNull
+        @Enumerated(EnumType.STRING) 
+        @Column(nullable = false, length = 10)
+        private Sexo sexo;
+
+        @NotNull
+        @Enumerated(EnumType.STRING) 
+        @Column(nullable = false, length = 30)
+        private Objetivo objetivo;
 
 
-    @NotNull
-    @Positive
-    @Column(nullable = false)
-    private Integer rachaDeseada;       // En dias (semanalmente)
+        @NotNull
+        @Positive
+        @Column(nullable = false)
+        private Integer rachaDeseada;       // En dias (semanalmente)
 
-    @NotNull
-    @Min(0)
-    @Column(nullable = false)
-    private Integer rachaActual;
+        @NotNull
+        @Min(0)
+        @Column(nullable = false)
+        private Integer rachaActual;
 
-    @NotNull
-    @Positive
-    @Column(nullable = false)
-    private Float estatura;         // En metros
+        @NotNull
+        @Positive
+        @Column(nullable = false)
+        private Float estatura;         // En metros
 
-    @NotNull
-    @Positive
-    @Column(nullable = false)
-    private Float imc;
+        @NotNull
+        @Positive
+        @Column(nullable = false)
+        private Float imc;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(
-            name = "id_usuario",
-            nullable = false,
-            unique = true,
-            foreignKey = @ForeignKey(name = "fk_perfil_usuario")
-    )
-    private Usuario usuario;
-    
-    // ===== ManyToMany con Logro (lado inverso) =====
-    @ManyToMany(mappedBy = "perfiles")
-    @Builder.Default
-    @JsonIgnore
-    private Set<Logro> logros = new HashSet<>();
+        @OneToOne(fetch = FetchType.LAZY, optional = false)
+        @JoinColumn(
+                name = "id_usuario",
+                nullable = false,
+                unique = true,
+                foreignKey = @ForeignKey(name = "fk_perfil_usuario")
+        )
+        private Usuario usuario;
+
+        // ===== One to Many LogroUsuario (lado inverso) =====
+        @ManyToMany(mappedBy = "perfil")
+        @Builder.Default
+        @JsonIgnore
+        private Set<LogroUsuario> logroUsuarios = new HashSet<>();
+
 
 
 

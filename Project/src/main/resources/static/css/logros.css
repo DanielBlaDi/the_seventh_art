@@ -1,0 +1,151 @@
+/* ------------------------------------------- */
+/* --- ESTILOS ESPECÍFICOS PARA LOGROS --- */
+/* ------------------------------------------- */
+
+/* Card de resumen de logros */
+.achievements-summary-card {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Porcentaje grande en el resumen (derecha) */
+.achievements-summary-percentage span {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* Barra global de progreso */
+.global-progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #e5e7eb;
+    border-radius: 9999px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+}
+
+.global-progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, #22c55e, #4ade80);
+}
+
+/* Lista de logros */
+.achievements-card {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+}
+
+.achievements-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Item individual de logro */
+.achievement-item {
+    display: flex;
+    align-items: stretch;
+    padding: 0.75rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+}
+
+/* Cuando está completado, resaltar */
+.achievement-item-completed {
+    border-color: #4ade80;
+    background-color: #ecfdf5;
+}
+
+/* Icono/placeholder */
+.achievement-icon {
+    width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.75rem;
+}
+
+.achievement-icon-placeholder {
+    width: 36px;
+    height: 36px;
+    border-radius: 0.5rem;
+    background-color: #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+/* Contenido principal del logro */
+.achievement-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Cabecera: nombre + porcentaje */
+.achievement-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2px;
+}
+
+.achievement-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.achievement-percentage {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}
+
+/* Descripción del logro */
+.achievement-description {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-bottom: 6px;
+}
+
+/* Fila de progreso (barra + texto) */
+.achievement-progress-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.achievement-progress-bar {
+    flex: 1;
+    height: 6px;
+    border-radius: 9999px;
+    background-color: #e5e7eb;
+    overflow: hidden;
+}
+
+.achievement-progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, #22c55e, #4ade80);
+}
+
+.achievement-progress-text {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+}
+
+/* Responsive: en pantallas pequeñas, un poco más compacto */
+@media (max-width: 768px) {
+    .achievement-item {
+        padding: 0.75rem 0.5rem;
+    }
+
+    .achievement-name {
+        font-size: 0.9rem;
+    }
+
+    .achievement-description {
+        font-size: 0.8rem;
+    }
+}

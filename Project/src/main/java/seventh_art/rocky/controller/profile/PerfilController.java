@@ -9,20 +9,27 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import seventh_art.rocky.dto.PerfilEdicionDTO;
+import seventh_art.rocky.dto.achievement.LogroConProgresoDTO;
 import seventh_art.rocky.entity.Perfil;
+import seventh_art.rocky.service.achievement.LogroService;
 import seventh_art.rocky.service.profile.PerfilActualService;
 import seventh_art.rocky.service.profile.PerfilService;
+
+import java.util.List;
 
 @Controller
 public class PerfilController {
 
     private final PerfilActualService perfilActualService;
     private final PerfilService perfilService;
+    private final LogroService logroService;   // <-- NUEVO
 
     public PerfilController(PerfilActualService perfilActualService,
-                            PerfilService perfilService) {
+                            PerfilService perfilService,
+                            LogroService logroService) {     // <-- NUEVO
         this.perfilActualService = perfilActualService;
         this.perfilService = perfilService;
+        this.logroService = logroService;       // <-- NUEVO
     }
 
     /**
@@ -36,6 +43,31 @@ public class PerfilController {
 
         model.addAttribute("perfil", perfil);
         model.addAttribute("pesoActual", pesoActual);
+
+        // ======== NUEVO: Progreso de Logros ========
+        List<LogroConProgresoDTO> logros = 
+                logroService.getLogrosConProgreso(perfil.getId());
+
+        long logrosCompletados = logros.stream()
+                .filter(LogroConProgresoDTO::isCompletado)
+                .count();
+
+        int totalLogros = logros.size();
+
+        int porcentajeGlobal;
+        if (totalLogros == 0) {
+            porcentajeGlobal = 0;
+        } else {
+            porcentajeGlobal = (int) Math.round(logrosCompletados * 100.0 / totalLogros);
+        }
+
+        long logrosFaltantes = totalLogros - logrosCompletados;
+
+        model.addAttribute("logrosCompletados", logrosCompletados);
+        model.addAttribute("totalLogros", totalLogros);
+        model.addAttribute("porcentajeGlobal", porcentajeGlobal);
+        model.addAttribute("logrosFaltantes", logrosFaltantes);
+        // ======== FIN DE NUEVO BLOQUE ========
 
         return "home/profile/perfil";
     }
