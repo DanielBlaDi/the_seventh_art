@@ -83,7 +83,8 @@
                                th:field="*{peso}"
                                type="number"
                                step="0.1"
-                               min="0"
+                               min="10"
+                               max="300"
                                placeholder="Ej: 75.5"
                                class="input"
                                required>
@@ -96,7 +97,8 @@
                                th:field="*{fecha}"
                                type="date"
                                class="input"
-                               required>
+                               required
+                               th:attr="max=${fechaHoy}">
                     </div>
 
                     <!-- Botón -->
@@ -199,4 +201,5 @@
 
 </body>
 </html>
+
 
